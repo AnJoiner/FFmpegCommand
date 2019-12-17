@@ -40,26 +40,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ffmpegTest() {
-        new Thread() {
+        final long startTime = System.currentTimeMillis();
+        String input =
+                Environment.getExternalStorageDirectory().getPath() + File.separator +
+                        "DCIM" + File.separator + "test.mp3";
+        String output =
+                Environment.getExternalStorageDirectory().getPath() + File.separator +
+                        "DCIM" + File.separator + "output.mp3";
+
+        FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40",
+                output), new CommonCallBack() {
             @Override
-            public void run() {
-                final long startTime = System.currentTimeMillis();
-                String input =
-                        Environment.getExternalStorageDirectory().getPath() + File.separator +
-                                "DCIM" + File.separator + "test.mp3";
-                String output =
-                        Environment.getExternalStorageDirectory().getPath() + File.separator +
-                                "DCIM" + File.separator + "output.mp3";
-
-                FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40",
-                        output), new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        Log.d("FFmpegTest", "run: 耗时：" + (System.currentTimeMillis() - startTime));
-                    }
-                });
-
+            public void onComplete() {
+                Log.d("FFmpegTest", "run: 耗时：" + (System.currentTimeMillis() - startTime));
             }
-        }.start();
+        });
     }
 }
