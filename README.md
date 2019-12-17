@@ -1,5 +1,6 @@
 # FFmpegCommand
 
+
 ## 前景提要
 在我们的开发中，经常会用到音视频相关内容，一般我们都会选择`FFmpeg`，但是其交叉编译对于我们来说是一件很麻烦的事情．所以这里方便日后使用，集成了关于`FFmpeg`相关库，话不多说，请往下看～～
 
@@ -23,8 +24,12 @@
 * 使用ffmpeg命令行进行视频抽帧转成图片
 * 使用ffmpeg命令行进行视频叠加成画中画
 
+
+[ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 ## 引入
 
+implementation 'com.coder.command:ffmpeg:1.0.0'
 
 ## 使用
 
