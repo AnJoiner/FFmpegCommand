@@ -30,12 +30,11 @@
 ## 引入
 
 ```groovy
-implementation 'com.coder.command:ffmpeg:1.0.0'
+implementation 'com.coder.command:ffmpeg:1.x.x'
 ```
 
 ## 使用
-
-1. 需要在app的bulid.gradle下加入如下代码：
+1. 一般我们使用[APP_ABI](https://developer.android.com/ndk/guides/application_mk)时只需要`armeabi-v7a`就行了，所以只需要在app的bulid.gradle下加入如下代码：
 
 ```groovy
 android {
