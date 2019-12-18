@@ -69,7 +69,7 @@ FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40",
 这里只是演示了音频剪切，很多如上述功能请自行查阅[FFmpegUtils](https://github.com/AnJoiner/FFmpegCommand/blob/master/ffmpeg/src/main/java/com/coder/ffmpeg/utils/FFmpegUtils.java)
 如果其中不满足需求，可添加自己的FFmpeg命令．例如：
 
-```
+```java
 String cmd = "ffmpeg -y -i %s -vn -acodec copy -ss %s -t %s %s";
 String result = String.format(cmd, input, "00:00:30", "00:00:40", output);
 FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
@@ -81,7 +81,7 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 ```
 
 ## License
-```groovy
+```
 Copyright 2019 AnJoiner
 
 Licensed under the Apache License, Version 2.0 (the "License");
