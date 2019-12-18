@@ -49,7 +49,13 @@ android {
 }
 ```
 
-2. 直接调用`FFmpegCommand.runAsync(String[] cmd, ICallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供．
+2. 如果targetSdkVersion>=29，需要在`AndroidManifest`的`application`标签下加入
+
+```xml
+android:requestLegacyExternalStorage="true"
+```
+
+3. 直接调用`FFmpegCommand.runAsync(String[] cmd, ICallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供．
 
 ```java
 final long startTime = System.currentTimeMillis();
