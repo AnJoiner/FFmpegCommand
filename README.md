@@ -87,6 +87,9 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 })
 ```
 
+## FFmpeg命令大全
+![FFmpeg命令大全](images/ffmpeg-command.png)
+
 ## License
 ```
 Copyright 2019 AnJoiner
