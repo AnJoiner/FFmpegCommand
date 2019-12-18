@@ -29,7 +29,9 @@
 
 ## 引入
 
+```groovy
 implementation 'com.coder.command:ffmpeg:1.0.0'
+```
 
 ## 使用
 
