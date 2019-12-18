@@ -88,7 +88,7 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 ```
 
 ## FFmpeg命令大全
-![FFmpeg命令大全](images/ffmpeg-command.png)
+![FFmpeg命令大全](https://readdown.com/img/ffmpeg/ffmpeg-command.png)
 
 ## License
 ```
