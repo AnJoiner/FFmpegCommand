@@ -33,7 +33,22 @@ implementation 'com.coder.command:ffmpeg:1.0.0'
 
 ## 使用
 
-直接调用`FFmpegCommand.runAsync(String[] cmd, ICallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供．
+1. 需要在app的bulid.gradle下加入如下代码：
+
+```groovy
+android {
+    ...
+    defaultConfig {
+        ...
+        ndk {
+            abiFilters "armeabi-v7a"
+            moduleName "app"
+        }
+    }
+}
+```
+
+2. 直接调用`FFmpegCommand.runAsync(String[] cmd, ICallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供．
 
 ```java
 final long startTime = System.currentTimeMillis();
@@ -52,7 +67,7 @@ FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40",
 
 ```
 这里只是演示了音频剪切，很多如上述功能请自行查阅[FFmpegUtils](https://github.com/AnJoiner/FFmpegCommand/blob/master/ffmpeg/src/main/java/com/coder/ffmpeg/utils/FFmpegUtils.java)
-如果其中不满足需求，可添加自己的FFmpeg命令．
+如果其中不满足需求，可添加自己的FFmpeg命令．例如：
 
 ```
 String cmd = "ffmpeg -y -i %s -vn -acodec copy -ss %s -t %s %s";
@@ -66,18 +81,18 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 ```
 
 ## License
-```
-   Copyright 2019 AnJoiner
+```groovy
+Copyright 2019 AnJoiner
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+     http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
