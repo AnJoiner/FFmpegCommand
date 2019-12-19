@@ -49,7 +49,7 @@ android {
 }
 ```
 
-2. 如果targetSdkVersion>=29，需要在`AndroidManifest`的`application`标签下加入
+2. 如果targetSdkVersion>=29，申请读取媒体文件权限时,需要在`AndroidManifest`的`application`标签下加入, 否则会报错.
 
 ```xml
 android:requestLegacyExternalStorage="true"
@@ -87,10 +87,14 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 })
 ```
 
-## FFmpeg命令大全
+## 常见问题
 
-![FFmpeg命令大全](https://readdown.com/img/ffmpeg/ffmpeg-command.png)
+1. 问: 可不可以不使用arm64-v8a?
+   答: 可以,arm64-v8a只是加快了64位ARMv8(AArch64）的速度, 仅仅使用armeabi-v7a在64位上会稍稍慢一点, 不会有很大影响.
 
+2. 问: 如何编译ffmpeg.so系列文件的?
+   答: 可以参考这篇[FFmpeg编译4.1.4并移植到Android](https://juejin.im/post/5d440504f265da03b6388ed2)文章
+   
 ## License
 ```
 Copyright 2019 AnJoiner
