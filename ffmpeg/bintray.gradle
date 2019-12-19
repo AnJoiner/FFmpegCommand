@@ -1,7 +1,7 @@
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = "1.0.3"    //版本号，以后每次更新library都得更改
+version = "1.0.4"    //版本号，以后每次更新library都得更改
 def siteUrl = 'https://github.com/AnJoiner/FFmpegCommand'    //Homepage URL of the library
 def gitUrl = 'https://github.com/AnJoiner/FFmpegCommand.git'    //Git repository url
 def issueUrl = 'https://github.com/AnJoiner/FFmpegCommand/issues'    //issue url of the library

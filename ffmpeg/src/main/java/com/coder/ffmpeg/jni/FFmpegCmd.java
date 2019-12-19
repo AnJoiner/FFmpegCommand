@@ -22,4 +22,6 @@ package com.coder.ffmpeg.jni;
     static int runCmd(String[] cmd){
         return run(cmd.length,cmd);
     }
+
+    static native int getProgress();
 }

@@ -34,7 +34,7 @@ implementation 'com.coder.command:ffmpeg:1.x.x'
 ```
 
 ## 使用
-1. 一般我们使用[APP_ABI](https://developer.android.com/ndk/guides/application_mk)时只需要`armeabi-v7a`就行了，所以只需要在app的bulid.gradle下加入如下代码：
+1. 一般我们使用[APP_ABI](https://developer.android.com/ndk/guides/application_mk)时只需要`armeabi-v7a`和`arm64-v8a`就行了,所以只需要在app的bulid.gradle下加入如下代码：
 
 ```groovy
 android {
@@ -42,7 +42,7 @@ android {
     defaultConfig {
         ...
         ndk {
-            abiFilters "armeabi-v7a"
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
             moduleName "app"
         }
     }

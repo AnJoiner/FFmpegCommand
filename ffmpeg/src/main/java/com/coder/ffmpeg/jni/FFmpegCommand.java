@@ -1,7 +1,5 @@
 package com.coder.ffmpeg.jni;
 
-import android.util.Log;
-
 import com.coder.ffmpeg.call.ICallBack;
 
 import org.reactivestreams.Subscriber;
@@ -38,8 +36,7 @@ public class FFmpegCommand {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
             @Override
             public void subscribe(FlowableEmitter<Integer> emitter) throws Exception {
-                int code = FFmpegCmd.runCmd(cmd);
-                Log.d("FFmpegCommand","code:"+code);
+                FFmpegCmd.runCmd(cmd);
                 emitter.onComplete();
             }
         }, BackpressureStrategy.BUFFER)
@@ -48,10 +45,12 @@ public class FFmpegCommand {
                 .subscribe(new Subscriber<Integer>() {
                     @Override
                     public void onSubscribe(Subscription s) {
+
                     }
 
                     @Override
                     public void onNext(Integer integer) {
+
                     }
 
                     @Override
