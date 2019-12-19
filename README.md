@@ -91,7 +91,7 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 
 ## 常见问题
 
-1. 问: 可不可以不使用arm64-v8a? 
+1. 问: 可不可以不使用arm64-v8a?     
    答: 可以,arm64-v8a只是加快了64位ARMv8(AArch64）的速度, 仅仅使用armeabi-v7a在64位上会稍稍慢一点, 不会有很大影响.
 
 2. 问: 如何编译ffmpeg.so系列文件的?   
