@@ -17,6 +17,7 @@ public class FFmpegUtils {
      * @param targetFile 目标文件（后缀指定转码格式）
      * @return 转码后的文件
      */
+
     public static String[] transformAudio(String srcFile, String targetFile) {
         String transformAudioCmd = "ffmpeg -i %s %s";
         transformAudioCmd = String.format(transformAudioCmd, srcFile, targetFile);
@@ -112,7 +113,7 @@ public class FFmpegUtils {
      * @param mixFile 待混合文件
      * @param dv2 混合文件音量
      * @param targetFile 目标文件
-     * @return
+     * @return 命令
      */
     public static String[] mixAudio(String srcFile, float dv1, String mixFile, float dv2,
                              String targetFile) {
@@ -128,6 +129,13 @@ public class FFmpegUtils {
     }
 
 
+    /**
+     *
+     * @param audio 源文件
+     * @param reduce 音量
+     * @param outPath 输出地址
+     * @return 命令
+     */
     public static String[] reduceVoice(String audio, int reduce, String outPath){
         String cmd = "ffmpeg -y -i %s -vcodec copy -af volume=%sdB %s";
         String command = String.format(cmd,audio,reduce,outPath);
@@ -318,17 +326,17 @@ public class FFmpegUtils {
      *
      * @param input1      输入文件1
      * @param input2      输入文件2
-     * @param videoLayout 视频布局
+     * @param direction  视频布局方向
      * @param targetFile  画面拼接文件
      * @return 画面拼接的命令行
      */
     public static String[] multiVideo(String input1, String input2, String targetFile,
-                               int videoLayout) {
+                               @Direction int direction) {
 //        String multiVideo = "ffmpeg -i %s -i %s -i %s -i %s -filter_complex " +
 //                "\"[0:v]pad=iw*2:ih*2[a];[a][1:v]overlay=w[b];[b][2:v]overlay=0:h[c];
 //                [c][3:v]overlay=w:h\" %s";
         String multiVideo = "ffmpeg -i %s -i %s -filter_complex hstack %s";//hstack:水平拼接，默认
-        if (videoLayout == VideoLayout.LAYOUT_VERTICAL) {//vstack:垂直拼接
+        if (direction == Direction.LAYOUT_VERTICAL) {//vstack:垂直拼接
             multiVideo = multiVideo.replace("hstack", "vstack");
         }
         multiVideo = String.format(multiVideo, input1, input2, targetFile);

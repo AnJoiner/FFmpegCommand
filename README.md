@@ -29,7 +29,7 @@
 
 ## 引入
 
-根据最新版本替换下面的`1.x.x`, 比如: `1.0.4`
+根据最新版本替换下面的`1.x.x`, 比如: `1.0.5`
 
 ```groovy
 implementation 'com.coder.command:ffmpeg:1.x.x'

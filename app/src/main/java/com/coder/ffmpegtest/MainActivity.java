@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.coder.ffmpeg.call.CommonCallBack;
 import com.coder.ffmpeg.jni.FFmpegCommand;
+import com.coder.ffmpeg.utils.Direction;
 import com.coder.ffmpeg.utils.FFmpegUtils;
 
 import java.io.File;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 Environment.getExternalStorageDirectory().getPath() + File.separator +
                         "DCIM" + File.separator + "output.mp3";
 
+        FFmpegUtils.multiVideo("","","", Direction.LAYOUT_HORIZONTAL);
         FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40",
                 output), new CommonCallBack() {
             @Override
