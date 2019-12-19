@@ -29,6 +29,8 @@
 
 ## 引入
 
+根据最新版本替换下面的`1.x.x`, 比如: `1.0.4`
+
 ```groovy
 implementation 'com.coder.command:ffmpeg:1.x.x'
 ```
@@ -89,10 +91,10 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 
 ## 常见问题
 
-1. 问: 可不可以不使用arm64-v8a?
+1. 问: 可不可以不使用arm64-v8a? 
    答: 可以,arm64-v8a只是加快了64位ARMv8(AArch64）的速度, 仅仅使用armeabi-v7a在64位上会稍稍慢一点, 不会有很大影响.
 
-2. 问: 如何编译ffmpeg.so系列文件的?
+2. 问: 如何编译ffmpeg.so系列文件的?   
    答: 可以参考这篇[FFmpeg编译4.1.4并移植到Android](https://juejin.im/post/5d440504f265da03b6388ed2)文章
    
 ## License
