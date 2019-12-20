@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">FFmpegTest</string>
+    <string name="app_name">FFmpegCommand</string>
+    <string name="str_transform_audio">音频转码</string>
+    <string name="str_transform_video">视频转码</string>
+    <string name="str_cut_audio">音频剪切</string>
+    <string name="str_cut_video">视频剪切</string>
+    <string name="str_concat_audio">音频拼接</string>
+    <string name="str_concat_video">视频拼接</string>
+    <string name="str_reduce_audio">音频降音</string>
 </resources>

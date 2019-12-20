@@ -8,7 +8,7 @@
 
 * 使用ffmpeg命令行进行音/视频转码
 * 使用ffmpeg命令行进行音/视频剪切
-* 使用ffmpeg命令行进行音频合并
+* 使用ffmpeg命令行进行音/视频拼接
 * 使用ffmpeg命令行进行音频降低声音
 * 使用ffmpeg命令行进行音视频合成
 * 使用ffmpeg命令行进行抽取音/视频
@@ -96,6 +96,9 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
     ```xml
     android:requestLegacyExternalStorage="true"
     ```
+    
+4. 问: Demo中生成的文件在哪里?        
+   答: 在`/storage/emulated/0/Android/data/com.coder.ffmpegtest/cache/`目录下
 
 ## License
 ```
