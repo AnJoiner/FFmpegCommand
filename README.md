@@ -51,13 +51,7 @@ android {
 }
 ```
 
-2. 如果targetSdkVersion>=29，申请读取媒体文件权限时,需要在`AndroidManifest`的`application`标签下加入, 否则会报错.
-
-```xml
-android:requestLegacyExternalStorage="true"
-```
-
-3. 直接调用`FFmpegCommand.runAsync(String[] cmd, ICallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供．
+2. 直接调用`FFmpegCommand.runAsync(String[] cmd, ICallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供．
 
 ```java
 final long startTime = System.currentTimeMillis();
@@ -96,7 +90,13 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 
 2. 问: 如何编译ffmpeg.so系列文件的?   
    答: 可以参考这篇[FFmpeg编译4.1.4并移植到Android](https://juejin.im/post/5d440504f265da03b6388ed2)文章
-   
+ 
+3. 问: 为什么在Android10上使用FFmpegCommand会报错?     
+   答: 检查是否是因为访问了外部文件, 因为Android10变更了申请文件权限处理, 在访问外部文件需特殊处理,如果简单处理的话可以在`AndroidManifest`的`application`标签下加入
+    ```xml
+    android:requestLegacyExternalStorage="true"
+    ```
+
 ## License
 ```
 Copyright 2019 AnJoiner
