@@ -28,7 +28,7 @@
 
 [ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-![FFmpeg-Command](https://readdown.com/img/ffmpeg/ffmpeg-command-android.jpg)
+![FFmpeg-Command](https://readdown.com/img/ffmpeg/ffmpeg-command-android_gaitubao_360x780.jpg)
 
 ## 引入
 
@@ -85,6 +85,35 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
      }
 })
 ```
+
+## 功能详解
+
+这里会用到对`FFmpeg`的命令使用, 如果不熟悉的话可以参考[FFmpeg入门基础](https://readdown.com/2019/12/20/ffmpeg-basic/), 包含对FFmpeg参数说明, 以及部分基础功能的实现.
+
+|  方法  |                  作用               |  
+|---------| ----------------------------------- | 
+|transformAudio|                  音频转码           |  
+|transformVideo|                  视频转码           |
+|cutAudio|                  音频剪切           |
+|cutVideo|                  视频剪切           |
+|concatAudio|                  音频拼接           |
+|concatVideo|                  视频拼接           |
+|extractAudio|               音频抽取          |
+|extractVideo|               视频抽取          |
+|mixAudioVideo|             音视频合成         |
+|screenShot|             截取视频第一帧         |
+|video2Image|           视频转图片            |
+|video2Gif|             视频转gif             |
+|addWaterMark|          添加视频水印          |
+|image2Video|           图片转视频            |
+|decodeAudio|           音频解码              |
+|encodeAudio|           音频编码              |
+|multiVideo|            多画面拼接            |
+|reverseVideo|          反向播放              |
+|picInPicVideo|         画中画                |
+|videoDoubleDown|       视频缩小一倍          |
+|videoSpeed2|           倍速播放              |
+|denoiseVideo|          视频降噪              |
 
 ## 常见问题
 
