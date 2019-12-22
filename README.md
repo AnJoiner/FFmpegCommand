@@ -9,13 +9,12 @@
 * 使用ffmpeg命令行进行音/视频转码
 * 使用ffmpeg命令行进行音/视频剪切
 * 使用ffmpeg命令行进行音/视频拼接
-* 使用ffmpeg命令行进行音频降低声音
-* 使用ffmpeg命令行进行音视频合成
 * 使用ffmpeg命令行进行抽取音/视频
+* 使用ffmpeg命令行进行音视频合成
 * 使用ffmpeg命令行进行视频截图
+* 使用ffmpeg命令行进行视频转系列图片
 * 使用ffmpeg命令行给视频添加水印
 * 使用ffmpeg命令行进行视频转成Gif动图
-* 使用ffmpeg命令行进行屏幕录制
 * 使用ffmpeg命令行进行图片合成视频
 * 使用ffmpeg命令行进行音频编码
 * 使用ffmpeg命令行进行多画面拼接视频
@@ -23,13 +22,17 @@
 * 使用ffmpeg命令行进行视频降噪
 * 使用ffmpeg命令行进行视频抽帧转成图片
 * 使用ffmpeg命令行进行视频叠加成画中画
+* 使用ffmpeg命令行进行音频编/解码
+* 使用ffmpeg命令行进行倍速播放
 
 
 [ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
+![FFmpeg-Command](https://readdown.com/img/ffmpeg/ffmpeg-command-android.jpg)
+
 ## 引入
 
-根据最新版本替换下面的`1.x.x`, 比如: `1.0.5`
+根据最新版本替换下面的`1.x.x`, 比如: `1.0.7`
 
 ```groovy
 implementation 'com.coder.command:ffmpeg:1.x.x'

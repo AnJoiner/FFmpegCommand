@@ -7,4 +7,23 @@
     <string name="str_concat_audio">音频拼接</string>
     <string name="str_concat_video">视频拼接</string>
     <string name="str_reduce_audio">音频降音</string>
+    <string name="str_extract_audio">抽取音频</string>
+    <string name="str_extract_video">抽取视频</string>
+    <string name="str_mix_audio_video">音视频合成</string>
+    <string name="str_shot_video">获取第一帧</string>
+    <string name="str_video2jpeg">视频转图片</string>
+    <string name="str_video2gif">视频转gif</string>
+    <string name="str_add_water">添加水印</string>
+    <string name="str_screen_record">屏幕录制</string>
+    <string name="str_image2Video">图片转视频</string>
+    <string name="str_extract_pcm">音频解码</string>
+    <string name="str_encode_audio">音频编码</string>
+    <string name="str_multi_video">多画面拼接</string>
+    <string name="str_reverse_video">反序播放</string>
+    <string name="str_pic_in_pic">画中画</string>
+    <string name="str_mix_audio">音频混合</string>
+    <string name="str_video_double_down">视频缩小一倍</string>
+    <string name="str_video_speed2">倍速播放</string>
+    <string name="str_denoise_video">视频降噪</string>
+    <string name="str_output_dir">输出目录:</string>
 </resources>

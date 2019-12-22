@@ -24,4 +24,6 @@ package com.coder.ffmpeg.jni;
     }
 
     static native int getProgress();
+
+
 }

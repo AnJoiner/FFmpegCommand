@@ -19,9 +19,9 @@ public class FFmpegUtils {
      */
 
     public static String[] transformAudio(String srcFile, String targetFile) {
-        String transformAudioCmd = "ffmpeg -y -i %s %s";
-        transformAudioCmd = String.format(transformAudioCmd, srcFile, targetFile);
-        return transformAudioCmd.split(" ");//以空格分割为字符串数组
+        String command = "ffmpeg -y -i %s %s";
+        command = String.format(command, srcFile, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
 
     /**
@@ -35,27 +35,26 @@ public class FFmpegUtils {
      */
     @SuppressLint("DefaultLocale")
     public static String[] cutAudio(String srcFile, int startTime, int duration,
-                             String targetFile) {
-        String cutAudioCmd = "ffmpeg -y -i %s -vn -acodec copy -ss %d -t %d %s";
-        cutAudioCmd = String.format(cutAudioCmd, srcFile, startTime, duration, targetFile);
-        return cutAudioCmd.split(" ");//以空格分割为字符串数组
+                                    String targetFile) {
+        String command = "ffmpeg -y -i %s -vn -acodec copy -ss %d -t %d %s";
+        command = String.format(command, srcFile, startTime, duration, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
 
 
     /**
-     *
-     * @param srcFile 源文件
-     * @param startTime 剪切的开始时间(单位为秒)
-     * @param endTime 剪切的结束时间(单位为秒)
+     * @param srcFile    源文件
+     * @param startTime  剪切的开始时间(单位为秒)
+     * @param endTime    剪切的结束时间(单位为秒)
      * @param targetFile 目标文件
      * @return 剪切后的文件
      */
     public static String[] cutAudio(String srcFile, String startTime, String endTime,
-                             String targetFile){
+                                    String targetFile) {
         String cmd = "ffmpeg -y -i %s -vn -acodec copy -ss %s -t %s %s";
-        String cutAudioCmd = String.format(cmd, srcFile, startTime, endTime, targetFile);
+        String command = String.format(cmd, srcFile, startTime, endTime, targetFile);
 
-        return cutAudioCmd.split(" ");//以空格分割为字符串数组
+        return command.split(" ");//以空格分割为字符串数组
     }
 
     /**
@@ -68,25 +67,10 @@ public class FFmpegUtils {
      */
     public static String[] concatAudio(String srcFile, String appendFile, String targetFile) {
         //ffmpeg -y -i "concat:123.mp3|124.mp3" -acodec copy output.mp3
-        String concatAudioCmd = "ffmpeg -y -i concat:%s|%s -acodec copy %s";
-        concatAudioCmd = String.format(concatAudioCmd, srcFile, appendFile, targetFile);
-        return concatAudioCmd.split(" ");//以空格分割为字符串数组
+        String command = "ffmpeg -y -i concat:%s|%s -acodec copy %s";
+        command = String.format(command, srcFile, appendFile, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
-
-//    /**
-//     * 使用ffmpeg命令行进行音频混合
-//     * @param srcFile 源文件
-//     * @param mixFile 待混合文件
-//     * @param targetFile 目标文件
-//     * @return 混合后的文件
-//     */
-//    static  String[] mixAudio(String srcFile, String mixFile, String targetFile){
-//        String mixAudioCmd = "ffmpeg -i %s -i %s -filter_complex amix=inputs=2:duration=first
-//        -strict -2 %s";
-//        mixAudioCmd = String.format(mixAudioCmd, srcFile, mixFile, targetFile);
-//        return mixAudioCmd.split(" ");//以空格分割为字符串数组
-//    }
-//    //混音公式：value = sample1 + sample2 - (sample1 * sample2 / (pow(2, 16-1) - 1))
 
 
     /**
@@ -98,62 +82,37 @@ public class FFmpegUtils {
      * @return 混合后的文件
      */
     public static String[] mixAudio(String srcFile, String mixFile, String targetFile) {
-
-        String mixAudioCmd = "ffmpeg -y -i %s -i %s -filter_complex " +
+        String command = "ffmpeg -y -i %s -i %s -filter_complex " +
                 "amix=inputs=2:duration=first:dropout_transition=2 -f mp3 %s";
-        mixAudioCmd = String.format(mixAudioCmd, srcFile, mixFile, targetFile);
-        return mixAudioCmd.split(" ");//以空格分割为字符串数组
-    }
 
-    /**
-     * 使用ffmpeg命令行进行音频混合
-     *
-     * @param srcFile 源文件
-     * @param dv1 源文件音量
-     * @param mixFile 待混合文件
-     * @param dv2 混合文件音量
-     * @param targetFile 目标文件
-     * @return 命令
-     */
-    public static String[] mixAudio(String srcFile, float dv1, String mixFile, float dv2,
-                             String targetFile) {
-        String mixAudioCmd = "ffmpeg -y -i %s -i %s -filter" +
-                "[0:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=stereo," +
-                "volume=%s[a0] [1:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts" +
-                "=stereo,volume=%s[a1] [a0][a1]amerge=inputs=2[aout] -map [aout] -ac 2 %s";
-        mixAudioCmd = String.format(mixAudioCmd, srcFile, mixFile, dv1, dv2, targetFile);
-
-
-
-        return mixAudioCmd.split(" ");//以空格分割为字符串数组
+        command = String.format(command, srcFile, mixFile, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
 
 
     /**
-     *
-     * @param audio 源文件
-     * @param reduce 音量(单位dB)
+     * @param audio   源文件
+     * @param reduce  音量(单位dB)
      * @param outPath 输出地址
      * @return 命令
      */
-    public static String[] reduceVoice(String audio, int reduce, String outPath){
-        String cmd = "ffmpeg -y -i %s -vcodec copy -filter:a volume=%sdB %s";
-        String command = String.format(cmd,audio,reduce,outPath);
+    public static String[] reduceVoice(String audio, int reduce, String outPath) {
+        String cmd = "ffmpeg -y -i %s -vcodec copy -af volume=%sdB %s";
+        String command = String.format(cmd, audio, reduce, outPath);
         Log.d("FFMEPG", command);
         return command.split(" ");
     }
 
 
     /**
-     *
-     * @param audio 源文件
-     * @param reduce 音量倍数
+     * @param audio   源文件
+     * @param reduce  音量倍数
      * @param outPath 输出地址
      * @return 命令
      */
-    public static String[] reduceVoice(String audio, float reduce, String outPath){
+    public static String[] reduceVoice(String audio, float reduce, String outPath) {
         String cmd = "ffmpeg -y -i %s -vcodec copy -filter:a volume=%s %s";
-        String command = String.format(cmd,audio,reduce,outPath);
+        String command = String.format(cmd, audio, reduce, outPath);
         Log.d("FFMEPG", command);
         return command.split(" ");
     }
@@ -169,13 +128,32 @@ public class FFmpegUtils {
      * @return 合成后的文件
      */
     @SuppressLint("DefaultLocale")
-    public static String[] mediaMux(String videoFile, String audioFile, int duration,
-                             String muxFile) {
+    public static String[] mixAudioVideo(String videoFile, String audioFile, int duration,
+                                         String muxFile) {
         //-t:时长  如果忽略音视频时长，则把"-t %d"去掉
-        String mixAudioCmd = "ffmpeg -y -i %s -i %s -t %d %s";
-        mixAudioCmd = String.format(mixAudioCmd, videoFile, audioFile, duration, muxFile);
-        return mixAudioCmd.split(" ");//以空格分割为字符串数组
+        String command = "ffmpeg -y -i %s -i %s -t %d %s";
+        command = String.format(command, videoFile, audioFile, duration, muxFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
+
+
+    /**
+     * 使用ffmpeg命令行进行音视频合成
+     *
+     * @param videoFile 视频文件
+     * @param audioFile 音频文件 (aac 格式)
+     * @param muxFile   目标文件
+     * @return 合成后的文件
+     */
+    @SuppressLint("DefaultLocale")
+    public static String[] mixAudioVideo(String videoFile, String audioFile,
+                                         String muxFile) {
+        //-t:时长  如果忽略音视频时长，则把"-t %d"去掉
+        String command = "ffmpeg -y -i %s -i %s -codec copy %s";
+        command = String.format(command, videoFile, audioFile, muxFile);
+        return command.split(" ");//以空格分割为字符串数组
+    }
+
 
     /**
      * 使用ffmpeg命令行进行抽取音频
@@ -186,9 +164,9 @@ public class FFmpegUtils {
      */
     public static String[] extractAudio(String srcFile, String targetFile) {
         //-vn:video not
-        String mixAudioCmd = "ffmpeg -y -i %s -acodec copy -vn %s";
-        mixAudioCmd = String.format(mixAudioCmd, srcFile, targetFile);
-        return mixAudioCmd.split(" ");//以空格分割为字符串数组
+        String command = "ffmpeg -y -i %s -acodec copy -vn %s";
+        command = String.format(command, srcFile, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
 
     /**
@@ -200,9 +178,9 @@ public class FFmpegUtils {
      */
     public static String[] extractVideo(String srcFile, String targetFile) {
         //-an audio not
-        String mixAudioCmd = "ffmpeg -y -i %s -vcodec copy -an %s";
-        mixAudioCmd = String.format(mixAudioCmd, srcFile, targetFile);
-        return mixAudioCmd.split(" ");//以空格分割为字符串数组
+        String command = "ffmpeg -y -i %s -vcodec copy -an %s";
+        command = String.format(command, srcFile, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
 
 
@@ -216,9 +194,9 @@ public class FFmpegUtils {
     public static String[] transformVideo(String srcFile, String targetFile) {
         //指定目标视频的帧率、码率、分辨率
 //        String transformVideoCmd = "ffmpeg -i %s -r 25 -b 200 -s 1080x720 %s";
-        String transformVideoCmd = "ffmpeg -y -i %s -vcodec copy -acodec copy %s";
-        transformVideoCmd = String.format(transformVideoCmd, srcFile, targetFile);
-        return transformVideoCmd.split(" ");//以空格分割为字符串数组
+        String command = "ffmpeg -y -i %s -vcodec copy -acodec copy %s";
+        command = String.format(command, srcFile, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
 
     /**
@@ -232,10 +210,10 @@ public class FFmpegUtils {
      */
     @SuppressLint("DefaultLocale")
     public static String[] cutVideo(String srcFile, int startTime, int duration,
-                             String targetFile) {
-        String cutVideoCmd = "ffmpeg -y -i %s -ss %d -t %d -c copy %s";
-        cutVideoCmd = String.format(cutVideoCmd, srcFile, startTime, duration, targetFile);
-        return cutVideoCmd.split(" ");//以空格分割为字符串数组
+                                    String targetFile) {
+        String command = "ffmpeg -y -i %s -ss %d -t %d -c copy %s";
+        command = String.format(command, srcFile, startTime, duration, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
 
 
@@ -250,10 +228,11 @@ public class FFmpegUtils {
      */
     @SuppressLint("DefaultLocale")
     public static String[] cutVideo2(String srcFile, int startTime, int duration,
-                                    String targetFile) {
-        String cutVideoCmd = "ffmpeg -y -ss %d -t %d -accurate_seek -i %s -codec copy -avoid_negative_ts 1 %s";
-        cutVideoCmd = String.format(cutVideoCmd,startTime ,duration, srcFile, targetFile);
-        return cutVideoCmd.split(" ");//以空格分割为字符串数组
+                                     String targetFile) {
+        String command = "ffmpeg -y -ss %d -t %d -accurate_seek -i %s -codec copy " +
+                "-avoid_negative_ts 1 %s";
+        command = String.format(command, startTime, duration, srcFile, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
 
 
@@ -266,9 +245,9 @@ public class FFmpegUtils {
      */
     public static String[] concatVideo(String inputFile, String targetFile) {
         // ffmpeg -f concat -i inputs.txt -c copy output.flv
-        String concatAudioCmd = "ffmpeg -y -f concat -i %s -codec copy %s";
-        concatAudioCmd = String.format(concatAudioCmd, inputFile, targetFile);
-        return concatAudioCmd.split(" ");//以空格分割为字符串数组
+        String command = "ffmpeg -y -f concat -i %s -codec copy %s";
+        command = String.format(command, inputFile, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
 
     /**
@@ -280,9 +259,64 @@ public class FFmpegUtils {
      * @return 截图后的文件
      */
     public static String[] screenShot(String srcFile, String size, String targetFile) {
-        String screenShotCmd = "ffmpeg -y -i %s -f image2 -t 0.001 -s %s %s";
-        screenShotCmd = String.format(screenShotCmd, srcFile, size, targetFile);
-        return screenShotCmd.split(" ");//以空格分割为字符串数组
+        String command = "ffmpeg -y -i %s -f image2 -t 0.001 -s %s %s";
+        command = String.format(command, srcFile, size, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
+    }
+
+
+    /**
+     * 使用ffmpeg命令行进行视频截图
+     *
+     * @param srcFile    源文件
+     * @param targetFile 目标文件
+     * @return 截图后的文件
+     */
+    public static String[] screenShot(String srcFile, String targetFile) {
+        String command = "ffmpeg -y -i %s -f image2 -t 0.001 %s";
+        command = String.format(command, srcFile, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
+    }
+
+
+    /**
+     * @param inputFile 视频源文件
+     * @param targetDir 图片生成目录
+     * @param format    图片格式
+     * @return 图片文件
+     */
+    public static String[] video2Image(String inputFile, String targetDir,
+                                       @ImageFormat String format) {
+        //ffmpeg -i ss.mp4 -r 1 -f image2 image-%3d.jpeg
+        String command = "ffmpeg -y -i %s -r 1 -f image2 %s";
+        command = String.format(Locale.CHINESE, command, inputFile, targetDir);
+        command = command + "/%3d." + format;
+        return command.split(" ");//以空格分割为字符串数组
+    }
+
+
+    /**
+     * 视频抽帧转成图片
+     *
+     * @param inputFile  输入文件
+     * @param startTime  开始时间
+     * @param duration   持续时间
+     * @param frameRate  帧率
+     * @param targetFile 输出文件
+     * @param format     图片格式
+     * @return 视频抽帧的命令行
+     */
+    public static String[] video2Image(String inputFile, int startTime, int duration,
+                                       int frameRate, String targetFile,
+                                       @ImageFormat String format) {
+        //-ss：开始时间，单位为秒
+        //-t：持续时间，单位为秒
+        //-r：帧率，每秒抽多少帧
+        String command = "ffmpeg -y -i %s -ss %s -t %s -r %s %s";
+        command = String.format(Locale.CHINESE, command, inputFile, startTime, duration,
+                frameRate, targetFile);
+        command = command + "%3d." + format;
+        return command.split(" ");
     }
 
     /**
@@ -294,9 +328,9 @@ public class FFmpegUtils {
      * @return 添加水印后的文件
      */
     public static String[] addWaterMark(String srcFile, String waterMark, String targetFile) {
-        String waterMarkCmd = "ffmpeg -y -i %s -i %s -filter_complex overlay=0:0 %s";
-        waterMarkCmd = String.format(waterMarkCmd, srcFile, waterMark, targetFile);
-        return waterMarkCmd.split(" ");//以空格分割为字符串数组
+        String command = "ffmpeg -y -i %s -i %s -filter_complex overlay=40:40 %s";
+        command = String.format(command, srcFile, waterMark, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
 
     /**
@@ -309,13 +343,14 @@ public class FFmpegUtils {
      * @return Gif文件
      */
     @SuppressLint("DefaultLocale")
-    public static String[] generateGif(String srcFile, int startTime, int duration,
-                                String targetFile) {
-        //String screenShotCmd = "ffmpeg -i %s -vframes %d -f gif %s";
-        String screenShotCmd = "ffmpeg -y -i %s -ss %d -t %d -s 320x240 -f gif %s";
-        screenShotCmd = String.format(screenShotCmd, srcFile, startTime, duration, targetFile);
-        return screenShotCmd.split(" ");//以空格分割为字符串数组
+    public static String[] video2Gif(String srcFile, int startTime, int duration,
+                                     String targetFile) {
+        //String screenShotCmd = "ffmpeg -i %s -vframes %d -s 320x240 -f gif %s";
+        String command = "ffmpeg -y -i %s -ss %d -t %d -f gif %s";
+        command = String.format(command, srcFile, startTime, duration, targetFile);
+        return command.split(" ");//以空格分割为字符串数组
     }
+
 
     /**
      * 使用ffmpeg命令行进行屏幕录制
@@ -329,28 +364,56 @@ public class FFmpegUtils {
     public static String[] screenRecord(String size, int recordTime, String targetFile) {
         //-vd x11:0,0 指录制所使用的偏移为 x=0 和 y=0
         //String screenRecordCmd = "ffmpeg -vcodec mpeg4 -b 1000 -r 10 -g 300 -vd x11:0,0 -s %s %s";
-        String screenRecordCmd = "ffmpeg -vcodec mpeg4 -b 1000 -r 10 -g 300 -vd x11:0,0 -s %s -t " +
+        String command = "ffmpeg -vcodec mpeg4 -b 1000 -r 10 -g 300 -vd x11:0,0 -s %s -t " +
                 "%d %s";
-        screenRecordCmd = String.format(screenRecordCmd, size, recordTime, targetFile);
-        Log.i("VideoHandleActivity", "screenRecordCmd=" + screenRecordCmd);
-        return screenRecordCmd.split(" ");//以空格分割为字符串数组
+        command = String.format(command, size, recordTime, targetFile);
+        Log.i("VideoHandleActivity", "screenRecordCmd=" + command);
+        return command.split(" ");//以空格分割为字符串数组
     }
 
     /**
      * 使用ffmpeg命令行进行图片合成视频
      *
      * @param srcFile    源文件
-     * @param targetFile 目标文件(mpg格式)
+     * @param targetFile 目标文件
      * @return 合成的视频文件
      */
     @SuppressLint("DefaultLocale")
-    public static String[] pictureToVideo(String srcFile, String targetFile) {
+    public static String[] image2Video(String srcFile, String targetFile) {
         //-f image2：代表使用image2格式，需要放在输入文件前面
-        String combineVideo = "ffmpeg -y -f image2 -r 1 -i %simg#d.jpg -vcodec mpeg4 %s";
-        combineVideo = String.format(combineVideo, srcFile, targetFile);
-        combineVideo = combineVideo.replace("#", "%");
-        Log.i("VideoHandleActivity", "combineVideo=" + combineVideo);
-        return combineVideo.split(" ");//以空格分割为字符串数组
+        String command = "ffmpeg -y -f image2 -r 1 -i %simg#d.jpg -vcodec mpeg4 %s";
+        command = String.format(command, srcFile, targetFile);
+        command = command.replace("#", "%");
+        Log.i("VideoHandleActivity", "combineVideo=" + command);
+        return command.split(" ");//以空格分割为字符串数组
+    }
+
+
+    public static String[] image2Video(String srcDir, @ImageFormat String format,
+                                       String targetFile) {
+        //-f image2：代表使用image2格式，需要放在输入文件前面
+        // ffmpeg  -f image2 -i image-%3d.jpeg images.mp4
+        String command = "ffmpeg -y -f image2 -r 1 -i %s/#3d.%s -vcodec mpeg4 %s";
+        command = String.format(command, srcDir, format, targetFile);
+        command = command.replace("#", "%");
+        return command.split(" ");//以空格分割为字符串数组
+    }
+
+
+    /**
+     * 音频解码
+     *
+     * @param srcFile 源文件
+     * @param targetFile 目标文件
+     * @param sampleRate 采样率
+     * @param channel 声道:单声道为1/立体声道为2
+     * @return 音频解码的命令行
+     */
+    public static String[] decodeAudio(String srcFile, String targetFile, int sampleRate,
+                                      int channel) {
+        String command = "ffmpeg -y -i %s -acodec pcm_s16le -ar %d -ac %d -f s16le %s";
+        command = String.format(command, srcFile, sampleRate, channel, targetFile);
+        return command.split(" ");
     }
 
     /**
@@ -364,32 +427,32 @@ public class FFmpegUtils {
      */
     @SuppressLint("DefaultLocale")
     public static String[] encodeAudio(String srcFile, String targetFile, int sampleRate,
-                                int channel) {
-        String combineVideo = "ffmpeg -y -f s16le -ar %d -ac %d -i %s %s";
-        combineVideo = String.format(combineVideo, sampleRate, channel, srcFile, targetFile);
-        return combineVideo.split(" ");
+                                       int channel) {
+        String command = "ffmpeg -y -f s16be -ar %d -ac %d -acodec pcm_s16le -i %s %s";
+        command = String.format(command, sampleRate, channel, srcFile, targetFile);
+        return command.split(" ");
     }
 
     /**
      * 多画面拼接视频
      *
-     * @param input1      输入文件1
-     * @param input2      输入文件2
+     * @param input1     输入文件1
+     * @param input2     输入文件2
      * @param direction  视频布局方向
-     * @param targetFile  画面拼接文件
+     * @param targetFile 画面拼接文件
      * @return 画面拼接的命令行
      */
     public static String[] multiVideo(String input1, String input2, String targetFile,
-                               @Direction int direction) {
+                                      @Direction int direction) {
 //        String multiVideo = "ffmpeg -i %s -i %s -i %s -i %s -filter_complex " +
 //                "\"[0:v]pad=iw*2:ih*2[a];[a][1:v]overlay=w[b];[b][2:v]overlay=0:h[c];
 //                [c][3:v]overlay=w:h\" %s";
-        String multiVideo = "ffmpeg -y -i %s -i %s -filter_complex hstack %s";//hstack:水平拼接，默认
+        String command = "ffmpeg -y -i %s -i %s -filter_complex hstack %s";//hstack:水平拼接，默认
         if (direction == Direction.LAYOUT_VERTICAL) {//vstack:垂直拼接
-            multiVideo = multiVideo.replace("hstack", "vstack");
+            command = command.replace("hstack", "vstack");
         }
-        multiVideo = String.format(multiVideo, input1, input2, targetFile);
-        return multiVideo.split(" ");
+        command = String.format(command, input1, input2, targetFile);
+        return command.split(" ");
     }
 
     /**
@@ -400,12 +463,23 @@ public class FFmpegUtils {
      * @return 视频反序的命令行
      */
     public static String[] reverseVideo(String inputFile, String targetFile) {
-        //FIXME 音频也反序
-//        String reverseVideo = "ffmpeg -i %s -filter_complex [0:v]reverse[v];[0:a]areverse[a]
-//        -map [v] -map [a] %s";
-        String reverseVideo = "ffmpeg -y -i %s -filter_complex [0:v]reverse[v] -map [v] %s";//单纯视频反序
-        reverseVideo = String.format(reverseVideo, inputFile, targetFile);
-        return reverseVideo.split(" ");
+        String command = "ffmpeg -y -i %s -filter_complex [0:v]reverse[v] -map [v] %s";//单纯视频反序
+        command = String.format(command, inputFile, targetFile);
+        return command.split(" ");
+    }
+
+
+    /**
+     * 视频反序倒播
+     *
+     * @param inputFile  输入文件
+     * @param targetFile 反序文件
+     * @return 视频反序的命令行
+     */
+    public static String[] reverseAudioVideo(String inputFile, String targetFile) {
+        String command = "ffmpeg -y -i %s -filter_complex [0:v]reverse[v];[0:a]reverse[a] -map [v] -map [a] %s";
+        command = String.format(command, inputFile, targetFile);
+        return command.split(" ");
     }
 
     /**
@@ -416,32 +490,11 @@ public class FFmpegUtils {
      * @return 视频降噪的命令行
      */
     public static String[] denoiseVideo(String inputFile, String targetFile) {
-        String reverseVideo = "ffmpeg -y -i %s -nr 500 %s";
-        reverseVideo = String.format(reverseVideo, inputFile, targetFile);
-        return reverseVideo.split(" ");
+        String command = "ffmpeg -y -i %s -nr 500 %s";
+        command = String.format(command, inputFile, targetFile);
+        return command.split(" ");
     }
 
-    /**
-     * 视频抽帧转成图片
-     *
-     * @param inputFile  输入文件
-     * @param startTime  开始时间
-     * @param duration   持续时间
-     * @param frameRate  帧率
-     * @param targetFile 输出文件
-     * @return 视频抽帧的命令行
-     */
-    public static String[] videoToImage(String inputFile, int startTime, int duration,
-                                 int frameRate, String targetFile) {
-        //-ss：开始时间，单位为秒
-        //-t：持续时间，单位为秒
-        //-r：帧率，每秒抽多少帧
-        String toImage = "ffmpeg -y -i %s -ss %s -t %s -r %s %s";
-        toImage = String.format(Locale.CHINESE, toImage, inputFile, startTime, duration,
-                frameRate, targetFile);
-        toImage = toImage + "%3d.jpg";
-        return toImage.split(" ");
-    }
 
     /**
      * 视频叠加成画中画
@@ -455,9 +508,48 @@ public class FFmpegUtils {
      */
     @SuppressLint("DefaultLocale")
     public static String[] picInPicVideo(String inputFile1, String inputFile2, int x, int y,
-                                  String targetFile) {
-        String reverseVideo = "ffmpeg -y -i %s -i %s -filter_complex overlay=%d:%d %s";
-        reverseVideo = String.format(reverseVideo, inputFile1, inputFile2, x, y, targetFile);
-        return reverseVideo.split(" ");
+                                         String targetFile) {
+        String command = "ffmpeg -y -i %s -i %s -filter_complex overlay=%d:%d %s";
+        command = String.format(command, inputFile1, inputFile2, x, y, targetFile);
+        return command.split(" ");
+    }
+
+
+    /**
+     * 视频缩小一倍
+     * @param srcFile 源文件
+     * @param targetFile  输出文件
+     * @return 视频缩小一倍 命令行
+     */
+    public static String[] videoDoubleDown(String srcFile, String targetFile){
+        String command = "ffmpeg -y -i %s -vf scale=iw/2:-1 %s";
+        command = String.format(command,srcFile,targetFile);
+        return command.split(" ");
+    }
+
+
+    /**
+     * 视频放大一倍
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @return 视频放大一倍命令行
+     */
+    public static String[] videoDouble(String srcFile, String targetFile){
+        String command = "ffmpeg -y -i %s -vf scale=iw*2:-1 %s";
+        command = String.format(command,srcFile,targetFile);
+        return command.split(" ");
+    }
+
+
+    /**
+     * 倍速播放
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @return 倍速播放命令行
+     */
+    public static String[] videoSpeed2(String srcFile, String targetFile){
+        String command = "ffmpeg -y -i %s -filter_complex [0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a] -map [v] -map [a] %s";
+        command = String.format(command,srcFile,targetFile);
+        return command.split(" ");
     }
 }
