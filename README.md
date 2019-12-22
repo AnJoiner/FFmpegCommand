@@ -28,7 +28,7 @@
 
 [ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-![FFmpeg-Command](https://readdown.com/img/ffmpeg/ffmpeg-command-android_gaitubao_360x780.jpg)
+<div align=center>![FFmpeg-Command](https://readdown.com/img/ffmpeg/ffmpeg-command-android_gaitubao_360x780.jpg)</div>
 
 ## 引入
 
