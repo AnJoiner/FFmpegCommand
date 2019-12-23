@@ -1,6 +1,23 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    signingConfigs {
+        release {
+            keyAlias 'command'
+            keyPassword 'command'
+            storeFile file('../keystore/command.jks')
+            storePassword 'command'
+        }
+        debug {
+            keyAlias 'command'
+            keyPassword 'command'
+            storeFile file('../keystore/command.jks')
+            storePassword 'command'
+        }
+
+    }
+
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -18,8 +35,14 @@ android {
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 }
