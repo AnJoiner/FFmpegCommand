@@ -111,9 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_concat_video:
                 concatVideo();
                 break;
-            case R.id.btn_reduce_audio:
-                reduceAudio();
-                break;
+//            case R.id.btn_reduce_audio:
+//                reduceAudio();
+//                break;
             case R.id.btn_extract_audio:
                 extractAudio();
                 break;
@@ -250,19 +250,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    /**
-     * 变更声音
-     */
-    private void reduceAudio() {
-        targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-        FFmpegCommand.runAsync(FFmpegUtils.reduceVoice(mAudioBgPath, 0.5f, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("音频降音完成");
-                    }
-                });
-    }
+//    /**
+//     * 变更声音
+//     */
+//    private void reduceAudio() {
+//        targetPath = getExternalCacheDir() + File.separator + "target.mp3";
+//        FFmpegCommand.runAsync(FFmpegUtils.reduceVoice(mAudioBgPath, 0.5f, targetPath),
+//                new CommonCallBack() {
+//                    @Override
+//                    public void onComplete() {
+//                        ToastUtils.show("音频降音完成");
+//                    }
+//                });
+//    }
 
     private void extractAudio() {
         targetPath = getExternalCacheDir() + File.separator + "target.aac";
