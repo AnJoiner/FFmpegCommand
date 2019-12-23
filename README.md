@@ -32,7 +32,7 @@
 
 ## 引入
 
-根据最新版本替换下面的`1.x.x`, 比如: `1.0.7`
+根据最新版本替换下面的`1.x.x`, 比如: `1.0.8`
 
 ```groovy
 implementation 'com.coder.command:ffmpeg:1.x.x'
@@ -131,6 +131,7 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
     
 4. 问: Demo中生成的文件在哪里?        
    答: 在`/storage/emulated/0/Android/data/com.coder.ffmpegtest/cache/`目录下
+
 
 ## License
 ```

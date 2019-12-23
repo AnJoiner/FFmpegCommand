@@ -111,9 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_concat_video:
                 concatVideo();
                 break;
-//            case R.id.btn_reduce_audio:
-//                reduceAudio();
-//                break;
+            case R.id.btn_reduce_audio:
+                reduceAudio();
+                break;
             case R.id.btn_extract_audio:
                 extractAudio();
                 break;
@@ -250,19 +250,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-//    /**
-//     * 变更声音
-//     */
-//    private void reduceAudio() {
-//        targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-//        FFmpegCommand.runAsync(FFmpegUtils.reduceVoice(mAudioBgPath, 0.5f, targetPath),
-//                new CommonCallBack() {
-//                    @Override
-//                    public void onComplete() {
-//                        ToastUtils.show("音频降音完成");
-//                    }
-//                });
-//    }
+    /**
+     * 变更声音
+     */
+    private void reduceAudio() {
+        targetPath = getExternalCacheDir() + File.separator + "target.mp3";
+        FFmpegCommand.runAsync(FFmpegUtils.reduceVoice(mAudioBgPath, 0.5f, targetPath),
+                new CommonCallBack() {
+                    @Override
+                    public void onComplete() {
+                        ToastUtils.show("音频降音完成");
+                    }
+                });
+    }
 
     private void extractAudio() {
         targetPath = getExternalCacheDir() + File.separator + "target.aac";
@@ -293,6 +293,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
         String video = getExternalCacheDir() + File.separator + "out.mp4";
         String audio = getExternalCacheDir() + File.separator + "target.aac";
+        if (!new File(video).exists()){
+            ToastUtils.show("请先执行抽取视频");
+            return;
+        }
+        if (!new File(audio).exists()){
+            ToastUtils.show("请先执行抽取音频");
+            return;
+        }
+
         FFmpegCommand.runAsync(FFmpegUtils.mixAudioVideo(video, audio, targetPath),
                 new CommonCallBack() {
                     @Override
@@ -378,6 +387,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void image2Video() {
         File dir = new File(getExternalCacheDir(), "images");
         if (!dir.exists()) {
+            ToastUtils.show("请先执行视频转图片");
             return;
         }
         targetPath = getExternalCacheDir() + File.separator + "images" + File.separator + "target" +
