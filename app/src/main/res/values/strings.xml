@@ -16,7 +16,7 @@
     <string name="str_add_water">添加水印</string>
     <string name="str_screen_record">屏幕录制</string>
     <string name="str_image2Video">图片转视频</string>
-    <string name="str_extract_pcm">音频解码</string>
+    <string name="str_extract_pcm">音频解码PCM</string>
     <string name="str_encode_audio">音频编码</string>
     <string name="str_multi_video">多画面拼接</string>
     <string name="str_reverse_video">反序播放</string>
@@ -25,5 +25,7 @@
     <string name="str_video_double_down">视频缩小一倍</string>
     <string name="str_video_speed2">倍速播放</string>
     <string name="str_denoise_video">视频降噪</string>
+    <string name="str_extract_yuv">视频解码YUV</string>
+    <string name="str_yuv_h264">YUV转H264</string>
     <string name="str_output_dir">输出目录:</string>
 </resources>

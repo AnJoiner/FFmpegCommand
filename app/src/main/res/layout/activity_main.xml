@@ -209,6 +209,23 @@
 
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_extract_yuv"
+                android:layout_width="wrap_content"
+                android:text="@string/str_extract_yuv"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btn_yuv_h264"
+                android:layout_width="wrap_content"
+                android:text="@string/str_yuv_h264"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 

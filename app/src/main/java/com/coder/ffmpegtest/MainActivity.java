@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_video_double_down).setOnClickListener(this);
         findViewById(R.id.btn_video_speed2).setOnClickListener(this);
         findViewById(R.id.btn_denoise_video).setOnClickListener(this);
+        findViewById(R.id.btn_extract_yuv).setOnClickListener(this);
+        findViewById(R.id.btn_yuv_h264).setOnClickListener(this);
 
         tvContent=  findViewById(R.id.tv_content);
     }
@@ -167,6 +169,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_denoise_video:
                 denoiseVideo();
+                break;
+            case R.id.btn_extract_yuv:
+                decodeVideo();
+                break;
+            case R.id.btn_yuv_h264:
+                yuv2H264();
                 break;
         }
     }
@@ -408,7 +416,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FFmpegCommand.runAsync(FFmpegUtils.decodeAudio(mAudioPath, targetPath, 44100, 2), new CommonCallBack() {
             @Override
             public void onComplete() {
-                ToastUtils.show("音频解码完成");
+                ToastUtils.show("音频解码PCM完成");
                 tvContent.setText(targetPath);
             }
         });
@@ -501,6 +509,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onComplete() {
                 ToastUtils.show("视频降噪完成");
+                tvContent.setText(targetPath);
+            }
+        });
+    }
+
+    private void decodeVideo(){
+        targetPath = getExternalCacheDir() + File.separator + "target.yuv";
+        FFmpegCommand.runAsync(FFmpegUtils.decodeVideo(mVideoPath, targetPath), new CommonCallBack() {
+            @Override
+            public void onComplete() {
+                ToastUtils.show("视频解码YUV完成");
+                tvContent.setText(targetPath);
+            }
+        });
+    }
+
+
+    private void yuv2H264(){
+        targetPath = getExternalCacheDir() + File.separator + "target.h264";
+        String video = getExternalCacheDir() + File.separator + "target.yuv";
+        if (!new File(video).exists()){
+            ToastUtils.show("请先执行视频解码YUV");
+            return;
+        }
+        FFmpegCommand.runAsync(FFmpegUtils.yuv2H264(video, targetPath), new CommonCallBack() {
+            @Override
+            public void onComplete() {
+                ToastUtils.show("YUV转H264完成");
                 tvContent.setText(targetPath);
             }
         });

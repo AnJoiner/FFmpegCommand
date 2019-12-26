@@ -552,4 +552,42 @@ public class FFmpegUtils {
         command = String.format(command,srcFile,targetFile);
         return command.split(" ");
     }
+
+    /**
+     * 解码成YUV原始数据
+     * @param srcFile  源文件
+     * @param targetFile 输出文件
+     * @return 视频解码命令行
+     */
+    public static String[] decodeVideo(String srcFile, String targetFile){
+        String command = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s";
+        command = String.format(command,srcFile,targetFile);
+        return command.split(" ");
+    }
+
+
+    /**
+     * YUV 转 H264
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @return YUV 转 H264命令行
+     */
+    public static String[] yuv2H264(String srcFile, String targetFile){
+        return yuv2H264(srcFile, targetFile, 720,1280);
+    }
+
+
+    /**
+     * YUV 转 H264
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @param width 输出文件宽
+     * @param height 输出文件高
+     * @return YUV 转 H264命令行
+     */
+    public static String[] yuv2H264(String srcFile, String targetFile,int width, int height){
+        String command = "ffmpeg -y -f rawvideo -pix_fmt yuv420p -s %sx%s -r 30 -i %s -c:v libx264 -f rawvideo %s";
+        command = String.format(command,srcFile,width,height,targetFile);
+        return command.split(" ");
+    }
 }
