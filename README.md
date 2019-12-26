@@ -22,8 +22,10 @@
 * 使用ffmpeg命令行进行视频降噪
 * 使用ffmpeg命令行进行视频抽帧转成图片
 * 使用ffmpeg命令行进行视频叠加成画中画
-* 使用ffmpeg命令行进行音频编/解码
+* 使用ffmpeg命令行进行音频编/解码PCM
 * 使用ffmpeg命令行进行倍速播放
+* 使用ffmpeg命令行进行视频解码YUV
+* 使用ffmpeg命令行进行YUV转H264
 
 
 [ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
@@ -114,6 +116,8 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 |videoDoubleDown|       视频缩小一倍          |
 |videoSpeed2|           倍速播放              |
 |denoiseVideo|          视频降噪              |
+|decodeVideo|          视频解码YUV              |
+|yuv2H264|          YUV转H264              |
 
 ## 常见问题
 

@@ -82,8 +82,8 @@ public class FFmpegUtils {
      * @return 混合后的文件
      */
     public static String[] mixAudio(String srcFile, String mixFile, String targetFile) {
-        String command = "ffmpeg -y -i %s -i %s -filter_complex " +
-                "amix=inputs=2:duration=first:dropout_transition=2 -f mp3 %s";
+        //ffmpeg -i first.mp3 -i second.mp3 -filter_complex amix=inputs=2:duration=first:dropout_transition=2 -f mp3 third.mp3
+        String command = "ffmpeg -y -i %s -i %s -filter_complex amix=inputs=2:duration=first:dropout_transition=2 -f mp3 %s";
 
         command = String.format(command, srcFile, mixFile, targetFile);
         return command.split(" ");//以空格分割为字符串数组
