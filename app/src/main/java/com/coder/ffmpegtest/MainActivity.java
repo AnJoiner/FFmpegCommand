@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //     */
 //    private void reduceAudio() {
 //        targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-//        FFmpegCommand.runAsync(FFmpegUtils.reduceVoice(mAudioBgPath, 0.5f, targetPath),
+//        FFmpegCommand.runAsync(FFmpegUtils.reduceVoice(mAudioBgPath, -3 , targetPath),
 //                new CommonCallBack() {
 //                    @Override
 //                    public void onComplete() {
