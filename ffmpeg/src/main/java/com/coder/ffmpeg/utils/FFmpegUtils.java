@@ -82,8 +82,9 @@ public class FFmpegUtils {
      * @return 混合后的文件
      */
     public static String[] mixAudio(String srcFile, String mixFile, String targetFile) {
-        //ffmpeg -i first.mp3 -i second.mp3 -filter_complex amix=inputs=2:duration=first:dropout_transition=2 -f mp3 third.mp3
-        String command = "ffmpeg -y -i %s -i %s -filter_complex amix=inputs=2:duration=first:dropout_transition=2 -f mp3 %s";
+        //-filter_complex
+        //        amix=inputs=2:duration=shortest output.wav
+        String command = "ffmpeg -y -i %s -i %s -filter_complex amix=inputs=2:duration=shortest %s";
 
         command = String.format(command, srcFile, mixFile, targetFile);
         return command.split(" ");//以空格分割为字符串数组
@@ -96,8 +97,8 @@ public class FFmpegUtils {
      * @param outPath 输出地址
      * @return 命令
      */
-    public static String[] reduceVoice(String audio, int reduce, String outPath) {
-        String cmd = "ffmpeg -y -i %s -vcodec copy -af volume=%sdB %s";
+    public static String[] changeVolume(String audio, int reduce, String outPath) {
+        String cmd = "ffmpeg -y -i %s -af volume=%sdB %s";
         String command = String.format(cmd, audio, reduce, outPath);
         Log.d("FFMEPG", command);
         return command.split(" ");
@@ -110,8 +111,8 @@ public class FFmpegUtils {
      * @param outPath 输出地址
      * @return 命令
      */
-    public static String[] reduceVoice(String audio, float reduce, String outPath) {
-        String cmd = "ffmpeg -y -i %s -vcodec copy -filter:a volume=%s %s";
+    public static String[] changeVolume(String audio, float reduce, String outPath) {
+        String cmd = "ffmpeg -y -i %s -af volume=%s %s";
         String command = String.format(cmd, audio, reduce, outPath);
         Log.d("FFMEPG", command);
         return command.split(" ");
@@ -428,7 +429,7 @@ public class FFmpegUtils {
     @SuppressLint("DefaultLocale")
     public static String[] encodeAudio(String srcFile, String targetFile, int sampleRate,
                                        int channel) {
-        String command = "ffmpeg -y -f s16be -ar %d -ac %d -acodec pcm_s16le -i %s %s";
+        String command = "ffmpeg -y -f s16le -ar %d -ac %d -acodec pcm_s16le -i %s %s";
         command = String.format(command, sampleRate, channel, srcFile, targetFile);
         return command.split(" ");
     }
@@ -559,7 +560,7 @@ public class FFmpegUtils {
      * @param targetFile 输出文件
      * @return 视频解码命令行
      */
-    public static String[] decodeVideo(String srcFile, String targetFile){
+    public static String[] decode2YUV(String srcFile, String targetFile){
         String command = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s";
         command = String.format(command,srcFile,targetFile);
         return command.split(" ");
@@ -573,12 +574,14 @@ public class FFmpegUtils {
      * @return YUV 转 H264命令行
      */
     public static String[] yuv2H264(String srcFile, String targetFile){
-        return yuv2H264(srcFile, targetFile, 720,1280);
+        String command = "ffmpeg -y -f rawvideo -pix_fmt yuv420p -s 720x1280 -r 30 -i %s -c:v libx264 -f rawvideo %s";
+        command = String.format(command,srcFile,targetFile);
+        return yuv2H264(srcFile, targetFile,720,1280);
     }
 
 
     /**
-     * YUV 转 H264
+     * YUV 编码 H264
      * @param srcFile 源文件
      * @param targetFile 输出文件
      * @param width 输出文件宽
@@ -586,8 +589,89 @@ public class FFmpegUtils {
      * @return YUV 转 H264命令行
      */
     public static String[] yuv2H264(String srcFile, String targetFile,int width, int height){
-        String command = "ffmpeg -y -f rawvideo -pix_fmt yuv420p -s %sx%s -r 30 -i %s -c:v libx264 -f rawvideo %s";
-        command = String.format(command,srcFile,width,height,targetFile);
+        String command = "ffmpeg -y -f rawvideo -pix_fmt yuv420p -s #wx#h -r 30 -i %s -c:v libx264 -f rawvideo %s";
+        command = String.format(Locale.CHINA,command,srcFile,targetFile);
+        command = command.replace("#wx#h",width+"x"+height);
+        return command.split(" ");
+    }
+
+
+    /**
+     * 音频前5s淡入
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @return 音频前5s淡入命令行
+     */
+    public static String [] audioFadeIn(String srcFile, String targetFile){
+       return audioFadeIn(srcFile, targetFile,0,5);
+    }
+
+    /**
+     * 音频淡入
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @param start 开始位置(s)
+     * @param duration 持续时间(s)
+     * @return 音频淡入命令行
+     */
+    public static String[] audioFadeIn(String srcFile, String targetFile, int start, int duration){
+        String command = "ffmpeg -y -i %s -filter_complex afade=t=in:ss=%d:d=%d %s";
+        command = String.format(Locale.CHINA, command,srcFile,start,duration,targetFile);
+        return command.split(" ");
+    }
+
+
+    /**
+     * 音频淡出
+     * @param srcFile 音频源文件
+     * @param targetFile 输出文件
+     * @param start 开始位置(s)
+     * @param duration 持续时间(s)
+     * @return 音频淡出命令行
+     */
+    public static String[] audioFadeOut(String srcFile, String targetFile, int start, int duration){
+        String command = "ffmpeg -y -i %s -filter_complex afade=t=out:st=%d:d=%d %s";
+        command = String.format(Locale.CHINA, command,srcFile,start,duration,targetFile);
+        return command.split(" ");
+    }
+
+
+    /**
+     * 视频亮度
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @param bright 亮度(-1.0 ~ 1.0), 默认0
+     * @return 视频亮度命令行
+     */
+    public static String[] videoBright(String srcFile, String targetFile, float bright){
+        String command = "ffmpeg -y -i %s -c:v libx264 -b:v 800k -c:a libfdk_aac -vf eq=brightness=%f -f mp4 %s";
+        command = String.format(Locale.CHINA,command,srcFile,bright,targetFile);
+        return command.split(" ");
+    }
+
+
+    /**
+     * 视频对比度
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @param contrast 对比度(-2.0 ~ 2.0), 默认1.0
+     * @return
+     */
+    public static String[] videoContrast(String srcFile, String targetFile, float contrast){
+        String command ="ffmpeg -y -i %s -c:v libx264 -b:v 800k -c:a libfdk_aac -vf eq=contrast=%f -f mp4 %s";
+        command = String.format(Locale.CHINA,command,srcFile,contrast,targetFile);
+        return command.split(" ");
+    }
+
+    /**
+     * 视频旋转
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @return 视频旋转命令行
+     */
+    public static String[] videoRotation(String srcFile, String targetFile){
+        String command = "ffmpeg -y -i %s -vf transpose=1 -b:v 600k %s";
+        command = String.format(Locale.CHINA,command,srcFile,targetFile);
         return command.split(" ");
     }
 }

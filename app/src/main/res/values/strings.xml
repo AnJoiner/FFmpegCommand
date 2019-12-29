@@ -21,11 +21,17 @@
     <string name="str_multi_video">多画面拼接</string>
     <string name="str_reverse_video">反序播放</string>
     <string name="str_pic_in_pic">画中画</string>
-    <string name="str_mix_audio">音频混合</string>
+    <string name="str_mix_audio">混音</string>
     <string name="str_video_double_down">视频缩小一倍</string>
     <string name="str_video_speed2">倍速播放</string>
     <string name="str_denoise_video">视频降噪</string>
     <string name="str_extract_yuv">视频解码YUV</string>
-    <string name="str_yuv_h264">YUV转H264</string>
+    <string name="str_extract_h264">抽取视频H264</string>
+    <string name="str_yuv_h264">视频编码H264</string>
+    <string name="str_audio_fade_in">音频淡入</string>
+    <string name="str_audio_fade_out">音频淡出</string>
+    <string name="str_video_bright">视频亮度</string>
+    <string name="str_video_contrast">视频对比度</string>
+    <string name="str_video_rotation">视频旋转</string>
     <string name="str_output_dir">输出目录:</string>
 </resources>

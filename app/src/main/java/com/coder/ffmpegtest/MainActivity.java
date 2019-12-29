@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_video2jpeg).setOnClickListener(this);
         findViewById(R.id.btn_video2gif).setOnClickListener(this);
         findViewById(R.id.btn_add_water).setOnClickListener(this);
-        findViewById(R.id.btn_screen_record).setOnClickListener(this);
         findViewById(R.id.btn_image2Video).setOnClickListener(this);
         findViewById(R.id.btn_extract_pcm).setOnClickListener(this);
         findViewById(R.id.btn_encode_audio).setOnClickListener(this);
@@ -76,6 +75,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_denoise_video).setOnClickListener(this);
         findViewById(R.id.btn_extract_yuv).setOnClickListener(this);
         findViewById(R.id.btn_yuv_h264).setOnClickListener(this);
+        findViewById(R.id.btn_audio_fade_in).setOnClickListener(this);
+        findViewById(R.id.btn_audio_fade_out).setOnClickListener(this);
+        findViewById(R.id.btn_video_bright).setOnClickListener(this);
+        findViewById(R.id.btn_video_contrast).setOnClickListener(this);
+        findViewById(R.id.btn_video_rotation).setOnClickListener(this);
 
         tvContent=  findViewById(R.id.tv_content);
     }
@@ -113,9 +117,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_concat_video:
                 concatVideo();
                 break;
-//            case R.id.btn_reduce_audio:
-//                reduceAudio();
-//                break;
+            case R.id.btn_reduce_audio:
+                reduceAudio();
+                break;
             case R.id.btn_extract_audio:
                 extractAudio();
                 break;
@@ -137,9 +141,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_add_water:
                 addWaterMark();
                 break;
-//            case R.id.btn_screen_record:
-//                screenRecord();
-//                break;
             case R.id.btn_image2Video:
                 image2Video();
                 break;
@@ -158,9 +159,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_pic_pic:
                 picInPic();
                 break;
-//            case R.id.btn_mix_audio:
-//                mixAudio();
-//                break;
+            case R.id.btn_mix_audio:
+                mixAudio();
+                break;
             case R.id.btn_video_double_down:
                 videoDoubleDown();
                 break;
@@ -171,10 +172,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 denoiseVideo();
                 break;
             case R.id.btn_extract_yuv:
-                decodeVideo();
+                video2YUV();
                 break;
             case R.id.btn_yuv_h264:
                 yuv2H264();
+                break;
+            case R.id.btn_audio_fade_in:
+                fadeIn();
+                break;
+            case R.id.btn_audio_fade_out:
+                fadeOut();
+                break;
+            case R.id.btn_video_bright:
+                bright();
+                break;
+            case R.id.btn_video_contrast:
+                contrast();
+                break;
+            case R.id.btn_video_rotation:
+                rotate();
                 break;
         }
     }
@@ -258,19 +274,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-//    /**
-//     * 变更声音
-//     */
-//    private void reduceAudio() {
-//        targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-//        FFmpegCommand.runAsync(FFmpegUtils.reduceVoice(mAudioBgPath, -3 , targetPath),
-//                new CommonCallBack() {
-//                    @Override
-//                    public void onComplete() {
-//                        ToastUtils.show("音频降音完成");
-//                    }
-//                });
-//    }
+    /**
+     * 变更声音
+     */
+    private void reduceAudio() {
+        targetPath = getExternalCacheDir() + File.separator + "target.mp3";
+        FFmpegCommand.runAsync(FFmpegUtils.changeVolume(mAudioBgPath, 0.5f , targetPath),
+                new CommonCallBack() {
+                    @Override
+                    public void onComplete() {
+                        ToastUtils.show("音频降音完成");
+                    }
+                });
+    }
 
     private void extractAudio() {
         targetPath = getExternalCacheDir() + File.separator + "target.aac";
@@ -379,19 +395,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-//    private void screenRecord() {
-//        targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-//        FFmpegCommand.runAsync(FFmpegUtils.screenRecord("2340x1080", 10, targetPath),
-//                new CommonCallBack() {
-//            @Override
-//            public void onComplete() {
-//                ToastUtils.show("屏幕录制完成");
-//                tvContent.setText(targetPath);
-//            }
-//        });
-//    }
-
-
     private void image2Video() {
         File dir = new File(getExternalCacheDir(), "images");
         if (!dir.exists()) {
@@ -424,6 +427,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void encodeAudio(){
         String pcm = getExternalCacheDir() + File.separator + "target.pcm";
+        if (!new File(pcm).exists()){
+            ToastUtils.show("请先执行音频解码PCM");
+            return;
+        }
         targetPath = getExternalCacheDir() + File.separator + "target.wav";
         FFmpegCommand.runAsync(FFmpegUtils.encodeAudio(pcm, targetPath, 44100, 2), new CommonCallBack() {
             @Override
@@ -469,16 +476,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-//    private void mixAudio(){
-//        targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-//        FFmpegCommand.runAsync(FFmpegUtils.mixAudio(mAudioPath, mAudioBgPath, targetPath), new CommonCallBack() {
-//            @Override
-//            public void onComplete() {
-//                ToastUtils.show("音频混合完成");
-//                tvContent.setText(targetPath);
-//            }
-//        });
-//    }
+    private void mixAudio(){
+        targetPath = getExternalCacheDir() + File.separator + "target.mp3";
+        FFmpegCommand.runAsync(FFmpegUtils.mixAudio(mAudioPath, mAudioBgPath, targetPath), new CommonCallBack() {
+            @Override
+            public void onComplete() {
+                ToastUtils.show("音频混合完成");
+                tvContent.setText(targetPath);
+            }
+        });
+    }
 
     private void videoDoubleDown(){
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
@@ -514,9 +521,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void decodeVideo(){
+    private void video2YUV(){
         targetPath = getExternalCacheDir() + File.separator + "target.yuv";
-        FFmpegCommand.runAsync(FFmpegUtils.decodeVideo(mVideoPath, targetPath), new CommonCallBack() {
+        FFmpegCommand.runAsync(FFmpegUtils.decode2YUV(mVideoPath, targetPath), new CommonCallBack() {
             @Override
             public void onComplete() {
                 ToastUtils.show("视频解码YUV完成");
@@ -536,7 +543,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FFmpegCommand.runAsync(FFmpegUtils.yuv2H264(video, targetPath), new CommonCallBack() {
             @Override
             public void onComplete() {
-                ToastUtils.show("YUV转H264完成");
+                ToastUtils.show("视频编码H264完成");
+                tvContent.setText(targetPath);
+            }
+        });
+    }
+
+
+    private void fadeIn(){
+        targetPath = getExternalCacheDir() + File.separator + "target.mp3";
+        FFmpegCommand.runAsync(FFmpegUtils.audioFadeIn(mAudioPath, targetPath), new CommonCallBack() {
+            @Override
+            public void onComplete() {
+                ToastUtils.show("音频淡入完成");
+                tvContent.setText(targetPath);
+            }
+        });
+    }
+
+    private void fadeOut(){
+        targetPath = getExternalCacheDir() + File.separator + "target.mp3";
+        FFmpegCommand.runAsync(FFmpegUtils.audioFadeOut(mAudioPath, targetPath,34,5), new CommonCallBack() {
+            @Override
+            public void onComplete() {
+                ToastUtils.show("音频淡出完成");
+                tvContent.setText(targetPath);
+            }
+        });
+    }
+
+    private void bright(){
+        targetPath = getExternalCacheDir() + File.separator + "target.mp4";
+        FFmpegCommand.runAsync(FFmpegUtils.videoBright(mVideoPath, targetPath,0.25f), new CommonCallBack() {
+            @Override
+            public void onComplete() {
+                ToastUtils.show("视频提高亮度完成");
+                tvContent.setText(targetPath);
+            }
+        });
+    }
+
+    private void contrast(){
+        targetPath = getExternalCacheDir() + File.separator + "target.mp4";
+        FFmpegCommand.runAsync(FFmpegUtils.videoContrast(mVideoPath, targetPath,1.5f), new CommonCallBack() {
+            @Override
+            public void onComplete() {
+                ToastUtils.show("视频修改对比度完成");
+                tvContent.setText(targetPath);
+            }
+        });
+    }
+
+    private void rotate(){
+        targetPath = getExternalCacheDir() + File.separator + "target.mp4";
+        FFmpegCommand.runAsync(FFmpegUtils.videoRotation(mVideoPath, targetPath), new CommonCallBack() {
+            @Override
+            public void onComplete() {
+                ToastUtils.show("视频旋转完成");
                 tvContent.setText(targetPath);
             }
         });

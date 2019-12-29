@@ -1,5 +1,7 @@
-# FFmpegCommand
 
+![FFmpeg](https://readdown.com/img/top/ffmpeg.jpeg)
+
+# FFmpegCommand
 
 ## 前景提要
 在我们的开发中，经常会用到音视频相关内容，一般我们都会选择`FFmpeg`，但是其交叉编译对于我们来说是一件很麻烦的事情．所以这里方便日后使用，集成了关于`FFmpeg`相关库(mp3lame+libx264+fdk-aac),话不多说，请往下看～～
@@ -25,7 +27,13 @@
 * 使用ffmpeg命令行进行音频编/解码PCM
 * 使用ffmpeg命令行进行倍速播放
 * 使用ffmpeg命令行进行视频解码YUV
-* 使用ffmpeg命令行进行YUV转H264
+* 使用ffmpeg命令行进行视频编码H264
+* 使用ffmpeg命令行进行音频音量控制
+* 使用ffmpeg命令行进行音频混音
+* 使用ffmpeg命令行进行音频淡入、淡出效果
+* 使用ffmpeg命令行进行视频亮度控制
+* 使用ffmpeg命令行进行视频对比度控制
+* 使用ffmpeg命令行进行视频旋转
 
 
 [ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
@@ -92,32 +100,23 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 
 这里会用到对`FFmpeg`的命令使用, 如果不熟悉的话可以参考[FFmpeg入门基础](https://readdown.com/2019/12/20/ffmpeg-basic/), 包含对FFmpeg参数说明, 以及部分基础功能的实现.
 
-|  方法  |                  作用               |  
-|---------| ----------------------------------- | 
-|transformAudio|                  音频转码           |  
-|transformVideo|                  视频转码           |
-|cutAudio|                  音频剪切           |
-|cutVideo|                  视频剪切           |
-|concatAudio|                  音频拼接           |
-|concatVideo|                  视频拼接           |
-|extractAudio|               音频抽取          |
-|extractVideo|               视频抽取          |
-|mixAudioVideo|             音视频合成         |
-|screenShot|             截取视频第一帧         |
-|video2Image|           视频转图片            |
-|video2Gif|             视频转gif             |
-|addWaterMark|          添加视频水印          |
-|image2Video|           图片转视频            |
-|decodeAudio|           音频解码              |
-|encodeAudio|           音频编码              |
-|multiVideo|            多画面拼接            |
-|reverseVideo|          反向播放              |
-|picInPicVideo|         画中画                |
-|videoDoubleDown|       视频缩小一倍          |
-|videoSpeed2|           倍速播放              |
-|denoiseVideo|          视频降噪              |
-|decodeVideo|          视频解码YUV              |
-|yuv2H264|          YUV转H264              |
+|  方法  |                  作用               |  方法      |                  作用               |
+|---------| ----------------------------------| --------- | ----------------------------------- -----------|
+|transformAudio|        音频转码           |   transformVideo |视频转码|
+|cutAudio|              音频剪切           |cutVideo|              视频剪切           |
+|concatAudio|           音频拼接           |concatVideo|           视频拼接           |
+|extractAudio|          音频抽取           |extractVideo|          视频抽取           |
+|mixAudioVideo|         音视频合成          |screenShot|            截取视频第一帧      |
+|video2Image|           视频转图片          |video2Gif|             视频转gif          |
+|decodeAudio|           音频解码PCM        |decode2YUV|            视频解码YUV        |
+|image2Video|           图片转视频         |addWaterMark|          添加视频水印        |
+|encodeAudio|           音频编码           |yuv2H264|              视频编码H264       |
+|multiVideo|            多画面拼接         |reverseVideo|          反向播放           |
+|videoDoubleDown|       视频缩小一倍        |videoDouble|           视频放大一倍        |
+|videoSpeed2|           倍速播放           |denoiseVideo|          视频降噪           |
+|audioFadeIn|           音频淡入           |audioFadeOut|          音频淡出           |
+|videoBright|           修改视频亮度        |videoContrast|         修改视频对比度      |
+|picInPicVideo|         画中画             | |
 
 ## 常见问题
 
