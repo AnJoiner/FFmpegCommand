@@ -101,7 +101,7 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 这里会用到对`FFmpeg`的命令使用, 如果不熟悉的话可以参考[FFmpeg入门基础](https://readdown.com/2019/12/20/ffmpeg-basic/), 包含对FFmpeg参数说明, 以及部分基础功能的实现.
 
 |  方法  |                  作用               |  方法      |                  作用               |
-|---------| ----------------------------------| --------- | ----------------------------------- -----------|
+|---------| ----------------------------------| --------- | -----------------------------------|
 |transformAudio|        音频转码           |   transformVideo |视频转码|
 |cutAudio|              音频剪切           |cutVideo|              视频剪切           |
 |concatAudio|           音频拼接           |concatVideo|           视频拼接           |
