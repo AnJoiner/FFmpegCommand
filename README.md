@@ -1,7 +1,6 @@
 
 ![FFmpegCommand](https://readdown.com/img/top/ffmpeg-command.jpg)
 
-# FFmpegCommand
 
 ## 前景提要
 在我们的开发中，经常会用到音视频相关内容，一般我们都会选择`FFmpeg`，但是其交叉编译对于我们来说是一件很麻烦的事情．所以这里方便日后使用，集成了关于`FFmpeg`相关库(mp3lame+libx264+fdk-aac),话不多说，请往下看～～
