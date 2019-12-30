@@ -195,6 +195,9 @@ public class FFmpegCommandActivity extends AppCompatActivity {
                     case 31:
                         videoScale();
                         break;
+                    case 32:
+                        frame2Image();
+                        break;
                 }
             }
         });
@@ -428,6 +431,12 @@ public class FFmpegCommandActivity extends AppCompatActivity {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
         FFmpegCommand.runAsync(FFmpegUtils.videoScale(mVideoPath, targetPath, 360, 640),
                 callback("视频缩放完成", targetPath));
+    }
+
+
+    private void frame2Image(){
+        targetPath = getExternalCacheDir() + File.separator + "target.png";
+        FFmpegCommand.runAsync(FFmpegUtils.frame2Image(mVideoPath,targetPath,"00:00:10.234"),callback("获取一帧图片成功",targetPath));
     }
 
 
