@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="commands">
+        <item>音频转码</item>
+        <item>视频转码</item>
+        <item>音频剪切</item>
+        <item>视频剪切</item>
+        <item>音频拼接</item>
+        <item>视频拼接</item>
+        <item>抽取音频</item>
+        <item>抽取视频</item>
+        <item>音视频合成</item>
+        <item>获取第一帧</item>
+        <item>视频转图片</item>
+        <item>视频转gif</item>
+        <item>添加水印</item>
+        <item>图片转视频</item>
+        <item>音频解码PCM</item>
+        <item>音频编码</item>
+        <item>多画面拼接</item>
+        <item>反序播放</item>
+        <item>画中画</item>
+        <item>混音</item>
+        <item>视频缩小一倍</item>
+        <item>倍速播放</item>
+        <item>视频降噪</item>
+        <item>音频降音</item>
+        <item>视频解码YUV</item>
+        <item>视频编码H264</item>
+        <item>音频淡入</item>
+        <item>音频淡出</item>
+        <item>视频亮度</item>
+        <item>视频对比度</item>
+        <item>视频旋转</item>
+        <item>视频缩放</item>
+    </string-array>
+
+</resources>

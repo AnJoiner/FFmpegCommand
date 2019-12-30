@@ -1,4 +1,4 @@
-package com.coder.ffmpegtest;
+package com.coder.ffmpegtest.ui;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -13,6 +13,7 @@ import com.coder.ffmpeg.utils.Direction;
 import com.coder.ffmpeg.utils.FFmpegUtils;
 import com.coder.ffmpeg.utils.ImageFormat;
 import com.coder.ffmpeg.utils.Transpose;
+import com.coder.ffmpegtest.R;
 import com.coder.ffmpegtest.utils.CustomProgressDialog;
 import com.coder.ffmpegtest.utils.FileUtils;
 import com.coder.ffmpegtest.utils.ToastUtils;
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView tvContent;
 
-    private CustomProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

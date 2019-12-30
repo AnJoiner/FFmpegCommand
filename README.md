@@ -34,9 +34,13 @@
 * 使用ffmpeg命令行进行视频亮度控制
 * 使用ffmpeg命令行进行视频对比度控制
 * 使用ffmpeg命令行进行视频旋转
+* 使用ffmpeg命令进行视频固定宽高缩放
 
-
-![FFmpeg-Command](https://readdown.com/img/ffmpeg/ffmpeg-command-android_gaitubao_360x748.jpg)
+<figure class="third">
+    <img src="https://readdown.com/img/ffmpeg/ffmpeg-command-show1.jpg">
+    <img src="https://readdown.com/img/ffmpeg/ffmpeg-command-show2.jpg">
+    <img src="https://readdown.com/img/ffmpeg/ffmpeg-command-show3.jpg">
+</figure>
 
 ## 引入
 
