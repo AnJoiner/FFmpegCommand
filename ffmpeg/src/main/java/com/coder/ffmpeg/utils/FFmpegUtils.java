@@ -543,6 +543,80 @@ public class FFmpegUtils {
 
 
     /**
+     * 视频缩放
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @param width 缩放后宽度
+     * @param height 缩放后高度
+     * @return 视频缩放命令行
+     */
+    public static String[] videoScale(String srcFile, String targetFile, int width, int height){
+        return scale(srcFile, targetFile, width, height);
+    }
+
+    /**
+     * 视频缩放
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @param width 缩放后宽度
+     * @return 视频缩放命令行
+     */
+    public static String[] videoScale(String srcFile, String targetFile, int width){
+        return scale(srcFile, targetFile, width);
+    }
+
+    /**
+     * 图片缩放
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @param width 缩放后宽度
+     * @param height 缩放后高度
+     * @return 视频缩放命令行
+     */
+    public static String[] imageScale(String srcFile, String targetFile, int width, int height){
+        return scale(srcFile, targetFile, width, height);
+    }
+
+    /**
+     * 图片缩放
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @param width 缩放后宽度
+     * @return 视频缩放命令行
+     */
+    public static String[] imageScale(String srcFile, String targetFile, int width){
+        return scale(srcFile, targetFile, width);
+    }
+
+    /**
+     * 缩放
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @param width 缩放后宽度
+     * @param height 缩放后高度
+     * @return 缩放命令行
+     */
+    public static String[] scale(String srcFile, String targetFile, int width, int height){
+        String command = "ffmpeg -y -i %s -vf scale=%d:%d %s";
+        command = String.format(Locale.CHINA,command,srcFile,width,height,targetFile);
+        return command.split(" ");
+    }
+
+
+    /**
+     * 按宽度等比例缩放
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @param width 缩放后宽度
+     * @return 缩放命令行
+     */
+    public static String[] scale(String srcFile, String targetFile,int width ){
+        String command = "ffmpeg -y -i %s -vf scale=%d:-1 %s";
+        command = String.format(Locale.CHINA,command,srcFile,width,targetFile);
+        return command.split(" ");
+    }
+
+    /**
      * 倍速播放
      * @param srcFile 源文件
      * @param targetFile 输出文件
@@ -667,11 +741,12 @@ public class FFmpegUtils {
      * 视频旋转
      * @param srcFile 源文件
      * @param targetFile 输出文件
+     * @param transpose
      * @return 视频旋转命令行
      */
-    public static String[] videoRotation(String srcFile, String targetFile){
-        String command = "ffmpeg -y -i %s -vf transpose=1 -b:v 600k %s";
-        command = String.format(Locale.CHINA,command,srcFile,targetFile);
+    public static String[] videoRotation(String srcFile, String targetFile,@Transpose int transpose){
+        String command = "ffmpeg -y -i %s -vf transpose=%d -b:v 600k %s";
+        command = String.format(Locale.CHINA,command,srcFile,transpose,targetFile);
         return command.split(" ");
     }
 }

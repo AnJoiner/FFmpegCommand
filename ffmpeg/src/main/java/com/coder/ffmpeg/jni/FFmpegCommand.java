@@ -35,7 +35,6 @@ public class FFmpegCommand {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
             @Override
             public void subscribe(final FlowableEmitter<Integer> emitter) throws Exception {
-
                 FFmpegCmd.runCmd(cmd);
                 emitter.onComplete();
             }
@@ -45,12 +44,13 @@ public class FFmpegCommand {
                 .subscribe(new Subscriber<Integer>() {
                     @Override
                     public void onSubscribe(Subscription s) {
-
+                        if (callBack!=null){
+                            callBack.onStart();
+                        }
                     }
 
                     @Override
                     public void onNext(Integer integer) {
-
                     }
 
                     @Override

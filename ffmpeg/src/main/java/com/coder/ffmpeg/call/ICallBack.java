@@ -4,4 +4,6 @@ public interface ICallBack {
     void onError(Throwable t);
 
     void onComplete();
+
+    void onStart();
 }

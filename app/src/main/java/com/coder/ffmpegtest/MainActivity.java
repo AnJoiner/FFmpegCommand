@@ -12,6 +12,8 @@ import com.coder.ffmpeg.jni.FFmpegCommand;
 import com.coder.ffmpeg.utils.Direction;
 import com.coder.ffmpeg.utils.FFmpegUtils;
 import com.coder.ffmpeg.utils.ImageFormat;
+import com.coder.ffmpeg.utils.Transpose;
+import com.coder.ffmpegtest.utils.CustomProgressDialog;
 import com.coder.ffmpegtest.utils.FileUtils;
 import com.coder.ffmpegtest.utils.ToastUtils;
 
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String mImagePath;
 
     private TextView tvContent;
+
+    private CustomProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_video_bright).setOnClickListener(this);
         findViewById(R.id.btn_video_contrast).setOnClickListener(this);
         findViewById(R.id.btn_video_rotation).setOnClickListener(this);
+        findViewById(R.id.btn_video_scale).setOnClickListener(this);
 
-        tvContent=  findViewById(R.id.tv_content);
+        tvContent = findViewById(R.id.tv_content);
     }
 
     private void initData() {
@@ -94,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mVideoPath = new File(getExternalCacheDir(), "test.mp4").getAbsolutePath();
         mAudioBgPath = new File(getExternalCacheDir(), "testbg.mp3").getAbsolutePath();
         mImagePath = new File(getExternalCacheDir(), "water.png").getAbsolutePath();
+
     }
 
     @Override
@@ -192,69 +198,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_video_rotation:
                 rotate();
                 break;
+            case R.id.btn_video_scale:
+                videoScale();
+                break;
         }
     }
 
     private void transformAudio() {
+        CustomProgressDialog.showLoading(this);
         targetPath = getExternalCacheDir() + File.separator + "target.aac";
-        FFmpegCommand.runAsync(FFmpegUtils.transformAudio(mAudioPath, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("音频转码完成");
-                        tvContent.setText(targetPath);
-                    }
-                });
+        FFmpegCommand.runAsync(FFmpegUtils.transformAudio(mAudioPath, targetPath),callback("音频转码完成", targetPath));
     }
 
     private void transformVideo() {
         targetPath = getExternalCacheDir() + File.separator + "target.avi";
-        FFmpegCommand.runAsync(FFmpegUtils.transformVideo(mVideoPath, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("视频转码完成");
-                        tvContent.setText(targetPath);
-                    }
-                });
+        FFmpegCommand.runAsync(FFmpegUtils.transformVideo(mVideoPath, targetPath),callback("视频转码完成", targetPath));
     }
 
 
     private void cutAudio() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-        FFmpegCommand.runAsync(FFmpegUtils.cutAudio(mAudioPath, 5, 10, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("音频剪切完成");
-                        tvContent.setText(targetPath);
-                    }
-                });
+        FFmpegCommand.runAsync(FFmpegUtils.cutAudio(mAudioPath, 5, 10, targetPath),callback("音频剪切完成", targetPath));
     }
 
     private void cutVideo() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.cutVideo(mVideoPath, 5, 10, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("视频剪切完成");
-                        tvContent.setText(targetPath);
-                    }
-                });
+        FFmpegCommand.runAsync(FFmpegUtils.cutVideo(mVideoPath, 5, 10, targetPath),callback("视频剪切完成", targetPath));
     }
 
 
     private void concatAudio() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-        FFmpegCommand.runAsync(FFmpegUtils.concatAudio(mAudioPath, mAudioPath, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("音频拼接完成");
-                        tvContent.setText(targetPath);
-                    }
-                });
+        FFmpegCommand.runAsync(FFmpegUtils.concatAudio(mAudioPath, mAudioPath, targetPath),callback("音频拼接完成", targetPath));
     }
 
     private void concatVideo() {
@@ -263,14 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.concatVideo(path, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("视频拼接完成");
-                        tvContent.setText(targetPath);
-                    }
-                });
+        FFmpegCommand.runAsync(FFmpegUtils.concatVideo(path, targetPath),callback("视频拼接完成", targetPath));
     }
 
 
@@ -279,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void reduceAudio() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-        FFmpegCommand.runAsync(FFmpegUtils.changeVolume(mAudioBgPath, 0.5f , targetPath),
+        FFmpegCommand.runAsync(FFmpegUtils.changeVolume(mAudioBgPath, 0.5f, targetPath),
                 new CommonCallBack() {
                     @Override
                     public void onComplete() {
@@ -290,26 +258,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void extractAudio() {
         targetPath = getExternalCacheDir() + File.separator + "target.aac";
-        FFmpegCommand.runAsync(FFmpegUtils.extractAudio(mVideoPath, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("抽取音频完成");
-                        tvContent.setText(targetPath);
-                    }
-                });
+        FFmpegCommand.runAsync(FFmpegUtils.extractAudio(mVideoPath, targetPath),callback("抽取音频完成", targetPath));
     }
 
     private void extractVideo() {
         targetPath = getExternalCacheDir() + File.separator + "out.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.extractVideo(mVideoPath, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("抽取视频完成");
-                        tvContent.setText(targetPath);
-                    }
-                });
+        FFmpegCommand.runAsync(FFmpegUtils.extractVideo(mVideoPath, targetPath),callback("抽取视频完成", targetPath));
     }
 
 
@@ -317,36 +271,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
         String video = getExternalCacheDir() + File.separator + "out.mp4";
         String audio = getExternalCacheDir() + File.separator + "target.aac";
-        if (!new File(video).exists()){
+        if (!new File(video).exists()) {
             ToastUtils.show("请先执行抽取视频");
             return;
         }
-        if (!new File(audio).exists()){
+        if (!new File(audio).exists()) {
             ToastUtils.show("请先执行抽取音频");
             return;
         }
 
-        FFmpegCommand.runAsync(FFmpegUtils.mixAudioVideo(video, audio, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("音视频合成完成");
-                        tvContent.setText(targetPath);
-                    }
-                });
+        FFmpegCommand.runAsync(FFmpegUtils.mixAudioVideo(video, audio, targetPath),callback("音视频合成完成", targetPath));
     }
 
 
     private void screenShot() {
         targetPath = getExternalCacheDir() + File.separator + "target.jpeg";
-        FFmpegCommand.runAsync(FFmpegUtils.screenShot(mVideoPath, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("视频截图完成");
-                        tvContent.setText(targetPath);
-                    }
-                });
+        FFmpegCommand.runAsync(FFmpegUtils.screenShot(mVideoPath, targetPath),callback("视频截图完成", targetPath));
     }
 
     private void video2Image() {
@@ -361,38 +301,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         targetPath = dir.getAbsolutePath();
         FFmpegCommand.runAsync(FFmpegUtils.video2Image(mVideoPath, targetPath,
-                ImageFormat.JPG), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("视频截图完成");
-                tvContent.setText(targetPath);
-            }
-        });
+                ImageFormat.JPG),callback("视频截图完成", targetPath));
     }
 
 
     private void video2Gif() {
         targetPath = getExternalCacheDir() + File.separator + "target.gif";
-        FFmpegCommand.runAsync(FFmpegUtils.video2Gif(mVideoPath, 0, 10, targetPath),
-                new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("视频转Gif完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.video2Gif(mVideoPath, 0, 10, targetPath),callback("视频转Gif完成", targetPath));
     }
 
     private void addWaterMark() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.addWaterMark(mVideoPath, mImagePath, targetPath),
-                new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("添加视频水印完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.addWaterMark(mVideoPath, mImagePath, targetPath),callback("添加视频水印完成", targetPath));
     }
 
     private void image2Video() {
@@ -404,205 +324,131 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         targetPath = getExternalCacheDir() + File.separator + "images" + File.separator + "target" +
                 ".mp4";
         FFmpegCommand.runAsync(FFmpegUtils.image2Video(dir.getAbsolutePath(),
-                ImageFormat.JPG, targetPath), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("图片转视频完成");
-                tvContent.setText(targetPath);
-            }
-        });
+                ImageFormat.JPG, targetPath),callback("图片转视频完成", targetPath));
     }
 
 
-    private void decodeAudio(){
+    private void decodeAudio() {
         targetPath = getExternalCacheDir() + File.separator + "target.pcm";
-        FFmpegCommand.runAsync(FFmpegUtils.decodeAudio(mAudioPath, targetPath, 44100, 2), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("音频解码PCM完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.decodeAudio(mAudioPath, targetPath, 44100, 2),callback("音频解码PCM完成", targetPath));
     }
 
-    private void encodeAudio(){
+    private void encodeAudio() {
         String pcm = getExternalCacheDir() + File.separator + "target.pcm";
-        if (!new File(pcm).exists()){
+        if (!new File(pcm).exists()) {
             ToastUtils.show("请先执行音频解码PCM");
             return;
         }
         targetPath = getExternalCacheDir() + File.separator + "target.wav";
-        FFmpegCommand.runAsync(FFmpegUtils.encodeAudio(pcm, targetPath, 44100, 2), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("音频编码完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.encodeAudio(pcm, targetPath, 44100, 2),callback("音频编码完成", targetPath));
     }
 
 
-    private void multiVideo(){
+    private void multiVideo() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.multiVideo(mVideoPath, mVideoPath, targetPath, Direction.LAYOUT_HORIZONTAL), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("多画面拼接完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.multiVideo(mVideoPath, mVideoPath, targetPath,
+                Direction.LAYOUT_HORIZONTAL),callback("多画面拼接完成", targetPath));
     }
 
 
-    private void reverseVideo(){
+    private void reverseVideo() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.reverseVideo( mVideoPath, targetPath), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("反序播放完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.reverseVideo(mVideoPath, targetPath),callback("反序播放完成", targetPath));
     }
 
-    private void picInPic(){
+    private void picInPic() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.picInPicVideo(mVideoPath, mVideoPath, 100, 100, targetPath), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("画中画完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.picInPicVideo(mVideoPath, mVideoPath, 100, 100,
+                targetPath), callback("画中画完成", targetPath));
     }
 
-    private void mixAudio(){
+    private void mixAudio() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-        FFmpegCommand.runAsync(FFmpegUtils.mixAudio(mAudioPath, mAudioBgPath, targetPath), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("音频混合完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.mixAudio(mAudioPath, mAudioBgPath, targetPath),callback("音频混合完成", targetPath));
     }
 
-    private void videoDoubleDown(){
+    private void videoDoubleDown() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.videoDoubleDown(mVideoPath, targetPath), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("视频缩小一倍完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.videoDoubleDown(mVideoPath, targetPath),callback("视频缩小一倍完成", targetPath));
     }
 
 
-    private void videoSpeed2(){
+    private void videoSpeed2() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.videoSpeed2(mVideoPath, targetPath), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("视频倍速完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.videoSpeed2(mVideoPath, targetPath),callback("视频倍速完成", targetPath));
     }
 
-    private void denoiseVideo(){
+    private void denoiseVideo() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.denoiseVideo(mVideoPath, targetPath), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("视频降噪完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.denoiseVideo(mVideoPath, targetPath),callback("视频降噪完成", targetPath));
     }
 
-    private void video2YUV(){
+    private void video2YUV() {
         targetPath = getExternalCacheDir() + File.separator + "target.yuv";
-        FFmpegCommand.runAsync(FFmpegUtils.decode2YUV(mVideoPath, targetPath), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("视频解码YUV完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.decode2YUV(mVideoPath, targetPath),callback("视频解码YUV完成", targetPath));
     }
 
 
-    private void yuv2H264(){
+    private void yuv2H264() {
         targetPath = getExternalCacheDir() + File.separator + "target.h264";
         String video = getExternalCacheDir() + File.separator + "target.yuv";
-        if (!new File(video).exists()){
+        if (!new File(video).exists()) {
             ToastUtils.show("请先执行视频解码YUV");
             return;
         }
-        FFmpegCommand.runAsync(FFmpegUtils.yuv2H264(video, targetPath), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("视频编码H264完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.yuv2H264(video, targetPath),callback("视频编码H264完成", targetPath));
     }
 
 
-    private void fadeIn(){
+    private void fadeIn() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-        FFmpegCommand.runAsync(FFmpegUtils.audioFadeIn(mAudioPath, targetPath), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("音频淡入完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.audioFadeIn(mAudioPath, targetPath),callback("音频淡入完成", targetPath));
     }
 
-    private void fadeOut(){
+    private void fadeOut() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-        FFmpegCommand.runAsync(FFmpegUtils.audioFadeOut(mAudioPath, targetPath,34,5), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("音频淡出完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.audioFadeOut(mAudioPath, targetPath, 34, 5), callback("音频淡出完成", targetPath));
     }
 
-    private void bright(){
+    private void bright() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.videoBright(mVideoPath, targetPath,0.25f), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("视频提高亮度完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.videoBright(mVideoPath, targetPath, 0.25f),callback("视频提高亮度完成", targetPath) );
     }
 
-    private void contrast(){
+    private void contrast() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.videoContrast(mVideoPath, targetPath,1.5f), new CommonCallBack() {
-            @Override
-            public void onComplete() {
-                ToastUtils.show("视频修改对比度完成");
-                tvContent.setText(targetPath);
-            }
-        });
+        FFmpegCommand.runAsync(FFmpegUtils.videoContrast(mVideoPath, targetPath, 1.5f), callback(
+                "视频修改对比度完成", targetPath));
     }
 
-    private void rotate(){
+    private void rotate() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
-        FFmpegCommand.runAsync(FFmpegUtils.videoRotation(mVideoPath, targetPath), new CommonCallBack() {
+        FFmpegCommand.runAsync(FFmpegUtils.videoRotation(mVideoPath, targetPath,
+                Transpose.CLOCKWISE_ROTATION_90), callback("视频旋转完成", targetPath));
+    }
+
+
+    private void videoScale() {
+        targetPath = getExternalCacheDir() + File.separator + "target.mp4";
+        FFmpegCommand.runAsync(FFmpegUtils.videoScale(mVideoPath, targetPath, 360, 640),
+                callback("视频缩放完成", targetPath));
+    }
+
+
+    private CommonCallBack callback(final String msg, final String targetPath) {
+        return new CommonCallBack() {
+            @Override
+            public void onStart() {
+                CustomProgressDialog.showLoading(MainActivity.this);
+            }
+
             @Override
             public void onComplete() {
-                ToastUtils.show("视频旋转完成");
+                ToastUtils.show(msg);
                 tvContent.setText(targetPath);
+                CustomProgressDialog.stopLoading();
             }
-        });
+        };
     }
 
 }

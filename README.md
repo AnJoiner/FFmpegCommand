@@ -114,7 +114,7 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 |videoSpeed2|           倍速播放           |denoiseVideo|          视频降噪           |
 |audioFadeIn|           音频淡入           |audioFadeOut|          音频淡出           |
 |videoBright|           修改视频亮度        |videoContrast|         修改视频对比度      |
-|picInPicVideo|         画中画             | |
+|picInPicVideo|         画中画             |videoScale|            视频固定缩放        |
 
 ## 常见问题
 

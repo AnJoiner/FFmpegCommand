@@ -11,5 +11,8 @@ public abstract class CommonCallBack implements ICallBack {
         t.printStackTrace();
     }
 
+    @Override
+    public void onStart() {
 
+    }
 }
