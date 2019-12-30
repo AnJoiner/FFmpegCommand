@@ -775,4 +775,19 @@ public class FFmpegUtils {
         command = String.format(command, srcFile, targetFile);
         return command.split(" ");
     }
+
+
+    /**
+     * 将音频进行VBR MP3编码
+     * @param srcFile 音频源文件
+     * @param targetFile 音频输出文件（mp3）
+     * @return 将音频进行VBR MP3编码命令
+     */
+    public static String[] audio2Mp3lame(String srcFile,String targetFile){
+        String command = "ffmpeg -y -i %s -codec:a libmp3lame -qscale:a 2 %s";
+        command = String.format(command, srcFile, targetFile);
+        return command.split(" ");
+    }
+
+
 }
