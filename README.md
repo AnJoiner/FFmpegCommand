@@ -137,6 +137,9 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 4. 问: Demo中生成的文件在哪里?        
    答: 在`/storage/emulated/0/Android/data/com.coder.ffmpegtest/cache/`目录下
 
+## 交流
+
+![QQ交流群](/images/ffmpeg-qq.jpg)
 
 ## License
 ```
