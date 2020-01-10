@@ -67,6 +67,7 @@ public class FFmpegUtils {
      */
     public static String[] concatAudio(String srcFile, String appendFile, String targetFile) {
         //ffmpeg -y -i "concat:123.mp3|124.mp3" -acodec copy output.mp3
+        //ffmpeg -i 1.mp3 -i 2.mp3 -filter_complex '[0:0] [1:0] concat=n=2:v=0:a=1 [a]' -map [a] new.mp3
         String command = "ffmpeg -y -i concat:%s|%s -acodec copy %s";
         command = String.format(command, srcFile, appendFile, targetFile);
         return command.split(" ");//以空格分割为字符串数组
