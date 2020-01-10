@@ -118,58 +118,58 @@ public class FFmpegCommandActivity extends AppCompatActivity {
                         concatVideo();
                         break;
                     case 6:
-                        reduceAudio();
-                        break;
-                    case 7:
                         extractAudio();
                         break;
-                    case 8:
+                    case 7:
                         extractVideo();
                         break;
-                    case 9:
+                    case 8:
                         mixAudioVideo();
                         break;
-                    case 10:
+                    case 9:
                         screenShot();
                         break;
-                    case 11:
+                    case 10:
                         video2Image();
                         break;
-                    case 12:
+                    case 11:
                         video2Gif();
                         break;
-                    case 13:
+                    case 12:
                         addWaterMark();
                         break;
-                    case 14:
+                    case 13:
                         image2Video();
                         break;
-                    case 15:
+                    case 14:
                         decodeAudio();
                         break;
-                    case 16:
+                    case 15:
                         encodeAudio();
                         break;
-                    case 17:
+                    case 16:
                         multiVideo();
                         break;
-                    case 18:
+                    case 17:
                         reverseVideo();
                         break;
-                    case 19:
+                    case 18:
                         picInPic();
                         break;
-                    case 20:
+                    case 19:
                         mixAudio();
                         break;
-                    case 21:
+                    case 20:
                         videoDoubleDown();
                         break;
-                    case 22:
+                    case 21:
                         videoSpeed2();
                         break;
-                    case 23:
+                    case 22:
                         denoiseVideo();
+                        break;
+                    case 23:
+                        reduceAudio();
                         break;
                     case 24:
                         video2YUV();
@@ -194,6 +194,9 @@ public class FFmpegCommandActivity extends AppCompatActivity {
                         break;
                     case 31:
                         videoScale();
+                        break;
+                    case 32:
+                        frame2Image();
                         break;
                 }
             }
@@ -428,6 +431,12 @@ public class FFmpegCommandActivity extends AppCompatActivity {
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
         FFmpegCommand.runAsync(FFmpegUtils.videoScale(mVideoPath, targetPath, 360, 640),
                 callback("视频缩放完成", targetPath));
+    }
+
+
+    private void frame2Image(){
+        targetPath = getExternalCacheDir() + File.separator + "target.png";
+        FFmpegCommand.runAsync(FFmpegUtils.frame2Image(mVideoPath,targetPath,"00:00:10.234"),callback("获取一帧图片成功",targetPath));
     }
 
 

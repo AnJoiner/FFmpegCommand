@@ -33,6 +33,7 @@
         <item>视频对比度</item>
         <item>视频旋转</item>
         <item>视频缩放</item>
+        <item>视频获取一帧图片</item>
     </string-array>
 
 </resources>

@@ -750,4 +750,45 @@ public class FFmpegUtils {
         command = String.format(Locale.CHINA,command,srcFile,transpose,targetFile);
         return command.split(" ");
     }
+
+
+    /**
+     * 从视频中获取一帧输出图片
+     * @param srcFile 源文件
+     * @param targetFile  目标文件（png 或 jpg）
+     * @param time 一帧的时间：hh:mm:ss.xxx
+     * @return 从视频中获取一帧输出图片命令行
+     */
+    public static String[] frame2Image(String srcFile, String targetFile, String time){
+        String command = "ffmpeg -y -i %s -ss %s -vframes 1 %s";
+        command = String.format(command, srcFile,time, targetFile);
+        return command.split(" ");
+    }
+
+    /**
+     * 将音频进行fdk_aac编码
+     * @param srcFile 音频源文件
+     * @param targetFile 音频输出文件（m4a或aac）
+     * @return 将音频进行fdk_aac编码命令
+     */
+    public static String[] audio2Fdkaac(String srcFile,String targetFile){
+        String command = "ffmpeg -y -i %s -c:a libfdk_aac %s";
+        command = String.format(command, srcFile, targetFile);
+        return command.split(" ");
+    }
+
+
+    /**
+     * 将音频进行VBR MP3编码
+     * @param srcFile 音频源文件
+     * @param targetFile 音频输出文件（mp3）
+     * @return 将音频进行VBR MP3编码命令
+     */
+    public static String[] audio2Mp3lame(String srcFile,String targetFile){
+        String command = "ffmpeg -y -i %s -codec:a libmp3lame -qscale:a 2 %s";
+        command = String.format(command, srcFile, targetFile);
+        return command.split(" ");
+    }
+
+
 }
