@@ -37,9 +37,9 @@
 * 使用ffmpeg命令进行视频固定宽高缩放
 
 <figure class="third">
-    <img src="https://readdown.com/img/ffmpeg/ffmpeg-command-show1.jpg">
-    <img src="https://readdown.com/img/ffmpeg/ffmpeg-command-show2.jpg">
-    <img src="https://readdown.com/img/ffmpeg/ffmpeg-command-show3.jpg">
+    <img src="images/ffmpeg-command-show1.jpg">
+    <img src="images/ffmpeg-command-show2.jpg">
+    <img src="images/ffmpeg-command-show3.jpg">
 </figure>
 
 ## 引入
