@@ -1,5 +1,5 @@
 
-![FFmpegCommand](https://readdown.com/img/top/ffmpeg-command.jpg)
+![FFmpegCommand](images/ffmpeg-command.jpg)
 
 
 ## 前景提要
