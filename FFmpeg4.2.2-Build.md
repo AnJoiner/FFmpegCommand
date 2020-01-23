@@ -1,16 +1,18 @@
 
 # Build FFmpeg By ndk-build
 
+
+
 1. Edit the `configure` in ffmpeg-4.2.2
 
-replace
+   replace
 ```
 SLIBNAME_WITH_MAJOR='$(SLIBNAME).$(LIBMAJOR)'
 LIB_INSTALL_EXTRA_CMD='$$(RANLIB) "$(LIBDIR)/$(LIBNAME)"'
 SLIB_INSTALL_NAME='$(SLIBNAME_WITH_VERSION)'
 SLIB_INSTALL_LINKS='$(SLIBNAME_WITH_MAJOR) $(SLIBNAME)'
 ```
-with
+   with
 ```
 SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)-$(LIBMAJOR)$(SLIBSUF)'
 LIB_INSTALL_EXTRA_CMD='$$(RANLIB)"$(LIBDIR)/$(LIBNAME)"'
@@ -381,11 +383,12 @@ APP_STL := c++_static
 
 Edit the `cmdutils.h`
 
-replace 
+   replace 
+
 ```
 snprintf(name, sizeof(name), "0x%"PRIx64, ch_layout);
 ```
-with
+   with
 ```
 snprintf(name, sizeof(name), "0x%" PRIx64, ch_layout);
 ```
