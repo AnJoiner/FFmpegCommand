@@ -98,6 +98,8 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 })
 ```
 
+kotlin使用请参考 [KFFmpegCommandActivity](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCommandActivity.kt)
+
 ## 功能详解
 
 这里会用到对`FFmpeg`的命令使用, 如果不熟悉的话可以参考[FFmpeg入门基础](https://readdown.com/2019/12/20/ffmpeg-basic/), 包含对FFmpeg参数说明, 以及部分基础功能的实现.

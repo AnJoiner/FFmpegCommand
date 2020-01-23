@@ -649,8 +649,8 @@ public class FFmpegUtils {
      * @return YUV 转 H264命令行
      */
     public static String[] yuv2H264(String srcFile, String targetFile){
-        String command = "ffmpeg -y -f rawvideo -pix_fmt yuv420p -s 720x1280 -r 30 -i %s -c:v libx264 -f rawvideo %s";
-        command = String.format(command,srcFile,targetFile);
+//        String command = "ffmpeg -y -f rawvideo -pix_fmt yuv420p -s 720x1280 -r 30 -i %s -c:v libx264 -f rawvideo %s";
+//        command = String.format(command,srcFile,targetFile);
         return yuv2H264(srcFile, targetFile,720,1280);
     }
 
