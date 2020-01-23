@@ -141,7 +141,7 @@ kotlin使用请参考 [KFFmpegCommandActivity](app/src/main/java/com/coder/ffmpe
 
 ## 交流
 
-![QQ交流群](/images/ffmpeg-qq.jpg)
+![QQ交流群](images/ffmpeg-qq.jpg)
 
 ## License
 ```
