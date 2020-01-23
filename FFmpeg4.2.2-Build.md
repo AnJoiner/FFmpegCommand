@@ -1,4 +1,6 @@
 
+# Build FFmpeg By ndk-build
+
 1. Edit the `configure` in ffmpeg-4.2.2
 
 replace
