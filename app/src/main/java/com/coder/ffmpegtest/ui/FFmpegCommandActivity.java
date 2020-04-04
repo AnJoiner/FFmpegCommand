@@ -198,6 +198,15 @@ public class FFmpegCommandActivity extends AppCompatActivity {
                     case 32:
                         frame2Image();
                         break;
+                    case 33:
+                        audio2Fdkaac();
+                        break;
+                    case 34:
+                        audio2Mp3lame();
+                        break;
+                    case 35:
+                        videoHLS();
+                        break;
                 }
             }
         });
@@ -439,6 +448,31 @@ public class FFmpegCommandActivity extends AppCompatActivity {
         FFmpegCommand.runAsync(FFmpegUtils.frame2Image(mVideoPath,targetPath,"00:00:10.234"),callback("获取一帧图片成功",targetPath));
     }
 
+    private void audio2Fdkaac(){
+        targetPath = getExternalCacheDir() + File.separator+"target.aac";
+        String pcm = getExternalCacheDir() + File.separator + "target.pcm";
+        if (!new File(pcm).exists()) {
+            ToastUtils.show("请先执行音频解码PCM");
+            return;
+        }
+        FFmpegCommand.runAsync(FFmpegUtils.audio2Fdkaac(pcm, targetPath), callback("pcm编码aac成功",targetPath));
+    }
+
+    private void audio2Mp3lame(){
+        targetPath = getExternalCacheDir() + File.separator+"target.mp3";
+        String pcm = getExternalCacheDir() + File.separator + "target.pcm";
+        if (!new File(pcm).exists()) {
+            ToastUtils.show("请先执行音频解码PCM");
+            return;
+        }
+        FFmpegCommand.runAsync(FFmpegUtils.audio2Mp3lame(pcm, targetPath), callback("pcm编码mp3成功",targetPath));
+    }
+
+
+    private void videoHLS(){
+        targetPath = getExternalCacheDir() + File.separator+"hls"+File.separator+"target.m3u8";
+        FFmpegCommand.runAsync(FFmpegUtils.videoHLS(mVideoPath,targetPath,10),callback("切片成功",targetPath));
+    }
 
     private CommonCallBack callback(final String msg, final String targetPath) {
         return new CommonCallBack() {

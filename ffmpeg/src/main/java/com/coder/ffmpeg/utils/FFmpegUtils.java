@@ -791,4 +791,18 @@ public class FFmpegUtils {
     }
 
 
+    /**
+     * 将格式视频进行切片，形成m3u8的视频流（m3u8格式一般用于直播或者点播）
+     * @param srcFile 视频路径
+     * @param targetFile 目标路径（以xxx.m3u8为输出）
+     * @param splitTime 切割时间 （单位：秒）
+     * @return 返回以target文件名开头的ts系列文件 如：out0.ts out1.ts ...
+     */
+    public static String[] videoHLS(String srcFile, String targetFile,int splitTime){
+        String command = "ffmpeg -y -i %s -c:v h264 -flags +cgop -g 30 -hls_time %s %s";
+        command = String.format(command, srcFile, splitTime ,targetFile);
+        return command.split(" ");
+    }
+
+
 }

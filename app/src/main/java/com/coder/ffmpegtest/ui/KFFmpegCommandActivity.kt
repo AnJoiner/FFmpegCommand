@@ -121,6 +121,9 @@ class KFFmpegCommandActivity : AppCompatActivity(){
                 30 -> rotate()
                 31 -> videoScale()
                 32 -> frame2Image()
+                33 -> audio2Fdkaac()
+                34 -> audio2Mp3lame()
+                35 -> videoHLS()
             }
         }
     }
@@ -357,6 +360,32 @@ class KFFmpegCommandActivity : AppCompatActivity(){
     private fun frame2Image() {
         targetPath = externalCacheDir.toString() + File.separator + "target.png"
         FFmpegCommand.runAsync(FFmpegUtils.frame2Image(mVideoPath, targetPath, "00:00:10.234"), callback("获取一帧图片成功", targetPath))
+    }
+
+    private fun audio2Fdkaac() {
+        targetPath = externalCacheDir.toString() + File.separator + "target.aac"
+        val pcm = externalCacheDir.toString() + File.separator + "target.pcm"
+        if (!File(pcm).exists()) {
+            ToastUtils.show("请先执行音频解码PCM")
+            return
+        }
+        FFmpegCommand.runAsync(FFmpegUtils.audio2Fdkaac(pcm, targetPath), callback("pcm编码aac成功", targetPath))
+    }
+
+    private fun audio2Mp3lame() {
+        targetPath = externalCacheDir.toString() + File.separator + "target.mp3"
+        val pcm = externalCacheDir.toString() + File.separator + "target.pcm"
+        if (!File(pcm).exists()) {
+            ToastUtils.show("请先执行音频解码PCM")
+            return
+        }
+        FFmpegCommand.runAsync(FFmpegUtils.audio2Mp3lame(pcm, targetPath), callback("pcm编码mp3成功", targetPath))
+    }
+
+
+    private fun videoHLS() {
+        targetPath = externalCacheDir.toString() + File.separator + "hls" + File.separator + "target.m3u8"
+        FFmpegCommand.runAsync(FFmpegUtils.videoHLS(mVideoPath, targetPath, 10), callback("切片成功", targetPath))
     }
 
 
