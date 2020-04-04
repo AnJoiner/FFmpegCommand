@@ -364,30 +364,33 @@ class KFFmpegCommandActivity : AppCompatActivity(){
 
     private fun audio2Fdkaac() {
         targetPath = externalCacheDir.toString() + File.separator + "target.aac"
-        val pcm = externalCacheDir.toString() + File.separator + "target.pcm"
-        if (!File(pcm).exists()) {
-            ToastUtils.show("请先执行音频解码PCM")
-            return
-        }
-        FFmpegCommand.runAsync(FFmpegUtils.audio2Fdkaac(pcm, targetPath), callback("pcm编码aac成功", targetPath))
+        FFmpegCommand.runAsync(FFmpegUtils.audio2Fdkaac(mAudioPath, targetPath), callback("mp3转aac成功", targetPath))
     }
 
     private fun audio2Mp3lame() {
         targetPath = externalCacheDir.toString() + File.separator + "target.mp3"
-        val pcm = externalCacheDir.toString() + File.separator + "target.pcm"
-        if (!File(pcm).exists()) {
-            ToastUtils.show("请先执行音频解码PCM")
+        val aac = externalCacheDir.toString() + File.separator + "target.aac"
+        if (!File(aac).exists()) {
+            ToastUtils.show("请先执行音频转fdk_aac")
             return
         }
-        FFmpegCommand.runAsync(FFmpegUtils.audio2Mp3lame(pcm, targetPath), callback("pcm编码mp3成功", targetPath))
+        FFmpegCommand.runAsync(FFmpegUtils.audio2Mp3lame(aac, targetPath), callback("acc转mp3成功", targetPath))
     }
 
 
     private fun videoHLS() {
-        targetPath = externalCacheDir.toString() + File.separator + "hls" + File.separator + "target.m3u8"
+        val dir = File(externalCacheDir, "hls")
+        if (!dir.exists()) {
+            dir.mkdir()
+        } else {
+            val files = dir.listFiles()
+            for (file in files) {
+                file.delete()
+            }
+        }
+        targetPath = dir.toString() + File.separator + "target.m3u8"
         FFmpegCommand.runAsync(FFmpegUtils.videoHLS(mVideoPath, targetPath, 10), callback("切片成功", targetPath))
     }
-
 
     private fun callback(msg: String, targetPath: String?): CommonCallBack? {
         return object : CommonCallBack() {

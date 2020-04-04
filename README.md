@@ -5,50 +5,35 @@
 ## 前景提要
 在我们的开发中，经常会用到音视频相关内容，一般我们都会选择`FFmpeg`，但是其交叉编译对于我们来说是一件很麻烦的事情．所以这里方便日后使用，集成了关于`FFmpeg`相关库(mp3lame+libx264+fdk-aac),话不多说，请往下看～～
 
-## 功能
+## 主要功能
 [ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)[![License](https://img.shields.io/badge/license-Apache%202-success.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-4.2.1-orange.svg)](https://ffmpeg.org/releases/ffmpeg-4.2.1.tar.bz2)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)
 
-* 使用ffmpeg命令行进行音/视频转码
-* 使用ffmpeg命令行进行音/视频剪切
-* 使用ffmpeg命令行进行音/视频拼接
-* 使用ffmpeg命令行进行抽取音/视频
-* 使用ffmpeg命令行进行音视频合成
-* 使用ffmpeg命令行进行视频截图
-* 使用ffmpeg命令行进行视频转系列图片
-* 使用ffmpeg命令行给视频添加水印
-* 使用ffmpeg命令行进行视频转成Gif动图
-* 使用ffmpeg命令行进行图片合成视频
-* 使用ffmpeg命令行进行音频编码
-* 使用ffmpeg命令行进行多画面拼接视频
-* 使用ffmpeg命令行进行视频反序倒播
-* 使用ffmpeg命令行进行视频降噪
-* 使用ffmpeg命令行进行视频抽帧转成图片
-* 使用ffmpeg命令行进行视频叠加成画中画
-* 使用ffmpeg命令行进行音频编/解码PCM
-* 使用ffmpeg命令行进行倍速播放
-* 使用ffmpeg命令行进行视频解码YUV
-* 使用ffmpeg命令行进行视频编码H264
-* 使用ffmpeg命令行进行音频音量控制
-* 使用ffmpeg命令行进行音频混音
-* 使用ffmpeg命令行进行音频淡入、淡出效果
-* 使用ffmpeg命令行进行视频亮度控制
-* 使用ffmpeg命令行进行视频对比度控制
-* 使用ffmpeg命令行进行视频旋转
-* 使用ffmpeg命令进行视频固定宽高缩放
+* **支持所有FFmpeg命令**
+* **支持视频格式转换 mp4->flv**
+* **支持音频编解码 mp3->pcm pcm->mp3 pcm->aac**
+* **支持视频编解码 mp4->yuv yuv->h264**
+* **支持音视频的剪切、拼接**
+* **支持视频转图片 mp4->png mp4->gif**
+* **支持音频声音大小控制以及混音（比如朗读的声音加上背景音乐）**
+* **支持部分滤镜 音频淡入、淡出效果、视频亮度和对比度以及添加水印**
 
-<figure class="third">
-    <img src="images/ffmpeg-command-show1.jpg">
-    <img src="images/ffmpeg-command-show2.jpg">
-    <img src="images/ffmpeg-command-show3.jpg">
-</figure>
+|---------| ----------------------------------| --------- |
+|<img src="images/ffmpeg-command-show1.jpg" alt="图-1：命令行展示" width="260px" />|<img src="images/ffmpeg-command-show2.jpg" alt="图-2：命令行执行" width="260px"/>|<img src="images/ffmpeg-command-show3.jpg" alt="图-3：命令行输出" width="260px"/>|
+
 
 ## 引入
 
-根据最新版本替换下面的`1.x.x`, 比如: `1.0.8`
+根据最新版本替换下面的`latestVersion`，当前最新版本[ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)
 
 ```groovy
-implementation 'com.coder.command:ffmpeg:1.x.x'
+implementation 'com.coder.command:ffmpeg:${latestVersion})'
 ```
+
+## 【Demo下载】
+
+| 扫码 or [点击下载](https://github.com/AnJoiner/FFmpegCommand/blob/master/app/release/app-release.apk)  |
+| :--------:   |
+| <img src="images/qr-code.png" alt="图-4：扫码下载体验" width="260px" />       |
 
 ## 使用
 1. 一般我们使用[APP_ABI](https://developer.android.com/ndk/guides/application_mk)时只需要`armeabi-v7a`和`arm64-v8a`就行了,所以只需要在app的bulid.gradle下加入如下代码：
@@ -97,8 +82,11 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
      }
 })
 ```
+## 参考
 
-kotlin使用请参考 [KFFmpegCommandActivity](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCommandActivity.kt)
+* java 使用请参考 [FFmpegCommandActivity](app/src/main/java/com/coder/ffmpegtest/ui/FFmpegCommandActivity.java)
+* kotlin使用请参考 [KFFmpegCommandActivity](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCommandActivity.kt)
+
 
 ## 功能详解
 
@@ -112,7 +100,7 @@ kotlin使用请参考 [KFFmpegCommandActivity](app/src/main/java/com/coder/ffmpe
 |extractAudio|          音频抽取           |extractVideo|          视频抽取           |
 |mixAudioVideo|         音视频合成          |screenShot|            截取视频第一帧      |
 |video2Image|           视频转图片          |video2Gif|             视频转gif          |
-|decodeAudio|           音频解码PCM        |decode2YUV|            视频解码YUV        |
+|decodeAudio|           音频解码pcm       |decode2YUV|            视频解码YUV        |
 |image2Video|           图片转视频         |addWaterMark|          添加视频水印        |
 |encodeAudio|           音频编码           |yuv2H264|              视频编码H264       |
 |multiVideo|            多画面拼接         |reverseVideo|          反向播放           |
@@ -121,6 +109,8 @@ kotlin使用请参考 [KFFmpegCommandActivity](app/src/main/java/com/coder/ffmpe
 |audioFadeIn|           音频淡入           |audioFadeOut|          音频淡出           |
 |videoBright|           修改视频亮度        |videoContrast|         修改视频对比度      |
 |picInPicVideo|         画中画             |videoScale|            视频固定缩放        |
+|audio2Fdkaac|          音频转fdk_aac      |audio2Mp3lame|        音频转mp3lame       |
+|videoHLS|            视频切片|
 
 ## 常见问题
 

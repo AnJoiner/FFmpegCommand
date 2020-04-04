@@ -1,6 +1,5 @@
 package com.coder.ffmpegtest.utils;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -25,7 +24,6 @@ public class CustomProgressDialog extends Dialog implements DialogInterface.OnCa
 
         mContext = new WeakReference<>(context);
 
-        @SuppressLint("InflateParams")
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_custom_progress, null);
         TextView tvMessage = (TextView) view.findViewById(R.id.tv_message);
         if (!TextUtils.isEmpty(message)) {
@@ -63,7 +61,7 @@ public class CustomProgressDialog extends Dialog implements DialogInterface.OnCa
             sDialog.dismiss();
         }
 
-        if (context == null || !(context instanceof Activity)) {
+        if (!(context instanceof Activity)) {
             return;
         }
         sDialog = new CustomProgressDialog(context, message);

@@ -34,9 +34,9 @@
         <item>视频旋转</item>
         <item>视频缩放</item>
         <item>视频获取一帧图片</item>
-        <item>PCM转AAC</item>
-        <item>PCM转MP3</item>
-        <item>视频切片-HLS</item>
+        <item>音频转fdk_aac</item>
+        <item>音频转mp3lamp</item>
+        <item>视频切片-hls</item>
     </string-array>
 
 </resources>
