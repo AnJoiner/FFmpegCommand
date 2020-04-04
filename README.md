@@ -32,9 +32,9 @@ implementation 'com.coder.command:ffmpeg:${latestVersion})'
 
 ## 【Demo下载】
 
-| 扫码 or [点击下载](https://raw.githubusercontent.com/AnJoiner/FFmpegCommand/master/app/release/app-release.apk)  |
+| 扫码下载｜[点击下载](https://raw.githubusercontent.com/AnJoiner/FFmpegCommand/master/app/release/app-release.apk)  |
 | :--------:   |
-| <img src="images/qr-code.png" alt="图-4：扫码下载体验" width="260px" />       |
+| <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />       |
 
 ## 使用
 1. 一般我们使用[APP_ABI](https://developer.android.com/ndk/guides/application_mk)时只需要`armeabi-v7a`和`arm64-v8a`就行了,所以只需要在app的bulid.gradle下加入如下代码：
