@@ -32,7 +32,7 @@ implementation 'com.coder.command:ffmpeg:${latestVersion})'
 
 ## 【Demo下载】
 
-| 扫码 or [点击下载](https://github.com/AnJoiner/FFmpegCommand/blob/master/app/release/app-release.apk)  |
+| 扫码 or [点击下载](https://raw.githubusercontent.com/AnJoiner/FFmpegCommand/master/app/release/app-release.apk)  |
 | :--------:   |
 | <img src="images/qr-code.png" alt="图-4：扫码下载体验" width="260px" />       |
 
