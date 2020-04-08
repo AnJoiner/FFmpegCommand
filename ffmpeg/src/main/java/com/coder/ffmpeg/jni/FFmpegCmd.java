@@ -35,9 +35,9 @@ package com.coder.ffmpeg.jni;
         cmd = command(cmd);
         mCmdListener = cmdListener;
         int result = run(cmd.length,cmd);
-//        if (mCmdListener!=null){
-//            mCmdListener = null;
-//        }
+        if (mCmdListener!=null){
+            mCmdListener = null;
+        }
         return result;
     }
 
