@@ -15,4 +15,9 @@ public abstract class CommonCallBack implements ICallBack {
     public void onStart() {
 
     }
+
+    @Override
+    public void onProgress(int progress) {
+
+    }
 }

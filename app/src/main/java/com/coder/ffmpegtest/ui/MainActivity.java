@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -247,13 +248,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void reduceAudio() {
         targetPath = getExternalCacheDir() + File.separator + "target.mp3";
-        FFmpegCommand.runAsync(FFmpegUtils.changeVolume(mAudioBgPath, 0.5f, targetPath),
-                new CommonCallBack() {
-                    @Override
-                    public void onComplete() {
-                        ToastUtils.show("音频降音完成");
-                    }
-                });
+        FFmpegCommand.runAsync(FFmpegUtils.changeVolume(mAudioBgPath, 0.5f, targetPath),callback("音频降音完成",targetPath));
+//                new CommonCallBack() {
+//                    @Override
+//                    public void onComplete() {
+//                        ToastUtils.show("音频降音完成");
+//                    }
+//                });
     }
 
     private void extractAudio() {
@@ -447,6 +448,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ToastUtils.show(msg);
                 tvContent.setText(targetPath);
                 CustomProgressDialog.stopLoading();
+            }
+
+            @Override
+            public void onProgress(int progress) {
+                Log.d("CmdProgress",progress+"");
             }
         };
     }

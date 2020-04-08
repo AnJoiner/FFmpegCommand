@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -402,6 +403,10 @@ class KFFmpegCommandActivity : AppCompatActivity(){
                 ToastUtils.show(msg)
                 tvContent!!.text = targetPath
                 CustomProgressDialog.stopLoading()
+            }
+
+            override fun onProgress(progress: Int) {
+                Log.d("CmdProgress", progress.toString() + "")
             }
         }
     }

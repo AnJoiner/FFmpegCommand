@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.coder.ffmpeg.call.CommonCallBack;
@@ -490,6 +491,11 @@ public class FFmpegCommandActivity extends AppCompatActivity {
                 ToastUtils.show(msg);
                 tvContent.setText(targetPath);
                 CustomProgressDialog.stopLoading();
+            }
+
+            @Override
+            public void onProgress(int progress) {
+                Log.d("CmdProgress",progress+"");
             }
         };
     }
