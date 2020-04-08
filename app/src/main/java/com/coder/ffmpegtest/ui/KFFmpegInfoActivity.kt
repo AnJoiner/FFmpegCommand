@@ -1,5 +1,7 @@
 package com.coder.ffmpegtest.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +21,7 @@ import java.util.*
  * @author: AnJoiner
  * @datetime: 20-4-8
  */
-class FFmpegInfoActivity : AppCompatActivity() {
+class KFFmpegInfoActivity : AppCompatActivity() {
 
     private var mAudioPath: String? = null
     private var mVideoPath: String? = null
@@ -123,5 +125,12 @@ class FFmpegInfoActivity : AppCompatActivity() {
         val bitRate = FFmpegCommand.getInfoSync(mVideoPath, Attribute.AUDIO_BIT_RATE)
         val result = String.format("bitRate = %s", bitRate)
         tvContent?.text = result
+    }
+
+    companion object{
+        fun start(context: Context){
+            val intent = Intent(context,KFFmpegInfoActivity.javaClass)
+            context.startActivity(intent)
+        }
     }
 }
