@@ -34,5 +34,6 @@
     <string name="str_video_contrast">视频对比度</string>
     <string name="str_video_rotation">视频旋转</string>
     <string name="str_output_dir">输出目录:</string>
+    <string name="str_output_result">输出:</string>
     <string name="src_video_scale">视频缩放</string>
 </resources>

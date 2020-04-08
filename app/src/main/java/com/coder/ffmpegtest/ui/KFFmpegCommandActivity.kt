@@ -11,12 +11,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.coder.ffmpeg.annotation.Direction
+import com.coder.ffmpeg.annotation.ImageFormat
+import com.coder.ffmpeg.annotation.Transpose
 import com.coder.ffmpeg.call.CommonCallBack
 import com.coder.ffmpeg.jni.FFmpegCommand
-import com.coder.ffmpeg.utils.Direction
 import com.coder.ffmpeg.utils.FFmpegUtils
-import com.coder.ffmpeg.utils.ImageFormat
-import com.coder.ffmpeg.utils.Transpose
 import com.coder.ffmpegtest.R
 import com.coder.ffmpegtest.model.CommandBean
 import com.coder.ffmpegtest.ui.adapter.FFmpegCommandAdapter

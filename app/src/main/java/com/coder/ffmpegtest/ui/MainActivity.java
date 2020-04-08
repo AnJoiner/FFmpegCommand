@@ -8,12 +8,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.coder.ffmpeg.annotation.Attribute;
+import com.coder.ffmpeg.annotation.Direction;
+import com.coder.ffmpeg.annotation.ImageFormat;
+import com.coder.ffmpeg.annotation.Transpose;
 import com.coder.ffmpeg.call.CommonCallBack;
 import com.coder.ffmpeg.jni.FFmpegCommand;
-import com.coder.ffmpeg.utils.Direction;
 import com.coder.ffmpeg.utils.FFmpegUtils;
-import com.coder.ffmpeg.utils.ImageFormat;
-import com.coder.ffmpeg.utils.Transpose;
 import com.coder.ffmpegtest.R;
 import com.coder.ffmpegtest.utils.CustomProgressDialog;
 import com.coder.ffmpegtest.utils.FileUtils;
@@ -430,6 +431,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void videoScale() {
+       long duration = FFmpegCommand.getInfoSync(mVideoPath, Attribute.DURATION);
         targetPath = getExternalCacheDir() + File.separator + "target.mp4";
         FFmpegCommand.runAsync(FFmpegUtils.videoScale(mVideoPath, targetPath, 360, 640),
                 callback("视频缩放完成", targetPath));

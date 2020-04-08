@@ -3,6 +3,10 @@ package com.coder.ffmpeg.utils;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+import com.coder.ffmpeg.annotation.Direction;
+import com.coder.ffmpeg.annotation.ImageFormat;
+import com.coder.ffmpeg.annotation.Transpose;
+
 import java.util.Locale;
 
 /**

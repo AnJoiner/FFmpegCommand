@@ -1,5 +1,7 @@
 package com.coder.ffmpeg.jni;
 
+import com.coder.ffmpeg.annotation.Attribute;
+
 /**
  * @author: AnJoiner
  * @datetime: 19-12-17
@@ -40,6 +42,12 @@ package com.coder.ffmpeg.jni;
         }
         return result;
     }
+
+    static long getInfo(String videoPath,@Attribute int type){
+        return info(videoPath, type);
+    }
+
+    private static native long info(String videoPath,int type);
 
     static String[] command(String[] cmd){
         String[] cmds = new String[cmd.length+1];

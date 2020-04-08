@@ -2,6 +2,7 @@ package com.coder.ffmpeg.jni;
 
 import android.util.Log;
 
+import com.coder.ffmpeg.annotation.Attribute;
 import com.coder.ffmpeg.call.ICallBack;
 
 import org.reactivestreams.Subscriber;
@@ -20,9 +21,18 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class FFmpegCommand {
 
+    /**
+     * 同步运行 获取媒体信息
+     * @param path 媒体地址
+     * @param type 属性类型 {@link com.coder.ffmpeg.annotation.Attribute}
+     * @return 媒体信息
+     */
+    public static long getInfoSync(String path,@Attribute int type){
+        return FFmpegCmd.getInfo(path, type);
+    }
 
     /**
-     * 同步
+     * 同步运行 ffmpeg命令
      * @param cmd　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
      */
     public static void runSync(final String[] cmd){
@@ -30,7 +40,7 @@ public class FFmpegCommand {
     }
 
     /**
-     * 同步
+     * 同步运行 ffmpeg命令
      * @param cmd　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
      * @param listener {@link com.coder.ffmpeg.jni.FFmpegCmd #OnFFmpegCmdListener}
      */
@@ -39,7 +49,7 @@ public class FFmpegCommand {
     }
 
     /**
-     * 异步
+     * 异步运行 ffmpeg命令
      * @param cmd　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
      * @param callBack　{@link com.coder.ffmpeg.call.ICallBack}
      */
