@@ -21,6 +21,15 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class FFmpegCommand {
 
+
+    /**
+     * 是否开启debug模式
+     * @param debug true:开启 false :不开启
+     */
+    public static void setDebug(boolean debug) {
+        FFmpegCmd.DEBUG = debug;
+    }
+
     /**
      * 同步运行 获取媒体信息
      * @param path 媒体地址
@@ -42,9 +51,9 @@ public class FFmpegCommand {
     /**
      * 同步运行 ffmpeg命令
      * @param cmd　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
-     * @param listener {@link com.coder.ffmpeg.jni.FFmpegCmd #OnFFmpegCmdListener}
+     * @param listener {@link com.coder.ffmpeg.jni.FFmpegCmd #OnFFmpegProgressListener}
      */
-    public static void runSync(final String[] cmd,FFmpegCmd.OnFFmpegCmdListener listener){
+    public static void runSync(final String[] cmd, FFmpegCmd.OnFFmpegProgressListener listener){
         FFmpegCmd.runCmd(cmd,listener);
     }
 
@@ -57,7 +66,7 @@ public class FFmpegCommand {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
             @Override
             public void subscribe(final FlowableEmitter<Integer> emitter) throws Exception {
-                FFmpegCmd.runCmd(cmd, new FFmpegCmd.OnFFmpegCmdListener() {
+                FFmpegCmd.runCmd(cmd, new FFmpegCmd.OnFFmpegProgressListener() {
                     @Override
                     public void onProgress(int progress) {
                         if (callBack!=null){
