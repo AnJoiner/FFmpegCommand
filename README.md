@@ -33,19 +33,26 @@ implementation 'com.coder.command:ffmpeg:${latestVersion}'
 
 ## 使用
 
-下面只展示部分使用，其他可以参考[【WIKI】](https://github.com/AnJoiner/FFmpegCommand/wiki)
+下面只展示部分使用，其他可以参考**[【WIKI】](https://github.com/AnJoiner/FFmpegCommand/wiki)**
 
 ### FFmpegCommand方法
-```java
-FFmpegCommand->runSync(final String[] cmd)  // 同步执行ffmpeg命令，外部需添加延时线程      
-FFmpegCommand->runSync(final String[] cmd, FFmpegCmd.OnFFmpegProgressListener listener)//同步执行ffmpeg命令，并返回进度   
-FFmpegCommand->runAsync(final String[] cmd, final ICallBack callBack)//异步执行，外部无需添加延时线程     
-FFmpegCommand->getInfoSync(String path,@Attribute int type)//获取媒体信息，type值必须为`@Attribute`中注解参数   
+
+```
+// 同步执行ffmpeg命令，外部需添加延时线程
+FFmpegCommand->runSync(final String[] cmd)
+//同步执行ffmpeg命令，并返回进度
+FFmpegCommand->runSync(final String[] cmd, FFmpegCmd.OnFFmpegProgressListener listener)
+//异步执行，外部无需添加延时线程
+FFmpegCommand->runAsync(final String[] cmd, final ICallBack callBack)
+//获取媒体信息，type值必须为`@Attribute`中注解参数
+FFmpegCommand->getInfoSync(String path,@Attribute int type)
 ```
 
 ### 使用runAsync
+
 直接调用`FFmpegCommand.runAsync(String[] cmd, ICallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供，也可以自己添加     
-```java
+
+```
 final long startTime = System.currentTimeMillis();
 String input =Environment.getExternalStorageDirectory().getPath() + File.separator +
                         "DCIM" + File.separator + "test.mp3";
@@ -66,7 +73,7 @@ FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40",
 这里只是演示了音频剪切，很多如上述功能请自行查阅[FFmpegUtils](https://github.com/AnJoiner/FFmpegCommand/blob/master/ffmpeg/src/main/java/com/coder/ffmpeg/utils/FFmpegUtils.java)
 如果其中不满足需求，可添加自己的FFmpeg命令．例如：
 
-```java
+```
 String cmd = "ffmpeg -y -i %s -vn -acodec copy -ss %s -t %s %s";
 String result = String.format(cmd, input, "00:00:30", "00:00:40", output);
 FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
