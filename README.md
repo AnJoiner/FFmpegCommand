@@ -33,7 +33,7 @@ implementation 'com.coder.command:ffmpeg:${latestVersion}'
 
 ## 使用
 
-下面只展示部分使用，其他可以参考**[【WIKI】](https://github.com/AnJoiner/FFmpegCommand/wiki)**
+下面只展示部分使用，其他可以参考 **[【WIKI】](https://github.com/AnJoiner/FFmpegCommand/wiki)**
 
 ### FFmpegCommand方法
 
