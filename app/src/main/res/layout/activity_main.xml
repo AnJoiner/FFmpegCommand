@@ -6,290 +6,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:gravity="center"
     tools:context=".ui.MainActivity">
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:scrollbars="none"
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/btn_transform_audio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_transform_audio" />
 
-                <Button
-                    android:id="@+id/btn_transform_video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_transform_video" />
+        <Button
+            android:id="@+id/btn_command"
+            android:layout_width="100dp"
+            android:text="Command"
+            android:inputType="text"
+            android:background="@drawable/shape_button_border"
+            android:layout_height="100dp"/>
 
-                <Button
-                    android:id="@+id/btn_cut_audio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_cut_audio" />
+        <Button
+            android:id="@+id/btn_info"
+            android:layout_width="100dp"
+            android:layout_marginLeft="20dp"
+            android:text="媒体信息"
+            android:background="@drawable/shape_button_border"
+            android:layout_height="100dp"/>
 
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/btn_cut_video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_cut_video" />
-
-                <Button
-                    android:id="@+id/btn_concat_audio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_concat_audio" />
-
-                <Button
-                    android:id="@+id/btn_concat_video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_concat_video" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/btn_extract_audio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_extract_audio" />
-
-                <Button
-                    android:id="@+id/btn_extract_video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_extract_video" />
-
-
-                <Button
-                    android:id="@+id/btn_mix_audio_video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_mix_audio_video" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/btn_shot_video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_shot_video" />
-
-                <Button
-                    android:id="@+id/btn_video2jpeg"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_video2jpeg"
-                    android:layout_height="wrap_content"/>
-                <Button
-                    android:id="@+id/btn_video2gif"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_video2gif"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/btn_add_water"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_add_water" />
-
-
-                <Button
-                    android:id="@+id/btn_image2Video"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_image2Video"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btn_extract_pcm"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_extract_pcm"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/btn_encode_audio"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_encode_audio"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btn_multi_video"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_multi_video"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btn_reverse_video"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_reverse_video"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/btn_pic_pic"
-                    android:text="@string/str_pic_in_pic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btn_mix_audio"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_mix_audio"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btn_video_double_down"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_video_double_down"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/btn_video_speed2"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_video_speed2"
-                    android:layout_height="wrap_content"/>
-                <Button
-                    android:id="@+id/btn_denoise_video"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_denoise_video"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btn_reduce_audio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_reduce_audio" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/btn_extract_yuv"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_extract_yuv"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btn_yuv_h264"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_yuv_h264"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/btn_audio_fade_in"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_audio_fade_in"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btn_audio_fade_out"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_audio_fade_out"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btn_video_bright"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_video_bright"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/btn_video_contrast"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_video_contrast"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btn_video_rotation"
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_video_rotation"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btn_video_scale"
-                    android:layout_width="wrap_content"
-                    android:text="@string/src_video_scale"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="20dp"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:text="@string/str_output_dir"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/tv_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
-
+    </LinearLayout>
 
 
 

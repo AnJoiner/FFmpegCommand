@@ -1,7 +1,5 @@
 package com.coder.ffmpeg.jni;
 
-import android.util.Log;
-
 import com.coder.ffmpeg.annotation.Attribute;
 import com.coder.ffmpeg.call.ICallBack;
 
@@ -72,7 +70,6 @@ public class FFmpegCommand {
                         if (callBack!=null){
                             callBack.onProgress(progress);
                         }
-                        Log.d("CmdProgress",progress+"");
                     }
                 });
                 emitter.onComplete();

@@ -129,7 +129,7 @@ class KFFmpegInfoActivity : AppCompatActivity() {
 
     companion object{
         fun start(context: Context){
-            val intent = Intent(context,KFFmpegInfoActivity.javaClass)
+            val intent = Intent(context,KFFmpegInfoActivity::class.java)
             context.startActivity(intent)
         }
     }

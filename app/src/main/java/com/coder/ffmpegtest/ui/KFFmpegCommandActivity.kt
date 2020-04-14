@@ -1,6 +1,8 @@
 package com.coder.ffmpegtest.ui
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.TextUtils
@@ -408,6 +410,12 @@ class KFFmpegCommandActivity : AppCompatActivity(){
             override fun onProgress(progress: Int) {
                 Log.d("CmdProgress", progress.toString() + "")
             }
+        }
+    }
+    companion object{
+        fun start(context: Context){
+            val intent = Intent(context,KFFmpegCommandActivity::class.java)
+            context.startActivity(intent)
         }
     }
 }
