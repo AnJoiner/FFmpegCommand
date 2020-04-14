@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="infos">
+        <item>媒体时长</item>
+        <item>视频宽</item>
+        <item>视频高</item>
+        <item>视频比特率</item>
+        <item>音频声道数</item>
+        <item>音频采样率</item>
+        <item>音频比特率</item>
+    </string-array>
     <string-array name="commands">
         <item>音频转码</item>
         <item>视频转码</item>

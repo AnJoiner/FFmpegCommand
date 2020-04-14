@@ -1,5 +1,6 @@
 package com.coder.ffmpeg.jni;
 
+import com.coder.ffmpeg.annotation.Attribute;
 import com.coder.ffmpeg.call.ICallBack;
 
 import org.reactivestreams.Subscriber;
@@ -19,23 +20,59 @@ import io.reactivex.schedulers.Schedulers;
 public class FFmpegCommand {
 
     /**
-     * 同步
-     * @param cmd　ffmpeg 命令
+     * 是否开启debug模式
+     * @param debug true:开启 false :不开启
+     */
+    public static void setDebug(boolean debug) {
+        FFmpegCmd.DEBUG = debug;
+    }
+
+    /**
+     * 同步执行 获取媒体信息
+     * @param path 媒体地址
+     * @param type 属性类型 {@link com.coder.ffmpeg.annotation.Attribute}
+     * @return 媒体信息
+     */
+    public static long getInfoSync(String path,@Attribute int type){
+        return FFmpegCmd.getInfo(path, type);
+    }
+
+    /**
+     * 同步执行 ffmpeg命令
+     * @param cmd　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
      */
     public static void runSync(final String[] cmd){
         FFmpegCmd.runCmd(cmd);
     }
 
     /**
-     * 异步
-     * @param cmd　ffmpeg 命令
-     * @param callBack　异步回调
+     * 同步执行 ffmpeg命令
+     * @param cmd　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
+     * @param listener {@link com.coder.ffmpeg.jni.FFmpegCommand #OnFFmpegProgressListener}
+     */
+    public static void runSync(final String[] cmd, OnFFmpegProgressListener listener){
+        if (listener!=null){
+            FFmpegCmd.runCmd(cmd,listener);
+        }
+    }
+
+    /**
+     * 异步执行 ffmpeg命令
+     * @param cmd　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
+     * @param callBack　{@link com.coder.ffmpeg.call.ICallBack}
      */
     public static void runAsync(final String[] cmd, final ICallBack callBack) {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
             @Override
             public void subscribe(final FlowableEmitter<Integer> emitter) throws Exception {
-                FFmpegCmd.runCmd(cmd);
+                FFmpegCmd.runCmd(cmd, new OnFFmpegProgressListener() {
+                    @Override
+                    public void onProgress(int progress) {
+                        if (callBack!=null){
+                            callBack.onProgress(progress);
+                        }
+                    }
+                });
                 emitter.onComplete();
             }
         }, BackpressureStrategy.BUFFER)
@@ -67,6 +104,11 @@ public class FFmpegCommand {
                         }
                     }
                 });
+    }
+
+
+    public interface OnFFmpegProgressListener {
+        void onProgress(int progress);
     }
 
 }

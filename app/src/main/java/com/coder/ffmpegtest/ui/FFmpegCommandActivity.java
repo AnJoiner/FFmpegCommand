@@ -1,17 +1,20 @@
 package com.coder.ffmpegtest.ui;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.coder.ffmpeg.call.CommonCallBack;
 import com.coder.ffmpeg.jni.FFmpegCommand;
-import com.coder.ffmpeg.utils.Direction;
+import com.coder.ffmpeg.annotation.Direction;
 import com.coder.ffmpeg.utils.FFmpegUtils;
-import com.coder.ffmpeg.utils.ImageFormat;
-import com.coder.ffmpeg.utils.Transpose;
+import com.coder.ffmpeg.annotation.ImageFormat;
+import com.coder.ffmpeg.annotation.Transpose;
 import com.coder.ffmpegtest.R;
 import com.coder.ffmpegtest.model.CommandBean;
 import com.coder.ffmpegtest.ui.adapter.FFmpegCommandAdapter;
@@ -47,6 +50,11 @@ public class FFmpegCommandActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private FFmpegCommandAdapter mAdapter;
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, FFmpegCommandActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -475,7 +483,18 @@ public class FFmpegCommandActivity extends AppCompatActivity {
             }
         }
         targetPath = dir+File.separator+"target.m3u8";
-        FFmpegCommand.runAsync(FFmpegUtils.videoHLS(mVideoPath,targetPath,10),callback("切片成功",targetPath));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FFmpegCommand.runSync(FFmpegUtils.videoHLS(mVideoPath, targetPath, 10),new FFmpegCommand.OnFFmpegProgressListener() {
+                    @Override
+                    public void onProgress(int progress) {
+                        Log.d("CmdProgress", progress + "");
+                    }
+                });
+            }
+        }).start();
+//        FFmpegCommand.runAsync(FFmpegUtils.videoHLS(mVideoPath,targetPath,10),callback("切片成功",targetPath));
     }
 
     private CommonCallBack callback(final String msg, final String targetPath) {
@@ -490,6 +509,11 @@ public class FFmpegCommandActivity extends AppCompatActivity {
                 ToastUtils.show(msg);
                 tvContent.setText(targetPath);
                 CustomProgressDialog.stopLoading();
+            }
+
+            @Override
+            public void onProgress(int progress) {
+                Log.d("CmdProgress",progress+"");
             }
         };
     }

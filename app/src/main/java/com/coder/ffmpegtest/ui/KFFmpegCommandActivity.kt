@@ -1,21 +1,24 @@
 package com.coder.ffmpegtest.ui
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.coder.ffmpeg.annotation.Direction
+import com.coder.ffmpeg.annotation.ImageFormat
+import com.coder.ffmpeg.annotation.Transpose
 import com.coder.ffmpeg.call.CommonCallBack
 import com.coder.ffmpeg.jni.FFmpegCommand
-import com.coder.ffmpeg.utils.Direction
 import com.coder.ffmpeg.utils.FFmpegUtils
-import com.coder.ffmpeg.utils.ImageFormat
-import com.coder.ffmpeg.utils.Transpose
 import com.coder.ffmpegtest.R
 import com.coder.ffmpegtest.model.CommandBean
 import com.coder.ffmpegtest.ui.adapter.FFmpegCommandAdapter
@@ -388,6 +391,7 @@ class KFFmpegCommandActivity : AppCompatActivity(){
                 file.delete()
             }
         }
+
         targetPath = dir.toString() + File.separator + "target.m3u8"
         FFmpegCommand.runAsync(FFmpegUtils.videoHLS(mVideoPath, targetPath, 10), callback("切片成功", targetPath))
     }
@@ -403,6 +407,16 @@ class KFFmpegCommandActivity : AppCompatActivity(){
                 tvContent!!.text = targetPath
                 CustomProgressDialog.stopLoading()
             }
+
+            override fun onProgress(progress: Int) {
+                Log.d("CmdProgress", progress.toString() + "")
+            }
+        }
+    }
+    companion object{
+        fun start(context: Context){
+            val intent = Intent(context,KFFmpegCommandActivity::class.java)
+            context.startActivity(intent)
         }
     }
 }
