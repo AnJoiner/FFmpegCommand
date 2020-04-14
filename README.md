@@ -53,11 +53,8 @@ FFmpegCommand->getInfoSync(String path,@Attribute int type)
 直接调用`FFmpegCommand.runAsync(String[] cmd, ICallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供，也可以自己添加     
 
 ```java
+
 final long startTime = System.currentTimeMillis();
-String input =Environment.getExternalStorageDirectory().getPath() + File.separator +
-                        "DCIM" + File.separator + "test.mp3";
-String output =Environment.getExternalStorageDirectory().getPath() + File.separator +
-                        "DCIM" + File.separator + "output.mp3";
 
 FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40",
      output), new CommonCallBack() {
@@ -76,6 +73,7 @@ FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40",
 ```java
 String cmd = "ffmpeg -y -i %s -vn -acodec copy -ss %s -t %s %s";
 String result = String.format(cmd, input, "00:00:30", "00:00:40", output);
+
 FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
      @Override
      public void onComplete() {
