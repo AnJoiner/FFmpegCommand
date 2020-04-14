@@ -391,6 +391,7 @@ class KFFmpegCommandActivity : AppCompatActivity(){
                 file.delete()
             }
         }
+
         targetPath = dir.toString() + File.separator + "target.m3u8"
         FFmpegCommand.runAsync(FFmpegUtils.videoHLS(mVideoPath, targetPath, 10), callback("切片成功", targetPath))
     }

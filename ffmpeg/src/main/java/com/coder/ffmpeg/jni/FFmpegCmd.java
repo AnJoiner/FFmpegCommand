@@ -8,7 +8,7 @@ import com.coder.ffmpeg.annotation.Attribute;
  */
  class FFmpegCmd {
 
-    private static OnFFmpegProgressListener mCmdListener;
+    private static FFmpegCommand.OnFFmpegProgressListener mCmdListener;
     private static int mProgress = 0;
 
     static boolean DEBUG = true;
@@ -33,7 +33,7 @@ import com.coder.ffmpeg.annotation.Attribute;
         return run(cmd.length,cmd);
     }
 
-    static int runCmd(String[] cmd, OnFFmpegProgressListener cmdListener){
+    static int runCmd(String[] cmd, FFmpegCommand.OnFFmpegProgressListener cmdListener){
         cmd = command(cmd);
         mCmdListener = cmdListener;
         int result = run(cmd.length,cmd);
@@ -71,7 +71,4 @@ import com.coder.ffmpeg.annotation.Attribute;
         }
     }
 
-    public interface OnFFmpegProgressListener {
-        void onProgress(int progress);
-    }
 }

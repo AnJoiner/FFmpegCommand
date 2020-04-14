@@ -19,7 +19,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class FFmpegCommand {
 
-
     /**
      * 是否开启debug模式
      * @param debug true:开启 false :不开启
@@ -29,7 +28,7 @@ public class FFmpegCommand {
     }
 
     /**
-     * 同步运行 获取媒体信息
+     * 同步执行 获取媒体信息
      * @param path 媒体地址
      * @param type 属性类型 {@link com.coder.ffmpeg.annotation.Attribute}
      * @return 媒体信息
@@ -39,7 +38,7 @@ public class FFmpegCommand {
     }
 
     /**
-     * 同步运行 ffmpeg命令
+     * 同步执行 ffmpeg命令
      * @param cmd　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
      */
     public static void runSync(final String[] cmd){
@@ -47,16 +46,18 @@ public class FFmpegCommand {
     }
 
     /**
-     * 同步运行 ffmpeg命令
+     * 同步执行 ffmpeg命令
      * @param cmd　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
-     * @param listener {@link com.coder.ffmpeg.jni.FFmpegCmd #OnFFmpegProgressListener}
+     * @param listener {@link com.coder.ffmpeg.jni.FFmpegCommand #OnFFmpegProgressListener}
      */
-    public static void runSync(final String[] cmd, FFmpegCmd.OnFFmpegProgressListener listener){
-        FFmpegCmd.runCmd(cmd,listener);
+    public static void runSync(final String[] cmd, OnFFmpegProgressListener listener){
+        if (listener!=null){
+            FFmpegCmd.runCmd(cmd,listener);
+        }
     }
 
     /**
-     * 异步运行 ffmpeg命令
+     * 异步执行 ffmpeg命令
      * @param cmd　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
      * @param callBack　{@link com.coder.ffmpeg.call.ICallBack}
      */
@@ -64,7 +65,7 @@ public class FFmpegCommand {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
             @Override
             public void subscribe(final FlowableEmitter<Integer> emitter) throws Exception {
-                FFmpegCmd.runCmd(cmd, new FFmpegCmd.OnFFmpegProgressListener() {
+                FFmpegCmd.runCmd(cmd, new OnFFmpegProgressListener() {
                     @Override
                     public void onProgress(int progress) {
                         if (callBack!=null){
@@ -103,6 +104,11 @@ public class FFmpegCommand {
                         }
                     }
                 });
+    }
+
+
+    public interface OnFFmpegProgressListener {
+        void onProgress(int progress);
     }
 
 }

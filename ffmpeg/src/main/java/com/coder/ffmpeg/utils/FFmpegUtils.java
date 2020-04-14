@@ -540,12 +540,24 @@ public class FFmpegUtils {
      * @param targetFile 输出文件
      * @return 视频放大一倍命令行
      */
+    @Deprecated
     public static String[] videoDouble(String srcFile, String targetFile){
         String command = "ffmpeg -y -i %s -vf scale=iw*2:-1 %s";
         command = String.format(command,srcFile,targetFile);
         return command.split(" ");
     }
 
+    /**
+     * 视频放大一倍
+     * @param srcFile 源文件
+     * @param targetFile 输出文件
+     * @return 视频放大一倍命令行
+     */
+    public static String[] videoDoubleUp(String srcFile, String targetFile){
+        String command = "ffmpeg -y -i %s -vf scale=iw*2:-1 %s";
+        command = String.format(command,srcFile,targetFile);
+        return command.split(" ");
+    }
 
     /**
      * 视频缩放
