@@ -56,12 +56,12 @@ FFmpegCommand->getInfoSync(String path,@Attribute int type)
 
 final long startTime = System.currentTimeMillis();
 
-FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40",
-     output), new CommonCallBack() {
-     @Override
-     public void onComplete() {
+FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40", output),
+    new CommonCallBack() {
+         @Override
+         public void onComplete() {
          Log.d("FFmpegTest", "run: 耗时：" + (System.currentTimeMillis() - startTime));
-     }
+    }
 });
 
 ```
@@ -82,7 +82,7 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 })
 ```
 
-**[【其他方法】](https://github.com/AnJoiner/FFmpegCommand/wiki)**
+**[【其他方法】](https://github.com/AnJoiner/FFmpegCommand/wiki/%E4%BD%BF%E7%94%A8)**
 
 **[【功能详解】](https://github.com/AnJoiner/FFmpegCommand/wiki/%E8%AF%A6%E7%BB%86%E5%8A%9F%E8%83%BD)**
 
