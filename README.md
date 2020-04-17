@@ -103,9 +103,9 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 | :--------:   |:--------:   |:--------:   |
 | <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  | <img src="images/zan.jpg" alt="图-5 赞赏" width="260px" />|
 
-## 捐赠
+## 给个Start
 
-撸码不易，如果觉得对您有所帮助，扫码支持一下吧！
+撸码不易，如果觉得对您有所帮助，给个Start支持一下吧！
 
 
 
