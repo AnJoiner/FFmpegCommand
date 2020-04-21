@@ -25,19 +25,20 @@
 
 ## 引入
 
-根据最新版本替换下面的`latestVersion`，当前最新版本[ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)
+下面两种引入只选择一种即可,并根据最新版本替换下面的`latestVersion`，当前最新版本[ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)
 
 ```groovy
 // 全部编解码-体积较大
 implementation 'com.coder.command:ffmpeg:${latestVersion}'
-// 部分常用编解码-体积较小,比上面减少大约6M
+// 部分常用编解码-体积较小,比上面引入减少大约6M
 implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 ```
 
+**如果没有特别的编解码需求,建议使用`ffmpeg-mini`**
 
 ## 使用
 
-下面只展示部分使用，其他可以参考 **[【WIKI】](https://github.com/AnJoiner/FFmpegCommand/wiki)**
+下面仅展示命令行使用，其他可以参考 **[【WIKI】](https://github.com/AnJoiner/FFmpegCommand/wiki)**
 
 ### FFmpegCommand方法
 
@@ -107,7 +108,7 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 | :--------:   |:--------:   |:--------:   |
 | <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  | <img src="images/zan.jpg" alt="图-5 赞赏" width="260px" />|
 
-## 给个Start
+## Start
 
 撸码不易，如果觉得对您有所帮助，给个Start支持一下吧！
 
