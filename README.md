@@ -28,8 +28,12 @@
 根据最新版本替换下面的`latestVersion`，当前最新版本[ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)
 
 ```groovy
+// 全部编解码-体积较大
 implementation 'com.coder.command:ffmpeg:${latestVersion}'
+// 部分常用编解码-体积较小,比上面减少大约6M
+implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 ```
+
 
 ## 使用
 
