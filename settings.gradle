@@ -1,2 +1,3 @@
 include ':app', ':ffmpeg'
 rootProject.name='FFmpegTest'
+include ':ffmpeg-mini'

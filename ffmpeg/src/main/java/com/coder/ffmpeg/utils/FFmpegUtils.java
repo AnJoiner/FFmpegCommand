@@ -831,7 +831,7 @@ public class FFmpegUtils {
      * @return 返回以target文件名开头的ts系列文件 如：out0.ts out1.ts ...
      */
     public static String[] video2HLS(String srcFile, String targetFile,int splitTime){
-        String command = "ffmpeg -y -i %s -c:v h264 -flags +cgop -g 30 -hls_time %s %s";
+        String command = "ffmpeg -y -i %s -c copy -flags +cgop -g 30 -hls_time %s %s";
         command = String.format(command, srcFile, splitTime ,targetFile);
         return command.split(" ");
     }
