@@ -46,6 +46,7 @@
         <item>音频转fdk_aac</item>
         <item>音频转mp3lamp</item>
         <item>视频切片-hls</item>
+        <item>合成hls-视频</item>
     </string-array>
 
 </resources>

@@ -126,7 +126,8 @@ class KFFmpegCommandActivity : AppCompatActivity(){
                 32 -> frame2Image()
                 33 -> audio2Fdkaac()
                 34 -> audio2Mp3lame()
-                35 -> videoHLS()
+                35 -> video2HLS()
+                36 -> hls2Video()
             }
         }
     }
@@ -381,7 +382,7 @@ class KFFmpegCommandActivity : AppCompatActivity(){
     }
 
 
-    private fun videoHLS() {
+    private fun video2HLS() {
         val dir = File(externalCacheDir, "hls")
         if (!dir.exists()) {
             dir.mkdir()
@@ -393,7 +394,23 @@ class KFFmpegCommandActivity : AppCompatActivity(){
         }
 
         targetPath = dir.toString() + File.separator + "target.m3u8"
-        FFmpegCommand.runAsync(FFmpegUtils.videoHLS(mVideoPath, targetPath, 10), callback("切片成功", targetPath))
+        FFmpegCommand.runAsync(FFmpegUtils.video2HLS(mVideoPath, targetPath, 10), callback("切片成功", targetPath))
+    }
+
+    private fun hls2Video(){
+        val dir = File(externalCacheDir, "hls")
+        if (!dir.exists()) {
+            ToastUtils.show("请先执行video->hls")
+            return
+        }
+        val videoIndexFile = File(dir,"target.m3u8")
+        if(!videoIndexFile.exists()){
+            ToastUtils.show("请先执行video->hls")
+            return
+        }
+        targetPath = dir.toString() + File.separator + "target.mp4"
+        FFmpegCommand.runAsync(FFmpegUtils.hls2Video(videoIndexFile.absolutePath, targetPath), callback("合成切片成功", targetPath))
+
     }
 
     private fun callback(msg: String, targetPath: String?): CommonCallBack? {

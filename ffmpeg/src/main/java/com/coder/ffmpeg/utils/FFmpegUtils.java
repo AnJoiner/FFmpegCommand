@@ -813,12 +813,39 @@ public class FFmpegUtils {
      * @param targetFile 目标路径（以xxx.m3u8为输出）
      * @param splitTime 切割时间 （单位：秒）
      * @return 返回以target文件名开头的ts系列文件 如：out0.ts out1.ts ...
+     *
+     * {@link com.coder.ffmpeg.utils.FFmpegUtils#video2HLS}
      */
+    @Deprecated
     public static String[] videoHLS(String srcFile, String targetFile,int splitTime){
         String command = "ffmpeg -y -i %s -c:v h264 -flags +cgop -g 30 -hls_time %s %s";
         command = String.format(command, srcFile, splitTime ,targetFile);
         return command.split(" ");
     }
 
+    /**
+     * 将格式视频进行切片，形成m3u8的视频流（m3u8格式一般用于直播或者点播）
+     * @param srcFile 视频路径
+     * @param targetFile 目标路径（以xxx.m3u8为输出）
+     * @param splitTime 切割时间 （单位：秒）
+     * @return 返回以target文件名开头的ts系列文件 如：out0.ts out1.ts ...
+     */
+    public static String[] video2HLS(String srcFile, String targetFile,int splitTime){
+        String command = "ffmpeg -y -i %s -c:v h264 -flags +cgop -g 30 -hls_time %s %s";
+        command = String.format(command, srcFile, splitTime ,targetFile);
+        return command.split(" ");
+    }
+
+    /**
+     * 将ts视频流合成视频
+     * @param m3u8Index xx.m3u8视频索引
+     * @param targetFile 目标路径
+     * @return 返回合成视频
+     */
+    public static String[] hls2Video(String m3u8Index, String targetFile){
+        String command = "ffmpeg -y -i %s -c copy %s";
+        command = String.format(command, m3u8Index ,targetFile);
+        return command.split(" ");
+    }
 
 }
