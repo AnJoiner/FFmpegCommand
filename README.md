@@ -99,9 +99,15 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 
 ## 体验交流
 
-| 扫码下载｜[点击下载](https://raw.githubusercontent.com/AnJoiner/FFmpegCommand/master/app/release/app-release.apk)  | 交流|
-| :--------:   |:--------:   |
-| <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  |
+| 扫码下载｜[点击下载](https://raw.githubusercontent.com/AnJoiner/FFmpegCommand/master/app/release/app-release.apk)  | 交流|微信赞赏|
+| :--------:   |:--------:   |:--------:   |
+| <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  | <img src="images/zan.jpg" alt="图-5 赞赏" width="260px" />|
+
+## 给个Start
+
+撸码不易，如果觉得对您有所帮助，给个Start支持一下吧！
+
+
 
 ## License
 ```
