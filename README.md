@@ -20,9 +20,9 @@
 * **支持部分滤镜 音频淡入、淡出效果、视频亮度和对比度以及添加水印**
 * **支持获取媒体文件信息**
 
-|展示|执行FFmpeg命令|获取媒体信息|
-|---------| ----------------------------------| --------- |
-|<img src="images/ffmpeg-command-show1.jpg" alt="图-1：命令行展示" width="260px" />|<img src="images/ffmpeg-command-show2.jpg" alt="图-2：命令行执行" width="260px"/>|<img src="images/ffmpeg-command-show3.jpg" alt="图-3：命令行输出" width="260px"/>|
+|执行FFmpeg|获取媒体信息|
+|---------| ----------------------------------| 
+|<img src="images/1.gif" alt="图-1：命令行展示" width="260px" />|<img src="images/2.gif" alt="图-2：命令行执行" width="260px"/>|
 
 
 ## 引入
@@ -36,7 +36,7 @@ implementation 'com.coder.command:ffmpeg:${latestVersion}'
 implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 ```
 
-**如果没有特别的编解码需求,建议使用`ffmpeg-mini`**
+**如果没有特别的编解码需求,强烈推荐建议使用`ffmpeg-mini`**
 
 ## 使用
 
@@ -44,21 +44,19 @@ implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 
 ### FFmpegCommand方法
 
-```java
-// 是否Dubug模式，可打印日志
-FFmpegCommand->setDebug(boolean debug)
-// 同步执行ffmpeg命令，外部需添加延时线程
-FFmpegCommand->runSync(final String[] cmd)
-// 同步执行ffmpeg命令，并回调 完成，取消，进度
-FFmpegCommand->runSync(final String[] cmd, OnFFmpegCommandListener listener)
-// 异步执行，外部无需添加延时线程，并回调 开始，完成，取消，进度
-FFmpegCommand->runAsync(final String[] cmd, IFFmpegCallBack callBack)
-// 获取媒体信息，type值必须为`@Attribute`中注解参数
-FFmpegCommand->getInfoSync(String path,@Attribute int type)
-```
+|方法 |功能 |
+|----|----|
+|FFmpegCommand->setDebug(boolean debug)|是否Dubug模式，可打印日志，默认true,version>1.1.1|
+|FFmpegCommand->runSync(final String[] cmd)|同步执行ffmpeg命令，外部需添加延时线程|
+|FFmpegCommand->runSync(final String[] cmd, OnFFmpegCommandListener listener)|同步执行ffmpeg命令，并回调 完成，取消，进度，version>1.1.3|
+|FFmpegCommand->runAsync(final String[] cmd, IFFmpegCallBack callBack)|异步执行，外部无需添加延时线程，并回调 开始，完成，取消，进度,version>1.1.3|
+|FFmpegCommand->getInfoSync(String path,@Attribute int type)|获取媒体信息，type值必须为`@Attribute`中注解参数,version>1.1.1|
+|FFmpegCommand->FFmpegCommand.exit()| 退出当前ffmpeg执行，version>1.1.3|
+|~~FFmpegCommand->runSync(final String[] cmd, OnFFmpegProgressListener listener)~~|同步执行ffmpeg命令,进度回调，在1.1.3移除|
+|~~FFmpegCommand->runAsync(final String[] cmd, final ICallBack callBack)~~|异步执行ffmpeg命令,进度回调，在1.1.3移除|
 
 ### 使用runAsync
-
+以`runAsync`调用`FFmpeg`为异步方式，不需要单独开启子线程。强烈建议使用此方法进行音视频处理!!!   
 直接调用`FFmpegCommand.runAsync(String[] cmd, IFFmpegCallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供，也可以自己添加
 
 ```java
@@ -112,7 +110,6 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 ```
 
 ### 取消执行
-
 执行下面方法后将会回调 `CommonCallBack->onCancel()` 或 `OnFFmpegCommandListener->onCancel()` 方法
 
 ```java
@@ -130,20 +127,19 @@ FFmpegCommand.exit();
 * Java 使用请参考 [FFmpegCommandActivity](app/src/main/java/com/coder/ffmpegtest/ui/FFmpegCommandActivity.java)
 * Kotlin使用请参考 [KFFmpegCommandActivity](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCommandActivity.kt)
 
-## 自定义解码器
+## 自定义编码器
 
 因为引入了`LAME`，我们其实可以使用它自定义音频编码器，将其编译成so文件提供使用，具体参考[【WIKI-自定义MP3编码器】](https://github.com/AnJoiner/FFmpegCommand/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89MP3%E7%BC%96%E7%A0%81%E5%99%A8)
 
 ## 体验交流
 
-| 扫码下载｜[点击下载](https://raw.githubusercontent.com/AnJoiner/FFmpegCommand/master/app/release/app-release.apk)  | 交流|微信赞赏|
+| 扫码下载｜[点击下载](http://fir.readdown.com/nfyz)  | 交流|微信赞赏|
 | :--------:   |:--------:   |:--------:   |
 | <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  | <img src="images/zan.jpg" alt="图-5 赞赏" width="260px" />|
 
-## 给个Start
+## Start
 
 撸码不易，如果觉得对您有所帮助，给个Start支持一下吧！
-
 
 
 ## License
