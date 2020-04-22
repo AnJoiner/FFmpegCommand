@@ -38,19 +38,21 @@ implementation 'com.coder.command:ffmpeg:${latestVersion}'
 ### FFmpegCommand方法
 
 ```java
+// 是否Dubug模式，可打印日志
+FFmpegCommand->setDebug(boolean debug)
 // 同步执行ffmpeg命令，外部需添加延时线程
 FFmpegCommand->runSync(final String[] cmd)
-//同步执行ffmpeg命令，并返回进度
-FFmpegCommand->runSync(final String[] cmd, FFmpegCmd.OnFFmpegProgressListener listener)
-//异步执行，外部无需添加延时线程
-FFmpegCommand->runAsync(final String[] cmd, final ICallBack callBack)
-//获取媒体信息，type值必须为`@Attribute`中注解参数
+// 同步执行ffmpeg命令，并回调 完成，取消，进度
+FFmpegCommand->runSync(final String[] cmd, OnFFmpegCommandListener listener)
+// 异步执行，外部无需添加延时线程，并回调 开始，完成，取消，进度
+FFmpegCommand->runAsync(final String[] cmd, IFFmpegCallBack callBack)
+// 获取媒体信息，type值必须为`@Attribute`中注解参数
 FFmpegCommand->getInfoSync(String path,@Attribute int type)
 ```
 
 ### 使用runAsync
 
-直接调用`FFmpegCommand.runAsync(String[] cmd, ICallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供，也可以自己添加     
+直接调用`FFmpegCommand.runAsync(String[] cmd, IFFmpegCallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供，也可以自己添加
 
 ```java
 
@@ -61,6 +63,16 @@ FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40", outpu
          @Override
          public void onComplete() {
          Log.d("FFmpegTest", "run: 耗时：" + (System.currentTimeMillis() - startTime));
+
+         @Override
+         public void onCancel() {
+             Log.d("FFmpegTest", "Cancel");
+         }
+
+         @Override
+         public void onProgress(int progress) {
+             Log.d("FFmpegTest",progress+"");
+         }
     }
 });
 
@@ -79,7 +91,25 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
      public void onComplete() {
          Log.d("FFmpegTest", "run: 耗时：" + (System.currentTimeMillis() - startTime));
      }
+
+     @Override
+     public void onCancel() {
+         Log.d("FFmpegTest", "Cancel");
+     }
+
+     @Override
+     public void onProgress(int progress) {
+         Log.d("FFmpegTest",progress+"");
+     }
 })
+```
+
+### 取消执行
+
+执行下面方法后将会回调 `CommonCallBack->onCancel()` 方法
+
+```java
+FFmpegCommand.exit();
 ```
 
 **[【其他方法】](https://github.com/AnJoiner/FFmpegCommand/wiki/%E4%BD%BF%E7%94%A8)**
