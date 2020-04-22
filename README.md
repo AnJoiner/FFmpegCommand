@@ -3,7 +3,9 @@
 
 
 ## 前景提要
-在我们的开发中，经常会用到音视频相关内容，一般我们都会选择`FFmpeg`，但是其交叉编译对于我们来说是一件很麻烦的事情．所以这里方便日后使用，集成了关于`FFmpeg`相关库(mp3lame+libx264+fdk-aac),话不多说，请往下看～～
+在我们的开发中，经常会用到音视频相关内容，一般我们都会选择[FFmpeg](https://www.ffmpeg.org/)，但是其交叉编译对于我们来说是一件很麻烦的事情．所以这里方便日后使用就编写了这个`FFmpegCommand`，`FFmpegCommand`是由`FFmpeg`核心库，并且集成了`lame`、`libx264`和`fdk-aac`主流音视频处理程序构成的Android程序
+
+**注意：当前库只适用于Android**
 
 ## 主要功能
 [ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)[![License](https://img.shields.io/badge/license-Apache%202-success.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-4.2.1-orange.svg)](https://ffmpeg.org/releases/ffmpeg-4.2.1.tar.bz2)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)
@@ -38,7 +40,7 @@ implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 
 ## 使用
 
-下面仅展示命令行使用，其他可以参考 **[【WIKI】](https://github.com/AnJoiner/FFmpegCommand/wiki)**
+下面只展示部分使用，其他可以参考 **[【WIKI】](https://github.com/AnJoiner/FFmpegCommand/wiki)**
 
 ### FFmpegCommand方法
 
@@ -111,7 +113,7 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 
 ### 取消执行
 
-执行下面方法后将会回调 `CommonCallBack->onCancel()` 方法
+执行下面方法后将会回调 `CommonCallBack->onCancel()` 或 `OnFFmpegCommandListener->onCancel()` 方法
 
 ```java
 FFmpegCommand.exit();
@@ -138,7 +140,7 @@ FFmpegCommand.exit();
 | :--------:   |:--------:   |:--------:   |
 | <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  | <img src="images/zan.jpg" alt="图-5 赞赏" width="260px" />|
 
-## Start
+## 给个Start
 
 撸码不易，如果觉得对您有所帮助，给个Start支持一下吧！
 
