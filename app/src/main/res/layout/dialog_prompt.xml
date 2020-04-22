@@ -49,7 +49,7 @@
                 android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
                 android:textSize="15sp"
-                android:text="进度: 30"
+                android:text="进度: 0"
                 android:layout_marginTop="10dp"
                 android:textColor="#333333"
                 android:gravity="center"

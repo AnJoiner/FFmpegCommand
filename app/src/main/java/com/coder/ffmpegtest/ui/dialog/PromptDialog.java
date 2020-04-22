@@ -116,7 +116,7 @@ public class PromptDialog extends BaseDialog {
 
     public void setContent(int progress) {
         if (tvContent!=null){
-            tvContent.setText("进度:"+progress);
+            tvContent.setText(String.format("进度: %s", progress));
         }
        if (mProgressBar!=null){
            mProgressBar.setProgress(progress);

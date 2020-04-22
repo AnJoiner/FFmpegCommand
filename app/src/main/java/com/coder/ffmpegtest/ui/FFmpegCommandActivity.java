@@ -9,15 +9,16 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.coder.ffmpeg.call.CommonCallBack;
-import com.coder.ffmpeg.jni.FFmpegCommand;
 import com.coder.ffmpeg.annotation.Direction;
-import com.coder.ffmpeg.utils.FFmpegUtils;
 import com.coder.ffmpeg.annotation.ImageFormat;
 import com.coder.ffmpeg.annotation.Transpose;
+import com.coder.ffmpeg.call.CommonCallBack;
+import com.coder.ffmpeg.jni.FFmpegCommand;
+import com.coder.ffmpeg.utils.FFmpegUtils;
 import com.coder.ffmpegtest.R;
 import com.coder.ffmpegtest.model.CommandBean;
 import com.coder.ffmpegtest.ui.adapter.FFmpegCommandAdapter;
+import com.coder.ffmpegtest.ui.dialog.PromptDialog;
 import com.coder.ffmpegtest.utils.CustomProgressDialog;
 import com.coder.ffmpegtest.utils.FileUtils;
 import com.coder.ffmpegtest.utils.ToastUtils;
@@ -50,6 +51,8 @@ public class FFmpegCommandActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private FFmpegCommandAdapter mAdapter;
+
+    private PromptDialog mErrorDialog;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, FFmpegCommandActivity.class);
@@ -498,22 +501,43 @@ public class FFmpegCommandActivity extends AppCompatActivity {
     }
 
     private CommonCallBack callback(final String msg, final String targetPath) {
+        tvContent.setText("");
+        if (mErrorDialog == null) {
+            mErrorDialog = PromptDialog.newInstance("进度", msg, "", "停止");
+            mErrorDialog.setHasNegativeButton(false);
+            mErrorDialog.setOnPromptListener(new PromptDialog.OnPromptListener() {
+                @Override
+                public void onPrompt(boolean isPositive) {
+                    mErrorDialog.setContent(0);
+                    FFmpegCommand.exit();
+                }
+            });
+        }
         return new CommonCallBack() {
             @Override
             public void onStart() {
-                CustomProgressDialog.showLoading(FFmpegCommandActivity.this,false);
+                mErrorDialog.show(getSupportFragmentManager(), "Dialog");
             }
 
             @Override
             public void onComplete() {
+                mErrorDialog.setContent(0);
+                mErrorDialog.dismissAllowingStateLoss();
+                Log.d("CmdProgress", "onComplete");
                 ToastUtils.show(msg);
                 tvContent.setText(targetPath);
-                CustomProgressDialog.stopLoading();
+            }
+
+            @Override
+            public void onCancel() {
+                ToastUtils.show("用户取消");
+                Log.d("CmdProgress", "Cancel");
             }
 
             @Override
             public void onProgress(int progress) {
                 Log.d("CmdProgress",progress+"");
+                mErrorDialog.setContent(progress);
             }
         };
     }

@@ -420,9 +420,13 @@ class KFFmpegCommandActivity : AppCompatActivity() {
         if (mErrorDialog == null) {
             mErrorDialog = PromptDialog.newInstance("进度", msg, "", "停止")
             mErrorDialog?.setHasNegativeButton(false)
-            mErrorDialog?.setOnPromptListener { isPositive -> FFmpegCommand.exit() }
+            mErrorDialog?.setOnPromptListener { isPositive ->
+                run {
+                    mErrorDialog?.setContent(0)
+                    FFmpegCommand.exit()
+                }
+            }
         }
-        mErrorDialog?.setContent(0)
 
         return object : CommonCallBack() {
             override fun onStart() {
@@ -430,7 +434,8 @@ class KFFmpegCommandActivity : AppCompatActivity() {
             }
 
             override fun onComplete() {
-                mErrorDialog?.dismiss()
+                mErrorDialog?.setContent(0)
+                mErrorDialog?.dismissAllowingStateLoss()
                 Log.d("CmdProgress", "onComplete")
                 ToastUtils.show(msg)
                 tvContent!!.text = targetPath
