@@ -22,6 +22,7 @@ import com.coder.ffmpeg.utils.FFmpegUtils
 import com.coder.ffmpegtest.R
 import com.coder.ffmpegtest.model.CommandBean
 import com.coder.ffmpegtest.ui.adapter.FFmpegCommandAdapter
+import com.coder.ffmpegtest.ui.dialog.PromptDialog
 import com.coder.ffmpegtest.utils.CustomProgressDialog
 import com.coder.ffmpegtest.utils.FileUtils
 import com.coder.ffmpegtest.utils.ToastUtils
@@ -33,7 +34,7 @@ import java.util.*
  * @author: AnJoiner
  * @datetime: 20-1-23
  */
-class KFFmpegCommandActivity : AppCompatActivity(){
+class KFFmpegCommandActivity : AppCompatActivity() {
 
     private var mAudioPath: String? = null
     private var mVideoPath: String? = null
@@ -45,6 +46,7 @@ class KFFmpegCommandActivity : AppCompatActivity(){
 
     private var mRecyclerView: RecyclerView? = null
     private var mAdapter: FFmpegCommandAdapter? = null
+    private var mErrorDialog: PromptDialog? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -397,14 +399,14 @@ class KFFmpegCommandActivity : AppCompatActivity(){
         FFmpegCommand.runAsync(FFmpegUtils.video2HLS(mVideoPath, targetPath, 10), callback("切片成功", targetPath))
     }
 
-    private fun hls2Video(){
+    private fun hls2Video() {
         val dir = File(externalCacheDir, "hls")
         if (!dir.exists()) {
             ToastUtils.show("请先执行video->hls")
             return
         }
-        val videoIndexFile = File(dir,"target.m3u8")
-        if(!videoIndexFile.exists()){
+        val videoIndexFile = File(dir, "target.m3u8")
+        if (!videoIndexFile.exists()) {
             ToastUtils.show("请先执行video->hls")
             return
         }
@@ -414,26 +416,43 @@ class KFFmpegCommandActivity : AppCompatActivity(){
     }
 
     private fun callback(msg: String, targetPath: String?): CommonCallBack? {
+        tvContent!!.text = ""
+        if (mErrorDialog == null) {
+            mErrorDialog = PromptDialog.newInstance("进度", msg, "", "停止")
+            mErrorDialog?.setHasNegativeButton(false)
+            mErrorDialog?.setOnPromptListener { isPositive -> FFmpegCommand.exit() }
+        }
+        mErrorDialog?.setContent(0)
+
         return object : CommonCallBack() {
             override fun onStart() {
-                CustomProgressDialog.showLoading(this@KFFmpegCommandActivity, false)
+                mErrorDialog?.show(supportFragmentManager, "Dialog")
             }
 
             override fun onComplete() {
+                mErrorDialog?.dismiss()
+                Log.d("CmdProgress", "onComplete")
                 ToastUtils.show(msg)
                 tvContent!!.text = targetPath
-                CustomProgressDialog.stopLoading()
+            }
+
+            override fun onCancel() {
+                ToastUtils.show("用户取消")
+                Log.d("CmdProgress", "Cancel")
             }
 
             override fun onProgress(progress: Int) {
                 Log.d("CmdProgress", progress.toString() + "")
+                mErrorDialog?.setContent(progress)
             }
         }
     }
-    companion object{
-        fun start(context: Context){
-            val intent = Intent(context,KFFmpegCommandActivity::class.java)
+
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, KFFmpegCommandActivity::class.java)
             context.startActivity(intent)
         }
     }
+
 }

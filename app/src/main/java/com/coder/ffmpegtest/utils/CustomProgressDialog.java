@@ -17,19 +17,23 @@ import java.lang.ref.WeakReference;
 public class CustomProgressDialog extends Dialog implements DialogInterface.OnCancelListener {
 
     private WeakReference<Context> mContext = new WeakReference<>(null);
-    private volatile static CustomProgressDialog sDialog;
+    private static CustomProgressDialog sDialog;
+    private TextView mMessageText;
 
     private CustomProgressDialog(Context context, CharSequence message) {
         super(context, R.style.CustomProgressDialog);
 
         mContext = new WeakReference<>(context);
 
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_custom_progress, null);
-        TextView tvMessage = (TextView) view.findViewById(R.id.tv_message);
+        View view = LayoutInflater.from(mContext.get()).inflate(R.layout.dialog_custom_progress,
+                null);
+        mMessageText = view.findViewById(R.id.tv_message);
         if (!TextUtils.isEmpty(message)) {
-            tvMessage.setText(message);
+            mMessageText.setText(message);
         }
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        ViewGroup.LayoutParams lp =
+                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT);
         addContentView(view, lp);
 
         setOnCancelListener(this);
@@ -49,14 +53,15 @@ public class CustomProgressDialog extends Dialog implements DialogInterface.OnCa
     }
 
     public static synchronized void showLoading(Context context, boolean cancelable) {
-        showLoading(context, "loading...",cancelable);
+        showLoading(context, "loading...", cancelable);
     }
 
     public static synchronized void showLoading(Context context, CharSequence message) {
         showLoading(context, message, true);
     }
 
-    public static synchronized void showLoading(Context context, CharSequence message, boolean cancelable) {
+    public static synchronized void showLoading(Context context, CharSequence message,
+                                                boolean cancelable) {
         if (sDialog != null && sDialog.isShowing()) {
             sDialog.dismiss();
         }
@@ -77,5 +82,9 @@ public class CustomProgressDialog extends Dialog implements DialogInterface.OnCa
             sDialog.dismiss();
         }
         sDialog = null;
+    }
+
+    public static synchronized void showText(String progress){
+
     }
 }

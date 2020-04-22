@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:id="@+id/ll_prompt_bg"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/ll_view"
+        android:layout_width="275dp"
+        android:background="@drawable/shape_dialog_prompt_bg"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingTop="20dp"
+        android:layout_height="157dp">
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="提示"
+            android:visibility="gone"
+            android:textColor="#000000"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:max="100"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_height="2dp"/>
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:text="进度: 30"
+                android:layout_marginTop="10dp"
+                android:textColor="#333333"
+                android:gravity="center"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:background="#ededed"
+            android:layout_height="1dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+
+            <Button
+                android:id="@+id/btn_negative"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="取消"
+                android:textSize="13sp"
+                android:background="@android:color/transparent"
+                android:textColor="#b2b2b2"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:id="@+id/vi_line"
+                android:layout_width="1dp"
+                android:background="#ededed"
+                android:layout_height="match_parent"/>
+
+
+            <Button
+                android:id="@+id/btn_positive"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="确定"
+                android:background="@android:color/transparent"
+                android:textSize="13sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
