@@ -52,8 +52,6 @@ implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 |FFmpegCommand->runAsync(final String[] cmd, IFFmpegCallBack callBack)|异步执行，外部无需添加延时线程，并回调 开始，完成，取消，进度|
 |FFmpegCommand->getInfoSync(String path,@Attribute int type)|获取媒体信息，type值必须为`@Attribute`中注解参数|
 |FFmpegCommand->FFmpegCommand.exit()| 退出当前ffmpeg执行|
-|~~FFmpegCommand->runSync(final String[] cmd, OnFFmpegProgressListener listener)~~|同步执行ffmpeg命令,进度回调，在1.1.3移除|
-|~~FFmpegCommand->runAsync(final String[] cmd, final ICallBack callBack)~~|异步执行ffmpeg命令,进度回调，在1.1.3移除|
 
 ### 使用runAsync
 以`runAsync`调用`FFmpeg`为异步方式，不需要单独开启子线程。强烈建议使用此方法进行音视频处理!!!   
