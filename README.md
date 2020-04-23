@@ -46,12 +46,12 @@ implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 
 |方法 |功能 |
 |----|----|
-|FFmpegCommand->setDebug(boolean debug)|是否Dubug模式，可打印日志，默认true,version>1.1.1|
+|FFmpegCommand->setDebug(boolean debug)|是否Dubug模式，可打印日志，默认true|
 |FFmpegCommand->runSync(final String[] cmd)|同步执行ffmpeg命令，外部需添加延时线程|
-|FFmpegCommand->runSync(final String[] cmd, OnFFmpegCommandListener listener)|同步执行ffmpeg命令，并回调 完成，取消，进度，version>1.1.3|
-|FFmpegCommand->runAsync(final String[] cmd, IFFmpegCallBack callBack)|异步执行，外部无需添加延时线程，并回调 开始，完成，取消，进度,version>1.1.3|
-|FFmpegCommand->getInfoSync(String path,@Attribute int type)|获取媒体信息，type值必须为`@Attribute`中注解参数,version>1.1.1|
-|FFmpegCommand->FFmpegCommand.exit()| 退出当前ffmpeg执行，version>1.1.3|
+|FFmpegCommand->runSync(final String[] cmd, OnFFmpegCommandListener listener)|同步执行ffmpeg命令，并回调 完成，取消，进度|
+|FFmpegCommand->runAsync(final String[] cmd, IFFmpegCallBack callBack)|异步执行，外部无需添加延时线程，并回调 开始，完成，取消，进度|
+|FFmpegCommand->getInfoSync(String path,@Attribute int type)|获取媒体信息，type值必须为`@Attribute`中注解参数|
+|FFmpegCommand->FFmpegCommand.exit()| 退出当前ffmpeg执行|
 |~~FFmpegCommand->runSync(final String[] cmd, OnFFmpegProgressListener listener)~~|同步执行ffmpeg命令,进度回调，在1.1.3移除|
 |~~FFmpegCommand->runAsync(final String[] cmd, final ICallBack callBack)~~|异步执行ffmpeg命令,进度回调，在1.1.3移除|
 
