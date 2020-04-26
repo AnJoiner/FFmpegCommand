@@ -5,6 +5,7 @@
         <item>视频宽</item>
         <item>视频高</item>
         <item>视频比特率</item>
+        <item>帧率</item>
         <item>音频声道数</item>
         <item>音频采样率</item>
         <item>音频比特率</item>

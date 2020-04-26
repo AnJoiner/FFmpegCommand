@@ -70,9 +70,10 @@ class KFFmpegInfoActivity : AppCompatActivity() {
                 1 -> getWidth()
                 2 -> getHeight()
                 3 -> getVideoBitRate()
-                4 -> getChannels()
-                5 -> getSampleRate()
-                6 -> getAudioBitRate()
+                4 -> getVideoFPS()
+                5 -> getChannels()
+                6 -> getSampleRate()
+                7 -> getAudioBitRate()
             }
         }
     }
@@ -106,6 +107,12 @@ class KFFmpegInfoActivity : AppCompatActivity() {
     private fun getVideoBitRate() {
         val bitRate = FFmpegCommand.getInfoSync(mVideoPath, Attribute.VIDEO_BIT_RATE)
         val result = String.format("bitRate = %s", bitRate)
+        tvContent?.text = result
+    }
+
+    private fun getVideoFPS() {
+        val fps = FFmpegCommand.getInfoSync(mVideoPath, Attribute.FPS)
+        val result = String.format("fps = %s", fps)
         tvContent?.text = result
     }
 
