@@ -130,9 +130,9 @@ FFmpegCommand.exit();
 ## 兼容性
 兼容Android minSdkVersion >=14（version>=1.1.4，此前的版本只兼容minSdkVersion >=21）
 
-<img src="images/compatibility1.png" alt="图-7 Demo下载" width="500px" />
-<img src="images/compatibility2.png" alt="图-8 Demo下载" width="500px" />
-<img src="images/compatibility3.png" alt="图-9 Demo下载" width="500px" />
+<img src="images/compatibility1.png" alt="图-7 Demo下载" width="800px" />
+<img src="images/compatibility2.png" alt="图-8 Demo下载" width="800px" />
+<img src="images/compatibility3.png" alt="图-9 Demo下载" width="800px" />
 
 ## 自定义编码器
 
