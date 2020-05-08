@@ -127,6 +127,13 @@ FFmpegCommand.exit();
 * Java 使用请参考 [FFmpegCommandActivity](app/src/main/java/com/coder/ffmpegtest/ui/FFmpegCommandActivity.java)
 * Kotlin使用请参考 [KFFmpegCommandActivity](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCommandActivity.kt)
 
+## 兼容性
+兼容Android minSdkVersion >=14（version>=1.1.4，此前的版本只兼容minSdkVersion >=21）
+
+<img src="images/compatibility1.png" alt="图-7 Demo下载" width="500px" />
+<img src="images/compatibility2.png" alt="图-8 Demo下载" width="500px" />
+<img src="images/compatibility3.png" alt="图-9 Demo下载" width="500px" />
+
 ## 自定义编码器
 
 因为引入了`LAME`，我们其实可以使用它自定义音频编码器，将其编译成so文件提供使用，具体参考[【WIKI-自定义MP3编码器】](https://github.com/AnJoiner/FFmpegCommand/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89MP3%E7%BC%96%E7%A0%81%E5%99%A8)
