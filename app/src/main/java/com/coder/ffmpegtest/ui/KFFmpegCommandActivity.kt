@@ -423,7 +423,7 @@ class KFFmpegCommandActivity : AppCompatActivity() {
             mErrorDialog?.setOnPromptListener { isPositive ->
                 run {
                     mErrorDialog?.setContent(0)
-                    FFmpegCommand.exit()
+                    FFmpegCommand.cancel()
                 }
             }
         }

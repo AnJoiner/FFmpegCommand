@@ -509,7 +509,7 @@ public class FFmpegCommandActivity extends AppCompatActivity {
                 @Override
                 public void onPrompt(boolean isPositive) {
                     mErrorDialog.setContent(0);
-                    FFmpegCommand.exit();
+                    FFmpegCommand.cancel();
                 }
             });
         }

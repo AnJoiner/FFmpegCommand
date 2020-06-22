@@ -11,6 +11,9 @@ import com.coder.ffmpeg.call.IFFmpegCallBack;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -29,6 +32,12 @@ public class FFmpegCommand {
      * 是否执行完成
      */
     private static boolean isComplete = true;
+
+    private static List<FFmpegCmd> cmds;
+
+    static {
+        cmds = new ArrayList<>();
+    }
 
     /**
      * 切换到主线程并返回进度
@@ -62,7 +71,8 @@ public class FFmpegCommand {
      * @return 媒体信息
      */
     public static long getInfoSync(String path, @Attribute int type) {
-        return FFmpegCmd.getInfo(path, type);
+        FFmpegCmd ffmpegCmd = new FFmpegCmd();
+        return ffmpegCmd.getInfo(path, type);
     }
 
     /**
@@ -71,7 +81,9 @@ public class FFmpegCommand {
      * @param cmd 　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
      */
     public static void runSync(final String[] cmd) {
-        FFmpegCmd.runCmd(cmd);
+        FFmpegCmd ffmpegCmd = new FFmpegCmd();
+        cmds.add(ffmpegCmd);
+        ffmpegCmd.runCmdSync(cmd);
     }
 
     /**
@@ -83,7 +95,9 @@ public class FFmpegCommand {
     @Deprecated
     public static void runSync(final String[] cmd, OnFFmpegProgressListener listener) {
         if (listener != null) {
-            FFmpegCmd.runCmd(cmd, listener);
+            FFmpegCmd ffmpegCmd = new FFmpegCmd();
+            cmds.add(ffmpegCmd);
+            ffmpegCmd.runCmdSync(cmd, listener);
         }
     }
 
@@ -95,7 +109,9 @@ public class FFmpegCommand {
      */
     public static void runSync(final String[] cmd, OnFFmpegCommandListener listener) {
         if (listener != null) {
-            FFmpegCmd.runCmd(cmd, listener);
+            FFmpegCmd ffmpegCmd = new FFmpegCmd();
+            cmds.add(ffmpegCmd);
+            ffmpegCmd.runCmdSync(cmd, listener);
         }
     }
 
@@ -111,7 +127,9 @@ public class FFmpegCommand {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
             @Override
             public void subscribe(final FlowableEmitter<Integer> emitter) throws Exception {
-                FFmpegCmd.runCmd(cmd, new OnFFmpegProgressListener() {
+                FFmpegCmd ffmpegCmd = new FFmpegCmd();
+                cmds.add(ffmpegCmd);
+                ffmpegCmd.runCmdSync(cmd, new OnFFmpegProgressListener() {
                     @Override
                     public void onProgress(int progress) {
                         if (callBack != null) {
@@ -138,6 +156,7 @@ public class FFmpegCommand {
 
                     @Override
                     public void onError(Throwable t) {
+                        cmds.clear();
                         if (callBack != null) {
                             callBack.onError(t);
                         }
@@ -145,6 +164,7 @@ public class FFmpegCommand {
 
                     @Override
                     public void onComplete() {
+                        cmds.clear();
                         if (callBack != null) {
                             callBack.onComplete();
                         }
@@ -163,7 +183,9 @@ public class FFmpegCommand {
         Flowable.create(new FlowableOnSubscribe<Integer>() {
             @Override
             public void subscribe(final FlowableEmitter<Integer> emitter) throws Exception {
-                FFmpegCmd.runCmd(cmd, new OnFFmpegCommandListener() {
+                FFmpegCmd ffmpegCmd = new FFmpegCmd();
+                cmds.add(ffmpegCmd);
+                ffmpegCmd.runCmdSync(cmd, new OnFFmpegCommandListener() {
                     @Override
                     public void onProgress(int progress) {
                         if (callBack != null) {
@@ -207,6 +229,7 @@ public class FFmpegCommand {
 
                     @Override
                     public void onError(Throwable t) {
+                        cmds.clear();
                         if (callBack != null) {
                             callBack.onError(t);
                         }
@@ -214,6 +237,7 @@ public class FFmpegCommand {
 
                     @Override
                     public void onComplete() {
+                        cmds.clear();
                         if (callBack!=null){
                             if (isComplete){
                                 callBack.onComplete();
@@ -226,10 +250,27 @@ public class FFmpegCommand {
     }
 
     /**
+     * 当前方法已被弃用,请参考{@link FFmpegCommand#cancel()}}
      * 退出执行
      */
+    @Deprecated
     public static void exit(){
-        FFmpegCmd.exit();
+        for (FFmpegCmd cmd : cmds) {
+            cmd.exit();
+        }
+        // 清除全部内容,让java虚拟机回收
+        cmds.clear();
+    }
+
+    /**
+     * 退出执行
+     */
+    public static void cancel(){
+        for (FFmpegCmd cmd : cmds) {
+            cmd.cancel();
+        }
+        // 清除全部内容,让java虚拟机回收
+        cmds.clear();
     }
 
     @Deprecated
