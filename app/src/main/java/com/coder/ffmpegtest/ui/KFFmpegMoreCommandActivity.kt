@@ -82,17 +82,17 @@ class KFFmpegMoreCommandActivity : AppCompatActivity() {
         mCommandBtn?.setOnClickListener {
             stringBuilder.clear()
             tvContent?.text = ""
-            if (mErrorDialog == null) {
-                mErrorDialog = PromptDialog.newInstance("进度", "多命令行执行完成", "", "停止")
-                mErrorDialog?.setHasNegativeButton(false)
-                mErrorDialog?.setOnPromptListener { isPositive ->
-                    run {
-                        mErrorDialog?.setContent(0)
-                        FFmpegCommand.cancel()
-                    }
-                }
-            }
-            mErrorDialog?.show(supportFragmentManager, "Dialog")
+//            if (mErrorDialog == null) {
+//                mErrorDialog = PromptDialog.newInstance("进度", "多命令行执行完成", "", "停止")
+//                mErrorDialog?.setHasNegativeButton(false)
+//                mErrorDialog?.setOnPromptListener { isPositive ->
+//                    run {
+//                        mErrorDialog?.setContent(0)
+//                        FFmpegCommand.cancel()
+//                    }
+//                }
+//            }
+//            mErrorDialog?.show(supportFragmentManager, "Dialog")
             Thread(Runnable {
                 transformAudio()
                 transformVideo()
