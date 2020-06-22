@@ -30,8 +30,6 @@ class FFmpegCmd {
 
     private native int runSync(int cmdLen,String[] cmd);
 
-//    private static native int run(int cmdLen, String[] cmd);
-
     private native int runAsync(int cmdLen,String[] cmd);
 
     int runCmdSync(String[] cmd) {
@@ -53,6 +51,7 @@ class FFmpegCmd {
     int runCmdSync(String[] cmd, FFmpegCommand.OnFFmpegCommandListener cmdListener) {
         cmd = command(cmd);
         mCommandListener = cmdListener;
+
         int result = runSync(cmd.length, cmd);
         if (mCommandListener != null) {
             mCommandListener = null;
@@ -89,7 +88,9 @@ class FFmpegCmd {
 
 
     void onStart(){
-
+        if (mCommandListener != null) {
+            mCommandListener.onStart();
+        }
     }
 
     void onProgress(int progress) {
@@ -105,11 +106,15 @@ class FFmpegCmd {
         if (mCommandListener != null) {
             mCommandListener.onCancel();
         }
+        // 移除当前对象,释放内存
+        FFmpegCommand.cmds.remove(this);
     }
 
     void onComplete(){
         if (mCommandListener != null) {
             mCommandListener.onComplete();
         }
+        // 移除当前对象,释放内存
+        FFmpegCommand.cmds.remove(this);
     }
 }

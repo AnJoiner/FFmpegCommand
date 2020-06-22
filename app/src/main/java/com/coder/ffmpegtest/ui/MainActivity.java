@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button mCommandBtn;
     Button mInfoBtn;
+    Button mMoreCommandBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +27,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void intiView(){
         mCommandBtn = findViewById(R.id.btn_command);
         mInfoBtn = findViewById(R.id.btn_info);
+        mMoreCommandBtn = findViewById(R.id.btn_more_command);
     }
 
     private void initListener(){
         mCommandBtn.setOnClickListener(this);
         mInfoBtn.setOnClickListener(this);
+        mMoreCommandBtn.setOnClickListener(this);
     }
 
     @Override
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_info:
                 KFFmpegInfoActivity.Companion.start(this);
+                break;
+            case R.id.btn_more_command:
+                KFFmpegMoreCommandActivity.Companion.start(this);
                 break;
         }
 

@@ -28,12 +28,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class FFmpegCommand {
 
-    /**
-     * 是否执行完成
-     */
-    private static boolean isComplete = true;
 
-    private static List<FFmpegCmd> cmds;
+    static List<FFmpegCmd> cmds;
 
     static {
         cmds = new ArrayList<>();
@@ -164,7 +160,6 @@ public class FFmpegCommand {
 
                     @Override
                     public void onComplete() {
-                        cmds.clear();
                         if (callBack != null) {
                             callBack.onComplete();
                         }
@@ -180,12 +175,20 @@ public class FFmpegCommand {
      * @param callBack 　{@link IFFmpegCallBack}
      */
     public static void runAsync(final String[] cmd, final IFFmpegCallBack callBack) {
-        Flowable.create(new FlowableOnSubscribe<Integer>() {
+        Flowable.create(new FlowableOnSubscribe<Boolean>() {
             @Override
-            public void subscribe(final FlowableEmitter<Integer> emitter) throws Exception {
+            public void subscribe(final FlowableEmitter<Boolean> emitter) throws Exception {
+                final boolean[] isComplete = new boolean[1];
                 FFmpegCmd ffmpegCmd = new FFmpegCmd();
                 cmds.add(ffmpegCmd);
                 ffmpegCmd.runCmdSync(cmd, new OnFFmpegCommandListener() {
+                    @Override
+                    public void onStart() {
+                        if (callBack != null) {
+                            callBack.onStart();
+                        }
+                    }
+
                     @Override
                     public void onProgress(int progress) {
                         if (callBack != null) {
@@ -201,20 +204,21 @@ public class FFmpegCommand {
 
                     @Override
                     public void onCancel() {
-                        isComplete = false;
+                        isComplete[0] = false;
                     }
 
                     @Override
                     public void onComplete() {
-                        isComplete = true;
+                        isComplete[0] = true;
                     }
                 });
+                emitter.onNext(isComplete[0]);
                 emitter.onComplete();
             }
         }, BackpressureStrategy.BUFFER)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Integer>() {
+                .subscribe(new Subscriber<Boolean>() {
                     @Override
                     public void onSubscribe(Subscription s) {
                         if (callBack != null) {
@@ -223,8 +227,15 @@ public class FFmpegCommand {
                     }
 
                     @Override
-                    public void onNext(Integer integer) {
-
+                    public void onNext(Boolean isComplete) {
+                        // 验证是否是完成
+                        if (callBack!=null){
+                            if (isComplete){
+                                callBack.onComplete();
+                            }else {
+                                callBack.onCancel();
+                            }
+                        }
                     }
 
                     @Override
@@ -237,14 +248,7 @@ public class FFmpegCommand {
 
                     @Override
                     public void onComplete() {
-                        cmds.clear();
-                        if (callBack!=null){
-                            if (isComplete){
-                                callBack.onComplete();
-                            }else {
-                                callBack.onCancel();
-                            }
-                        }
+
                     }
                 });
     }
@@ -258,8 +262,6 @@ public class FFmpegCommand {
         for (FFmpegCmd cmd : cmds) {
             cmd.exit();
         }
-        // 清除全部内容,让java虚拟机回收
-        cmds.clear();
     }
 
     /**
@@ -269,8 +271,6 @@ public class FFmpegCommand {
         for (FFmpegCmd cmd : cmds) {
             cmd.cancel();
         }
-        // 清除全部内容,让java虚拟机回收
-        cmds.clear();
     }
 
     @Deprecated
@@ -279,6 +279,8 @@ public class FFmpegCommand {
     }
 
     public interface OnFFmpegCommandListener {
+        void onStart();
+
         void onProgress(int progress);
 
         void onCancel();
