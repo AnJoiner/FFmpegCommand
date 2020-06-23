@@ -30,9 +30,12 @@ public class FFmpegCommand {
 
 
     static List<FFmpegCmd> cmds;
+    static List<FFmpegCommand.OnFFmpegCommandListener> listeners;
+    static int globalProgress = 0;
 
     static {
         cmds = new ArrayList<>();
+        listeners = new ArrayList<>();
     }
 
     /**
@@ -46,6 +49,16 @@ public class FFmpegCommand {
             if (msg.what == 1){
                 IFFmpegCallBack callBack = (IFFmpegCallBack) msg.obj;
                 callBack.onProgress(msg.arg1);
+            }else if (msg.what == -1){
+                IFFmpegCallBack callBack = (IFFmpegCallBack) msg.obj;
+                if (callBack!=null){
+                    callBack.onCancel();
+                }
+            }else if (msg.what == 0){
+                IFFmpegCallBack callBack = (IFFmpegCallBack) msg.obj;
+                if (callBack!=null){
+                    callBack.onComplete();
+                }
             }
         }
     };
@@ -108,6 +121,73 @@ public class FFmpegCommand {
             FFmpegCmd ffmpegCmd = new FFmpegCmd();
             cmds.add(ffmpegCmd);
             ffmpegCmd.runCmdSync(cmd, listener);
+        }
+    }
+
+    /**
+     * 同步执行 ffmpeg命令
+     *
+     * @param cmds      　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
+     * @param listener {@link OnFFmpegCommandListener}
+     */
+    public static void runMoreSync(final List<String[]> cmds, final OnFFmpegCommandListener listener) {
+        if (listener != null) {
+            globalProgress = 0;
+            for (String[] cmd : cmds) {
+                FFmpegCmd ffmpegCmd = new FFmpegCmd();
+                FFmpegCommand.cmds.add(ffmpegCmd);
+                OnFFmpegCommandListener commandListener = new OnFFmpegCommandListener() {
+                    @Override
+                    public void onProgress(int progress) {
+                        globalCallbackProgress(listener,progress,cmds.size());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        listener.onCancel();
+                        listeners.clear();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        globalCallbackComplete(listener,cmds.size());
+                    }
+                };
+                listeners.add(commandListener);
+                ffmpegCmd.runCmdSync(cmd, commandListener);
+            }
+        }
+    }
+
+    /**
+     * 全局进度回调处理
+     * @param listener {@link OnFFmpegCommandListener}
+     * @param progress 进度
+     * @param size 命令数量
+     */
+    private static void globalCallbackProgress(OnFFmpegCommandListener listener, int progress, int size){
+        int temp;
+        if (progress == 100){
+            globalProgress+=progress;
+            temp = globalProgress;
+        }else {
+            temp = globalProgress+progress;
+        }
+        if (listener!=null && size>0){
+            listener.onProgress(temp/size);
+        }
+    }
+
+
+    /**
+     * 全局完成回调处理
+     * @param listener listener {@link OnFFmpegCommandListener}
+     * @param size 命令数量
+     */
+    private static void globalCallbackComplete(OnFFmpegCommandListener listener,int size){
+        if (listener!=null && size>0 && globalProgress/size == 100){
+            listener.onComplete();
+            listeners.clear();
         }
     }
 
@@ -178,17 +258,9 @@ public class FFmpegCommand {
         Flowable.create(new FlowableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(final FlowableEmitter<Boolean> emitter) throws Exception {
-                final boolean[] isComplete = new boolean[1];
                 FFmpegCmd ffmpegCmd = new FFmpegCmd();
                 cmds.add(ffmpegCmd);
                 ffmpegCmd.runCmdSync(cmd, new OnFFmpegCommandListener() {
-                    @Override
-                    public void onStart() {
-                        if (callBack != null) {
-                            callBack.onStart();
-                        }
-                    }
-
                     @Override
                     public void onProgress(int progress) {
                         if (callBack != null) {
@@ -204,16 +276,28 @@ public class FFmpegCommand {
 
                     @Override
                     public void onCancel() {
-                        isComplete[0] = false;
+                        if (callBack != null) {
+                            if (mHandler!=null){
+                                Message msg = new Message();
+                                msg.obj = callBack;
+                                msg.what = -1;
+                                mHandler.sendMessage(msg);
+                            }
+                        }
                     }
 
                     @Override
                     public void onComplete() {
-                        isComplete[0] = true;
+                        if (callBack != null) {
+                            if (mHandler!=null){
+                                Message msg = new Message();
+                                msg.obj = callBack;
+                                msg.what = 0;
+                                mHandler.sendMessage(msg);
+                            }
+                        }
                     }
                 });
-                emitter.onNext(isComplete[0]);
-                emitter.onComplete();
             }
         }, BackpressureStrategy.BUFFER)
                 .subscribeOn(Schedulers.io())
@@ -229,13 +313,6 @@ public class FFmpegCommand {
                     @Override
                     public void onNext(Boolean isComplete) {
                         // 验证是否是完成
-                        if (callBack!=null){
-                            if (isComplete){
-                                callBack.onComplete();
-                            }else {
-                                callBack.onCancel();
-                            }
-                        }
                     }
 
                     @Override
@@ -248,7 +325,6 @@ public class FFmpegCommand {
 
                     @Override
                     public void onComplete() {
-
                     }
                 });
     }
@@ -279,7 +355,6 @@ public class FFmpegCommand {
     }
 
     public interface OnFFmpegCommandListener {
-        void onStart();
 
         void onProgress(int progress);
 

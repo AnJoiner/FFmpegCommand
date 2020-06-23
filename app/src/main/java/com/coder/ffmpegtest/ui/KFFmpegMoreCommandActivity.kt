@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import com.coder.ffmpeg.utils.FFmpegUtils
 import com.coder.ffmpegtest.R
 import com.coder.ffmpegtest.ui.dialog.PromptDialog
 import com.coder.ffmpegtest.utils.FileUtils
+import com.coder.ffmpegtest.utils.ToastUtils
 import java.io.File
 
 /**
@@ -31,6 +33,7 @@ class KFFmpegMoreCommandActivity : AppCompatActivity() {
     private var mVideoPath: String? = null
     private var tvContent: TextView? = null
     private var mCommandBtn: Button? = null
+    private var mCommand2Btn: Button? = null
 
     private var mErrorDialog: PromptDialog? = null
 
@@ -40,7 +43,17 @@ class KFFmpegMoreCommandActivity : AppCompatActivity() {
     object : Handler() {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            if (msg.arg1 == 0) {
+            if (msg.what == 1){
+                mErrorDialog?.setContent(msg.arg1)
+            }else if (msg.what == 0){
+                mErrorDialog?.setContent(0)
+                mErrorDialog?.dismissAllowingStateLoss()
+                ToastUtils.show("多命令执行完成")
+                val target:String = msg.obj as String
+                tvContent!!.text = target
+            }else if(msg.what == -1){
+                ToastUtils.show("用户取消")
+            }else if (msg.what == 2) {
                 val targetPath = msg.obj
                 stringBuilder.append(targetPath).append("\n")
                 tvContent?.text = stringBuilder.toString()
@@ -67,8 +80,20 @@ class KFFmpegMoreCommandActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        mCommandBtn = findViewById(R.id.btn_more_command2)
+        mCommandBtn = findViewById(R.id.btn_more_command)
+        mCommand2Btn = findViewById(R.id.btn_more_command2)
         tvContent = findViewById(R.id.tv_content)
+
+        if (mErrorDialog == null) {
+            mErrorDialog = PromptDialog.newInstance("进度", "多命令行执行", "", "停止")
+            mErrorDialog?.setHasNegativeButton(false)
+            mErrorDialog?.setOnPromptListener { isPositive ->
+                run {
+                    mErrorDialog?.setContent(0)
+                    FFmpegCommand.cancel()
+                }
+            }
+        }
     }
 
     private fun initData() {
@@ -79,42 +104,80 @@ class KFFmpegMoreCommandActivity : AppCompatActivity() {
     }
 
     private fun initListener() {
+        mCommand2Btn?.setOnClickListener {
+            tvContent!!.text = ""
+            mErrorDialog?.show(supportFragmentManager, "Dialog")
+//
+            Thread(Runnable {
+                moreCommand()
+            }).start()
+        }
         mCommandBtn?.setOnClickListener {
             stringBuilder.clear()
-            tvContent?.text = ""
-//            if (mErrorDialog == null) {
-//                mErrorDialog = PromptDialog.newInstance("进度", "多命令行执行完成", "", "停止")
-//                mErrorDialog?.setHasNegativeButton(false)
-//                mErrorDialog?.setOnPromptListener { isPositive ->
-//                    run {
-//                        mErrorDialog?.setContent(0)
-//                        FFmpegCommand.cancel()
-//                    }
-//                }
-//            }
-//            mErrorDialog?.show(supportFragmentManager, "Dialog")
+            tvContent!!.text = ""
             Thread(Runnable {
                 transformAudio()
                 transformVideo()
                 video2YUV()
             }).start()
-
         }
+
+    }
+
+    private fun moreCommand() {
+        val targetAAC = externalCacheDir.toString() + File.separator + "target.aac"
+        val targetAVI = externalCacheDir.toString() + File.separator + "target.avi"
+        val targetYUV = externalCacheDir.toString() + File.separator + "target.yuv"
+        val cmdAAC = FFmpegUtils.transformAudio(mAudioPath, targetAAC)
+        val cmdAVI = FFmpegUtils.transformVideo(mVideoPath, targetAVI)
+        val cmdYUV = FFmpegUtils.decode2YUV(mVideoPath, targetYUV)
+        val st = ArrayList<Array<String>>()
+        st.add(cmdAAC)
+        st.add(cmdAVI)
+        st.add(cmdYUV)
+
+        FFmpegCommand.runMoreSync(st, object : FFmpegCommand.OnFFmpegCommandListener {
+            override fun onProgress(progress: Int) {
+                val msg = Message()
+                msg.what = 1
+                msg.arg1 = progress
+                handler.sendMessage(msg)
+                Log.d("runMoreSync", "globalProgress:$progress")
+            }
+
+            override fun onCancel() {
+                Log.d("runMoreSync", "onCancel")
+                val msg = Message()
+                msg.what = -1
+                handler.sendMessage(msg)
+            }
+
+            override fun onComplete() {
+                val target = targetAAC + "\n" + targetAVI + "\n" + targetYUV
+
+                val msg = Message()
+                msg.what = 0
+                msg.obj = target
+                handler.sendMessage(msg)
+
+                Log.d("runMoreSync", "onComplete")
+            }
+        })
     }
 
 
     private fun transformAudio() {
         val targetPath = externalCacheDir.toString() + File.separator + "target.aac"
         FFmpegCommand.runSync(FFmpegUtils.transformAudio(mAudioPath, targetPath), object : FFmpegCommand.OnFFmpegCommandListener {
-            override fun onStart() {
-            }
             override fun onProgress(progress: Int) {
             }
+
             override fun onCancel() {
             }
+
             override fun onComplete() {
                 val message = Message()
-                message.arg1 = 0
+                message.what = 2
                 message.obj = targetPath
                 handler.sendMessage(message)
 
@@ -125,15 +188,15 @@ class KFFmpegMoreCommandActivity : AppCompatActivity() {
     private fun transformVideo() {
         val targetPath = externalCacheDir.toString() + File.separator + "target.avi"
         FFmpegCommand.runSync(FFmpegUtils.transformVideo(mVideoPath, targetPath), object : FFmpegCommand.OnFFmpegCommandListener {
-            override fun onStart() {
-            }
             override fun onProgress(progress: Int) {
             }
+
             override fun onCancel() {
             }
+
             override fun onComplete() {
                 val message = Message()
-                message.arg1 = 0
+                message.what = 2
                 message.obj = targetPath
                 handler.sendMessage(message)
             }
@@ -143,15 +206,15 @@ class KFFmpegMoreCommandActivity : AppCompatActivity() {
     private fun video2YUV() {
         val targetPath = externalCacheDir.toString() + File.separator + "target.yuv"
         FFmpegCommand.runSync(FFmpegUtils.decode2YUV(mVideoPath, targetPath), object : FFmpegCommand.OnFFmpegCommandListener {
-            override fun onStart() {
-            }
             override fun onProgress(progress: Int) {
             }
+
             override fun onCancel() {
             }
+
             override fun onComplete() {
                 val message = Message()
-                message.arg1 = 0
+                message.what = 2
                 message.obj = targetPath
                 handler.sendMessage(message)
             }

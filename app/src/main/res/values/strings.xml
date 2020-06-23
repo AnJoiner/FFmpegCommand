@@ -37,5 +37,6 @@
     <string name="str_output_result">输出:</string>
     <string name="src_video_scale">视频缩放</string>
 
-    <string name="str_more_command">多命令行执行</string>
+    <string name="str_more_command">多命令行单独执行</string>
+    <string name="str_more_command2">多命令行合并执行</string>
 </resources>

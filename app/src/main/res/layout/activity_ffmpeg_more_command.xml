@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_more_command2"
+        android:id="@+id/btn_more_command"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -15,6 +15,19 @@
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:text="@string/str_more_command" />
+
+    <Button
+        android:id="@+id/btn_more_command2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_more_command"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_button_border"
+        android:inputType="text"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/str_more_command2" />
 
 
     <LinearLayout

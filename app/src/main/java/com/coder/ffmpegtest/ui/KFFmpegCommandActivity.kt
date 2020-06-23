@@ -434,9 +434,9 @@ class KFFmpegCommandActivity : AppCompatActivity() {
             }
 
             override fun onComplete() {
+                Log.d("CmdProgress", "onComplete")
                 mErrorDialog?.setContent(0)
                 mErrorDialog?.dismissAllowingStateLoss()
-                Log.d("CmdProgress", "onComplete")
                 ToastUtils.show(msg)
                 tvContent!!.text = targetPath
             }

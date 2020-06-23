@@ -88,9 +88,7 @@ class FFmpegCmd {
 
 
     void onStart(){
-        if (mCommandListener != null) {
-            mCommandListener.onStart();
-        }
+
     }
 
     void onProgress(int progress) {
