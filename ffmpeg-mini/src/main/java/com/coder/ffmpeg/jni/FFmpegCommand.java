@@ -48,16 +48,22 @@ public class FFmpegCommand {
             super.handleMessage(msg);
             if (msg.what == 1){
                 IFFmpegCallBack callBack = (IFFmpegCallBack) msg.obj;
-                callBack.onProgress(msg.arg1);
+                if (callBack!=null){
+                    int progress = msg.arg1;
+                    int size = msg.arg2;
+                    globalAsyncCallbackProgress(callBack,progress,size);
+                }
             }else if (msg.what == -1){
                 IFFmpegCallBack callBack = (IFFmpegCallBack) msg.obj;
                 if (callBack!=null){
                     callBack.onCancel();
+                    listeners.clear();
                 }
             }else if (msg.what == 0){
                 IFFmpegCallBack callBack = (IFFmpegCallBack) msg.obj;
                 if (callBack!=null){
-                    callBack.onComplete();
+                    int size = msg.arg2;
+                    globalAsyncCallbackComplete(callBack,size);
                 }
             }
         }
@@ -125,9 +131,9 @@ public class FFmpegCommand {
     }
 
     /**
-     * 同步执行 ffmpeg命令
+     * 同步多命令执行 ffmpeg命令
      *
-     * @param cmds      　ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
+     * @param cmds  命令集合, ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
      * @param listener {@link OnFFmpegCommandListener}
      */
     public static void runMoreSync(final List<String[]> cmds, final OnFFmpegCommandListener listener) {
@@ -139,7 +145,7 @@ public class FFmpegCommand {
                 OnFFmpegCommandListener commandListener = new OnFFmpegCommandListener() {
                     @Override
                     public void onProgress(int progress) {
-                        globalCallbackProgress(listener,progress,cmds.size());
+                        globalSyncCallbackProgress(listener,progress,cmds.size());
                     }
 
                     @Override
@@ -150,7 +156,7 @@ public class FFmpegCommand {
 
                     @Override
                     public void onComplete() {
-                        globalCallbackComplete(listener,cmds.size());
+                        globalSyncCallbackComplete(listener,cmds.size());
                     }
                 };
                 listeners.add(commandListener);
@@ -165,7 +171,7 @@ public class FFmpegCommand {
      * @param progress 进度
      * @param size 命令数量
      */
-    private static void globalCallbackProgress(OnFFmpegCommandListener listener, int progress, int size){
+    private static void globalSyncCallbackProgress(OnFFmpegCommandListener listener, int progress, int size){
         int temp;
         if (progress == 100){
             globalProgress+=progress;
@@ -184,7 +190,7 @@ public class FFmpegCommand {
      * @param listener listener {@link OnFFmpegCommandListener}
      * @param size 命令数量
      */
-    private static void globalCallbackComplete(OnFFmpegCommandListener listener,int size){
+    private static void globalSyncCallbackComplete(OnFFmpegCommandListener listener,int size){
         if (listener!=null && size>0 && globalProgress/size == 100){
             listener.onComplete();
             listeners.clear();
@@ -260,14 +266,14 @@ public class FFmpegCommand {
             public void subscribe(final FlowableEmitter<Boolean> emitter) throws Exception {
                 FFmpegCmd ffmpegCmd = new FFmpegCmd();
                 cmds.add(ffmpegCmd);
-                ffmpegCmd.runCmdSync(cmd, new OnFFmpegCommandListener() {
+                OnFFmpegCommandListener commandListener = new OnFFmpegCommandListener() {
                     @Override
                     public void onProgress(int progress) {
                         if (callBack != null) {
                             if (mHandler!=null){
                                 Message msg = new Message();
-                                msg.obj = callBack;
                                 msg.what = 1;
+                                msg.obj = callBack;
                                 msg.arg1 = progress;
                                 mHandler.sendMessage(msg);
                             }
@@ -279,8 +285,8 @@ public class FFmpegCommand {
                         if (callBack != null) {
                             if (mHandler!=null){
                                 Message msg = new Message();
-                                msg.obj = callBack;
                                 msg.what = -1;
+                                msg.obj = callBack;
                                 mHandler.sendMessage(msg);
                             }
                         }
@@ -291,13 +297,14 @@ public class FFmpegCommand {
                         if (callBack != null) {
                             if (mHandler!=null){
                                 Message msg = new Message();
-                                msg.obj = callBack;
                                 msg.what = 0;
+                                msg.obj = callBack;
                                 mHandler.sendMessage(msg);
                             }
                         }
                     }
-                });
+                };
+                ffmpegCmd.runCmdSync(cmd,commandListener);
             }
         }, BackpressureStrategy.BUFFER)
                 .subscribeOn(Schedulers.io())
@@ -327,6 +334,129 @@ public class FFmpegCommand {
                     public void onComplete() {
                     }
                 });
+    }
+
+
+    /**
+     * 异步执行 ffmpeg命令
+     *
+     * @param cmds  命令集合, ffmpeg 命令 {@link com.coder.ffmpeg.utils.FFmpegUtils}
+     * @param callBack 　{@link IFFmpegCallBack}
+     */
+    public static void runMoreAsync(final List<String[]> cmds, final IFFmpegCallBack callBack) {
+        Flowable.create(new FlowableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(final FlowableEmitter<Boolean> emitter) throws Exception {
+                globalProgress = 0;
+                for (String[] cmd : cmds) {
+                    FFmpegCmd ffmpegCmd = new FFmpegCmd();
+                    FFmpegCommand.cmds.add(ffmpegCmd);
+                    OnFFmpegCommandListener commandListener = new OnFFmpegCommandListener() {
+                        @Override
+                        public void onProgress(int progress) {
+                            if (callBack != null) {
+                                if (mHandler!=null){
+                                    Message msg = new Message();
+                                    msg.what = 1;
+                                    msg.obj = callBack;
+                                    msg.arg1 = progress;
+                                    msg.arg2 = cmds.size();
+                                    mHandler.sendMessage(msg);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            if (callBack != null) {
+                                if (mHandler!=null){
+                                    Message msg = new Message();
+                                    msg.what = -1;
+                                    msg.obj = callBack;
+                                    msg.arg2 = cmds.size();
+                                    mHandler.sendMessage(msg);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            if (callBack != null) {
+                                if (mHandler!=null){
+                                    Message msg = new Message();
+                                    msg.what = 0;
+                                    msg.obj = callBack;
+                                    msg.arg2 = cmds.size();
+                                    mHandler.sendMessage(msg);
+                                }
+                            }
+                        }
+                    };
+                    FFmpegCommand.listeners.add(commandListener);
+                    ffmpegCmd.runCmdSync(cmd,commandListener);
+
+                }
+            }
+        }, BackpressureStrategy.BUFFER)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        if (callBack != null) {
+                            callBack.onStart();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean isComplete) {
+                        // 验证是否是完成
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        cmds.clear();
+                        if (callBack != null) {
+                            callBack.onError(t);
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 全局进度回调处理
+     * @param callBack {@link IFFmpegCallBack}
+     * @param progress 进度
+     * @param size 命令数量
+     */
+    private static void globalAsyncCallbackProgress(IFFmpegCallBack callBack, int progress, int size){
+        int temp;
+        if (progress == 100){
+            globalProgress+=progress;
+            temp = globalProgress;
+        }else {
+            temp = globalProgress+progress;
+        }
+        if (callBack!=null && size>0){
+            callBack.onProgress(temp/size);
+        }
+    }
+
+
+    /**
+     * 全局完成回调处理
+     * @param callBack {@link IFFmpegCallBack}
+     * @param size 命令数量
+     */
+    private static void globalAsyncCallbackComplete(IFFmpegCallBack callBack,int size){
+        if (callBack!=null && size>0 && globalProgress/size == 100){
+            callBack.onComplete();
+            listeners.clear();
+        }
     }
 
     /**

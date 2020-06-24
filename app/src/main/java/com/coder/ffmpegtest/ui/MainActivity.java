@@ -1,8 +1,10 @@
 package com.coder.ffmpegtest.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.coder.ffmpegtest.R;
 
@@ -13,6 +15,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button mCommandBtn;
     Button mInfoBtn;
     Button mMoreCommandBtn;
+    TextView mAbiText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCommandBtn = findViewById(R.id.btn_command);
         mInfoBtn = findViewById(R.id.btn_info);
         mMoreCommandBtn = findViewById(R.id.btn_more_command);
+        mAbiText = findViewById(R.id.tv_abi);
+
+        mAbiText.setText(String.format("当前使用cpu-abi：%s", Build.CPU_ABI));
     }
 
     private void initListener(){

@@ -11,39 +11,46 @@
 
 
 
+    <Button
+        android:id="@+id/btn_command"
+        android:layout_width="100dp"
+        android:text="Command"
+        android:inputType="text"
+        android:background="@drawable/shape_button_border"
+        android:layout_height="100dp"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_command"
+            android:id="@+id/btn_more_command"
             android:layout_width="100dp"
-            android:text="Command"
-            android:inputType="text"
+            android:text="多命令行执行"
             android:background="@drawable/shape_button_border"
             android:layout_height="100dp"/>
+
 
         <Button
             android:id="@+id/btn_info"
             android:layout_width="100dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:text="媒体信息"
             android:background="@drawable/shape_button_border"
             android:layout_height="100dp"/>
 
 
-        <Button
-            android:id="@+id/btn_more_command"
-            android:layout_width="100dp"
-            android:layout_marginLeft="20dp"
-            android:text="多命令行执行"
-            android:background="@drawable/shape_button_border"
-            android:layout_height="100dp"/>
-
     </LinearLayout>
 
 
-
+    <TextView
+        android:id="@+id/tv_abi"
+        android:layout_width="wrap_content"
+        android:text="当前使用abi："
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
