@@ -264,6 +264,7 @@ public class FFmpegCommand {
         Flowable.create(new FlowableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(final FlowableEmitter<Boolean> emitter) throws Exception {
+                globalProgress = 0;
                 FFmpegCmd ffmpegCmd = new FFmpegCmd();
                 cmds.add(ffmpegCmd);
                 OnFFmpegCommandListener commandListener = new OnFFmpegCommandListener() {
@@ -275,6 +276,7 @@ public class FFmpegCommand {
                                 msg.what = 1;
                                 msg.obj = callBack;
                                 msg.arg1 = progress;
+                                msg.arg2 = 1;
                                 mHandler.sendMessage(msg);
                             }
                         }
@@ -287,6 +289,7 @@ public class FFmpegCommand {
                                 Message msg = new Message();
                                 msg.what = -1;
                                 msg.obj = callBack;
+                                msg.arg2 = 1;
                                 mHandler.sendMessage(msg);
                             }
                         }
@@ -299,6 +302,7 @@ public class FFmpegCommand {
                                 Message msg = new Message();
                                 msg.what = 0;
                                 msg.obj = callBack;
+                                msg.arg2 = 1;
                                 mHandler.sendMessage(msg);
                             }
                         }
