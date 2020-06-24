@@ -146,8 +146,14 @@ FFmpegCommand.exit();
 
 ## Start
 
-撸码不易，如果觉得对您有所帮助，给个Start支持一下吧！
+撸码不易，如果觉得对您有所帮助，给个Start支持一下吧，也欢迎多多fork！
 
+## 混淆
+
+```
+-keep class com.coder.ffmpeg.** {*;}
+-dontwarn  com.coder.ffmpeg.**
+```
 
 ## License
 ```

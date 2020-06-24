@@ -1,3 +1,5 @@
+## v1.1.4
+兼容 miniSdkVersion 1.1.4
 
 ## v1.1.3
 
