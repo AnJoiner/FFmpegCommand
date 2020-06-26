@@ -19,6 +19,7 @@
 * **支持音频声音大小控制以及混音（比如朗读的声音加上背景音乐）**
 * **支持部分滤镜 音频淡入、淡出效果、视频亮度和对比度以及添加水印**
 * **支持获取媒体文件信息**
+* **支持多命令同步/异步执行**
 
 |执行FFmpeg|获取媒体信息|
 |---------| ----------------------------------| 
@@ -40,18 +41,20 @@ implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 
 ## 使用
 
-下面只展示部分使用，其他可以参考 **[【WIKI】](https://github.com/AnJoiner/FFmpegCommand/wiki)**
+下面只展示部分使用，其他可以参考 **[【WIKI】](wiki/Home.md)**
 
 ### FFmpegCommand方法
 
-|方法 |功能 |
-|----|----|
-|FFmpegCommand->setDebug(boolean debug)|是否Dubug模式，可打印日志，默认true|
-|FFmpegCommand->runSync(final String[] cmd)|同步执行ffmpeg命令，外部需添加延时线程|
-|FFmpegCommand->runSync(final String[] cmd, OnFFmpegCommandListener listener)|同步执行ffmpeg命令，并回调 完成，取消，进度|
-|FFmpegCommand->runAsync(final String[] cmd, IFFmpegCallBack callBack)|异步执行，外部无需添加延时线程，并回调 开始，完成，取消，进度|
-|FFmpegCommand->getInfoSync(String path,@Attribute int type)|获取媒体信息，type值必须为`@Attribute`中注解参数|
-|FFmpegCommand->FFmpegCommand.exit()| 退出当前ffmpeg执行|
+|方法 |功能 |加入版本 |
+|:---|----|----|
+|FFmpegCommand->setDebug(boolean debug)|Dubug模式，可打印日志，默认true|1.1.1 |
+|FFmpegCommand->runSync(final String[] cmd)|同步执行ffmpeg命令，外部需添加延时线程|1.1.1 |
+|FFmpegCommand->runSync(final String[] cmd, OnFFmpegCommandListener listener)|同步执行ffmpeg命令，并回调 完成，取消，进度|1.1.3 |
+|FFmpegCommand->runAsync(final String[] cmd, IFFmpegCallBack callBack)|异步执行，外部无需添加延时线程，并回调 开始，完成，取消，进度|1.1.3 |
+|FFmpegCommand->getInfoSync(String path,@Attribute int type)|获取媒体信息，type值必须为`@Attribute`中注解参数|1.1.1 |
+|FFmpegCommand->cancel()| 退出当前ffmpeg执行 |1.1.3 |
+|FFmpegCommand->runMoreSync(List<String[]> cmds, OnFFmpegCommandListener listener)|同步多命令执行，并回调 完成，取消，进度|1.1.5 |
+|FFmpegCommand->runMoreAsync(List<String[]> cmds, IFFmpegCallBack callBack)|同步多命令执行，并回调开始，完成，取消，进度|1.1.5 |
 
 ### 使用runAsync
 以`runAsync`调用`FFmpeg`为异步方式，不需要单独开启子线程。强烈建议使用此方法进行音视频处理!!!   
@@ -107,25 +110,69 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 })
 ```
 
+### 多命令执行
+
+在`1.1.5`版本新增了多命令执行方式，可以多条命令一同执行，可返回总进度，提供了两种方式去实现
+
+* **runMoreSync** 多条命令同步执行
+* **runMoreAsync** 多条命令异步执行
+
+```kotlin
+FFmpegCommand.runMoreAsync(st, object : CommonCallBack() {
+    override fun onStart() {
+        mErrorDialog?.show(supportFragmentManager, "Dialog")
+    }
+
+    override fun onComplete() {
+        mErrorDialog?.setContent(0)
+        mErrorDialog?.dismissAllowingStateLoss()
+        ToastUtils.show("多命令执行完成")
+        val target = targetAAC + "\n" + targetAVI + "\n" + targetYUV
+        tvContent!!.text = target
+    }
+
+    override fun onCancel() {
+        ToastUtils.show("用户取消")
+    }
+
+    override fun onProgress(progress: Int) {
+        mErrorDialog?.setContent(progress)
+    }
+})
+```
+
+需要注意的是：
+
+在`1.1.5`版本之后可以使用**多条同步命令**进行执行，但**不可**同时使用**多条异步命令**
+
+```kotlin
+Thread(Runnable {
+	FFmpegCommand.runSync(FFmpegUtils.transformAudio(audioPath, targetPath), object : FFmpegCommand.OnFFmpegCommandListener{})
+	FFmpegCommand.runSync(FFmpegUtils.decode2YUV(mVideoPath, targetPath), object : FFmpegCommand.OnFFmpegCommandListener{})
+  FFmpegCommand.runSync(FFmpegUtils.transformVideo(videoPath, targetPath), object : FFmpegCommand.OnFFmpegCommandListener())
+}).start()
+```
+
+
 ### 取消执行
 执行下面方法后将会回调 `CommonCallBack->onCancel()` 或 `OnFFmpegCommandListener->onCancel()` 方法
 
 ```java
-FFmpegCommand.exit();
+FFmpegCommand.cancel();
 ```
 
-**[【其他方法】](https://github.com/AnJoiner/FFmpegCommand/wiki/%E4%BD%BF%E7%94%A8)**
+**[【其他方法】](wiki/%E4%BD%BF%E7%94%A8)**
 
-**[【功能详解】](https://github.com/AnJoiner/FFmpegCommand/wiki/%E8%AF%A6%E7%BB%86%E5%8A%9F%E8%83%BD)**
+**[【功能详解】](wiki/%E8%AF%A6%E7%BB%86%E5%8A%9F%E8%83%BD)**
 
-**[【常见问题】](https://github.com/AnJoiner/FFmpegCommand/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)**
+**[【常见问题】](wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)**
 
 **[【版本更新】](UPDATE.md)**
 
 ## 参考
-
-* Java 使用请参考 [FFmpegCommandActivity](app/src/main/java/com/coder/ffmpegtest/ui/FFmpegCommandActivity.java)
-* Kotlin使用请参考 [KFFmpegCommandActivity](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCommandActivity.kt)
+**[【KFFmpegCommandActivity】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCommandActivity.kt)**
+**[【KFFmpegMoreCommandActivity】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegMoreCommandActivity.kt)**
+**[【KFFmpegInfoActivity】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegInfoActivity.kt)**
 
 ## 兼容性
 兼容Android minSdkVersion >=14（version>=1.1.4，此前的版本只兼容minSdkVersion >=21）
@@ -146,7 +193,7 @@ FFmpegCommand.exit();
 
 ## Start
 
-撸码不易，如果觉得对您有所帮助，给个Start支持一下吧，也欢迎多多fork！
+如果觉得对你有所帮助，给个Start支持一下吧，也欢迎多多fork！
 
 ## 混淆
 
