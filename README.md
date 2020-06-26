@@ -41,7 +41,7 @@ implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 
 ## 使用
 
-下面只展示部分使用，其他可以参考 **[【WIKI】](wiki/Home)**
+下面只展示部分使用，其他可以参考 **[【WIKI】](./wiki/Home.md)**
 
 ### FFmpegCommand方法
 
@@ -161,11 +161,11 @@ Thread(Runnable {
 FFmpegCommand.cancel();
 ```
 
-**[【其他方法】](wiki/使用)**
+**[【其他方法】](wiki/使用.md)**
 
-**[【功能详解】](wiki/详细功能)**
+**[【功能详解】](wiki/详细功能.md)**
 
-**[【常见问题】](wiki/常见问题)**
+**[【常见问题】](wiki/常见问题.md)**
 
 **[【版本更新】](UPDATE.md)**
 
