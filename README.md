@@ -41,7 +41,7 @@ implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 
 ## 使用
 
-下面只展示部分使用，其他可以参考 **[【WIKI】](./wiki/Home.md)**
+下面只展示部分使用，其他可以参考 **[【WIKI】](wiki/Home.md)**
 
 ### FFmpegCommand方法
 
