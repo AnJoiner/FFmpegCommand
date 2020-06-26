@@ -1,4 +1,4 @@
-Welcome to the FFmpegCommand wiki!
+感谢使用FFmpegCommand，如果想详细了解FFmpegCommand可以从以下几个方面入手
 
 * [介绍](介绍.md)
 * 使用        
