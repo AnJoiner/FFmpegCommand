@@ -28,7 +28,7 @@
 
 ## 引入
 
-下面两种引入只选择一种即可,并根据最新版本替换下面的`latestVersion`，当前最新版本[ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)
+下面两种引入只选择一种即可,并根据最新版本替换下面的`${latestVersion}`，当前最新版本[ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)
 
 ```groovy
 // 全部编解码-体积较大
@@ -181,9 +181,11 @@ FFmpegCommand.cancel();
 <img src="images/compatibility2.png" alt="图-8 Demo下载" width="800px" />
 <img src="images/compatibility3.png" alt="图-9 Demo下载" width="800px" />
 
-## 自定义编码器
+## 编译SO
 
-因为引入了`LAME`，我们其实可以使用它自定义音频编码器，将其编译成so文件提供使用，具体参考[【WIKI-自定义MP3编码器】](https://github.com/AnJoiner/FFmpegCommand/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89MP3%E7%BC%96%E7%A0%81%E5%99%A8)
+[【编译FFmpeg在Android中使用】](ffmpeg-wiki/编译FFmpeg.md)
+[【自定义MP3编码器】](ffmpeg-wiki/自定义MP3编码器.md)
+
 
 ## 体验交流
 
