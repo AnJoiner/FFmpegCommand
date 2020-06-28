@@ -40,4 +40,5 @@
     <string name="str_more_command">同步多命令行\n单独执行</string>
     <string name="str_more_command2">同步多命令行\n合并执行</string>
     <string name="str_more_command3">异步多命令行\n合并执行</string>
+    <string name="str_more_command4">启动服务</string>
 </resources>

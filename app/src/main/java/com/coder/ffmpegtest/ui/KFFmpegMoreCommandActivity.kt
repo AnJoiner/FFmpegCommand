@@ -18,6 +18,8 @@ import com.coder.ffmpeg.call.CommonCallBack
 import com.coder.ffmpeg.jni.FFmpegCommand
 import com.coder.ffmpeg.utils.FFmpegUtils
 import com.coder.ffmpegtest.R
+import com.coder.ffmpegtest.service.FFmpegCommandService
+import com.coder.ffmpegtest.service.FFmpegCommandService2
 import com.coder.ffmpegtest.ui.dialog.PromptDialog
 import com.coder.ffmpegtest.utils.FileUtils
 import com.coder.ffmpegtest.utils.ToastUtils
@@ -36,6 +38,7 @@ class KFFmpegMoreCommandActivity : AppCompatActivity() {
     private var mCommandBtn: Button? = null
     private var mCommand2Btn: Button? = null
     private var mCommand3Btn: Button? = null
+    private var mCommand4Btn: Button? = null
 
     private var mErrorDialog: PromptDialog? = null
 
@@ -85,6 +88,7 @@ class KFFmpegMoreCommandActivity : AppCompatActivity() {
         mCommandBtn = findViewById(R.id.btn_more_command)
         mCommand2Btn = findViewById(R.id.btn_more_command2)
         mCommand3Btn = findViewById(R.id.btn_more_command3)
+        mCommand4Btn = findViewById(R.id.btn_more_command4)
 
         tvContent = findViewById(R.id.tv_content)
 
@@ -131,6 +135,13 @@ class KFFmpegMoreCommandActivity : AppCompatActivity() {
             moreAsyncCommand()
         }
 
+        mCommand4Btn?.setOnClickListener {
+            val intent = Intent(this@KFFmpegMoreCommandActivity, FFmpegCommandService::class.java)
+            startService(intent)
+
+            val intent2 = Intent(this@KFFmpegMoreCommandActivity, FFmpegCommandService2::class.java)
+            startService(intent2)
+        }
     }
 
     private fun moreAsyncCommand(){

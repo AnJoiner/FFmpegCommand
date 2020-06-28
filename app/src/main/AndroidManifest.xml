@@ -37,6 +37,9 @@
         <!--多条命令同事执行-->
         <activity android:name=".ui.KFFmpegMoreCommandActivity"
             android:screenOrientation="portrait"/>
+
+        <service android:name=".service.FFmpegCommandService" android:process=":ffmpegCommand" />
+        <service android:name=".service.FFmpegCommandService2" android:process=":ffmpegCommand2" />
     </application>
 
 </manifest>
