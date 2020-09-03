@@ -3,6 +3,7 @@ package com.coder.ffmpeg.jni;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.coder.ffmpeg.annotation.Attribute;
 import com.coder.ffmpeg.call.ICallBack;
@@ -439,8 +440,11 @@ public class FFmpegCommand {
      */
     private static void globalAsyncCallbackProgress(IFFmpegCallBack callBack, int progress, int size){
         int temp;
+        // 多命令进度回调，当进度100时直接进入下一条命令进度中
         if (progress == 100){
-            globalProgress+=progress;
+            if (globalProgress < size * 100){
+                globalProgress+=progress;
+            }
             temp = globalProgress;
         }else {
             temp = globalProgress+progress;
@@ -457,6 +461,7 @@ public class FFmpegCommand {
      * @param size 命令数量
      */
     private static void globalAsyncCallbackComplete(IFFmpegCallBack callBack,int size){
+        Log.e("CmdProgress","CmdProgress : "+globalProgress);
         if (callBack!=null && size>0 && globalProgress/size == 100){
             callBack.onComplete();
             listeners.clear();

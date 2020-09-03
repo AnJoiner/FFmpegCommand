@@ -258,7 +258,7 @@ class KFFmpegCommandActivity : AppCompatActivity() {
 
     private fun decodeAudio() {
         targetPath = externalCacheDir.toString() + File.separator + "target.pcm"
-        FFmpegCommand.runAsync(FFmpegUtils.decodeAudio(mAudioPath, targetPath, 44100, 2), callback("音频解码PCM完成", targetPath))
+        FFmpegCommand.runAsync(FFmpegUtils.decodeAudio(mAudioPath, targetPath, 16000, 1), callback("音频解码PCM完成", targetPath))
     }
 
     private fun encodeAudio() {
