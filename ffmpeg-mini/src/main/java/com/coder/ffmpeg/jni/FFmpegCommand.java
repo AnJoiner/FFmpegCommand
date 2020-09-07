@@ -3,7 +3,6 @@ package com.coder.ffmpeg.jni;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.coder.ffmpeg.annotation.Attribute;
 import com.coder.ffmpeg.call.ICallBack;
@@ -86,7 +85,7 @@ public class FFmpegCommand {
      * @param type 属性类型 {@link com.coder.ffmpeg.annotation.Attribute}
      * @return 媒体信息
      */
-    public static long getInfoSync(String path, @Attribute int type) {
+    public static int getInfoSync(String path, @Attribute int type) {
         FFmpegCmd ffmpegCmd = new FFmpegCmd();
         return ffmpegCmd.getInfo(path, type);
     }
@@ -461,7 +460,6 @@ public class FFmpegCommand {
      * @param size 命令数量
      */
     private static void globalAsyncCallbackComplete(IFFmpegCallBack callBack,int size){
-        Log.e("CmdProgress","CmdProgress : "+globalProgress);
         if (callBack!=null && size>0 && globalProgress/size == 100){
             callBack.onComplete();
             listeners.clear();

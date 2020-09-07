@@ -85,7 +85,7 @@ public class FFmpegCommand {
      * @param type 属性类型 {@link Attribute}
      * @return 媒体信息
      */
-    public static long getInfoSync(String path, @Attribute int type) {
+    public static int getInfoSync(String path, @Attribute int type) {
         FFmpegCmd ffmpegCmd = new FFmpegCmd();
         return ffmpegCmd.getInfo(path, type);
     }
@@ -439,8 +439,11 @@ public class FFmpegCommand {
      */
     private static void globalAsyncCallbackProgress(IFFmpegCallBack callBack, int progress, int size){
         int temp;
+        // 多命令进度回调，当进度100时直接进入下一条命令进度中
         if (progress == 100){
-            globalProgress+=progress;
+            if (globalProgress < size * 100){
+                globalProgress+=progress;
+            }
             temp = globalProgress;
         }else {
             temp = globalProgress+progress;

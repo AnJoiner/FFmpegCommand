@@ -3,6 +3,7 @@ package com.coder.ffmpegtest.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -81,6 +82,7 @@ class KFFmpegInfoActivity : AppCompatActivity() {
     private fun getDuration() {
         val AV_TIME_BASE = 1000000;
         val duration = FFmpegCommand.getInfoSync(mVideoPath, Attribute.DURATION)
+        Log.d("FFmpeg", "duration: $duration")
         var secs = duration / AV_TIME_BASE
         val us = duration % AV_TIME_BASE
         var mins = secs / 60

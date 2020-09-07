@@ -135,7 +135,6 @@ class KFFmpegCommandActivity : AppCompatActivity() {
     }
 
     private fun transformAudio() {
-        CustomProgressDialog.showLoading(this)
         targetPath = externalCacheDir.toString() + File.separator + "target.aac"
         FFmpegCommand.runAsync(FFmpegUtils.transformAudio(mAudioPath, targetPath), callback("音频转码完成", targetPath))
     }

@@ -59,11 +59,11 @@ class FFmpegCmd {
         return result;
     }
 
-    long getInfo(String videoPath, @Attribute int type) {
+    int getInfo(String videoPath, @Attribute int type) {
         return info(videoPath, type);
     }
 
-    private native long info(String videoPath, int type);
+    private native int info(String videoPath, int type);
 
     private String[] command(String[] cmd) {
         String[] cmds = new String[cmd.length + 1];

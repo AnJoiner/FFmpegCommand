@@ -28,8 +28,6 @@ public class FFmpegCommandService2 extends Service {
         String videoPath = new File(getExternalCacheDir(), "test.mp4").getAbsolutePath();
 
         String output = new File(getExternalCacheDir(), "output3.yuv").getAbsolutePath();
-//                Environment.getExternalStorageDirectory().getPath() + File.separator +
-//                        "DCIM" + File.separator + "output3.yuv";
 
         String cmd = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s";
         final String result = String.format(Locale.CHINA, cmd, videoPath, output);

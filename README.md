@@ -45,16 +45,16 @@ implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 
 ### FFmpegCommand方法
 
-|方法 |功能 |加入版本 |
-|:---|----|----|
-|FFmpegCommand->setDebug(boolean debug)|Dubug模式，可打印日志，默认true|1.1.1 |
-|FFmpegCommand->runSync(final String[] cmd)|同步执行ffmpeg命令，外部需添加延时线程|1.1.1 |
-|FFmpegCommand->runSync(final String[] cmd, OnFFmpegCommandListener listener)|同步执行ffmpeg命令，并回调 完成，取消，进度|1.1.3 |
-|FFmpegCommand->runAsync(final String[] cmd, IFFmpegCallBack callBack)|异步执行，外部无需添加延时线程，并回调 开始，完成，取消，进度|1.1.3 |
-|FFmpegCommand->getInfoSync(String path,@Attribute int type)|获取媒体信息，type值必须为`@Attribute`中注解参数|1.1.1 |
-|FFmpegCommand->cancel()| 退出当前ffmpeg执行 |1.1.3 |
-|FFmpegCommand->runMoreSync(List<String[]> cmds, OnFFmpegCommandListener listener)|同步多命令执行，并回调 完成，取消，进度|1.1.5 |
-|FFmpegCommand->runMoreAsync(List<String[]> cmds, IFFmpegCallBack callBack)|同步多命令执行，并回调开始，完成，取消，进度|1.1.5 |
+|方法 |功能 |
+|:---|----|
+|FFmpegCommand->setDebug(boolean debug)|Dubug模式，可打印日志，默认true|
+|FFmpegCommand->runSync(final String[] cmd)|同步执行ffmpeg命令，外部需添加延时线程|
+|FFmpegCommand->runSync(final String[] cmd, OnFFmpegCommandListener listener)|同步执行ffmpeg命令，并回调 完成，取消，进度|
+|FFmpegCommand->runAsync(final String[] cmd, IFFmpegCallBack callBack)|异步执行，外部无需添加延时线程，并回调 开始，完成，取消，进度|
+|FFmpegCommand->getInfoSync(String path,@Attribute int type)|获取媒体信息，type值必须为`@Attribute`中注解参数|
+|FFmpegCommand->cancel()| 退出当前ffmpeg执行 |
+|FFmpegCommand->runMoreSync(List<String[]> cmds, OnFFmpegCommandListener listener)|同步多命令执行，并回调 完成，取消，进度|
+|FFmpegCommand->runMoreAsync(List<String[]> cmds, IFFmpegCallBack callBack)|同步多命令执行，并回调开始，完成，取消，进度|
 
 ### 使用runAsync
 以`runAsync`调用`FFmpeg`为异步方式，不需要单独开启子线程。强烈建议使用此方法进行音视频处理!!!   
@@ -112,7 +112,7 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 
 ### 多命令执行
 
-在`1.1.5`版本新增了多命令执行方式，可以多条命令一同执行，可返回总进度，提供了两种方式去实现
+在`1.1.5`版本新增了多命令执行方式，可以多条命令一同执行，可返回总进度，提供了两种方式去实现。
 
 * **runMoreSync** 多条命令同步执行
 * **runMoreAsync** 多条命令异步执行
@@ -153,6 +153,46 @@ Thread(Runnable {
 }).start()
 ```
 
+### 多进程执行
+由于底层暂时无法实现多线程(资源占用问题)，所以如果需要在推流的同时，是无法再同时执行其他命令。为了解决这个问题，可以使用如下多进程方法：
+
+1. 定义与主进程不同的其他进程
+```xml
+<service android:name=".service.FFmpegCommandService" android:process=":ffmpegCommand" />
+<service android:name=".service.FFmpegCommandService2" android:process=":ffmpegCommand2" />
+```
+
+2. 在其他进程中执行推流的操作
+```
+public class FFmpegCommandService2 extends Service {
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        String videoPath = new File(getExternalCacheDir(), "test.mp4").getAbsolutePath();
+
+        String output = new File(getExternalCacheDir(), "output3.yuv").getAbsolutePath();
+
+        String cmd = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s";
+        final String result = String.format(Locale.CHINA, cmd, videoPath, output);
+        final String[] strings = result.split(" ");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FFmpegCommand.runSync(strings);
+            }
+        }).start();
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+}
+```
 
 ### 取消执行
 执行下面方法后将会回调 `CommonCallBack->onCancel()` 或 `OnFFmpegCommandListener->onCancel()` 方法
