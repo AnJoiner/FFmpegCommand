@@ -3,6 +3,7 @@ package com.coder.ffmpegtest;
 import android.app.Application;
 
 import com.coder.ffmpeg.jni.FFmpegCommand;
+import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * @author: AnJoiner
@@ -15,7 +16,8 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        FFmpegCommand.setDebug(true);
+        FFmpegCommand.setDebug(false);
+        CrashReport.initCrashReport(getApplicationContext(), "d7b0e14940", true);
     }
 
     public static BaseApplication getInstance() {
