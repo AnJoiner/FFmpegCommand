@@ -10,6 +10,23 @@
         <item>音频采样率</item>
         <item>音频比特率</item>
     </string-array>
+
+    <string-array name="formats">
+        <item>输入格式</item>
+        <item>输出格式</item>
+    </string-array>
+
+    <string-array name="codecs">
+        <item>编码格式</item>
+        <item>解码格式</item>
+        <item>音频编码格式</item>
+        <item>音频解码格式</item>
+        <item>视频编码格式</item>
+        <item>视频解码格式</item>
+        <item>其他编码格式</item>
+        <item>其他解码格式</item>
+    </string-array>
+
     <string-array name="commands">
         <item>音频转码</item>
         <item>视频转码</item>
@@ -48,6 +65,7 @@
         <item>音频转mp3lamp</item>
         <item>视频切片-hls</item>
         <item>合成hls-视频</item>
+        <item>音频转码amr</item>
     </string-array>
 
 </resources>

@@ -7,14 +7,14 @@ import androidx.annotation.IntDef;
  * @datetime: 20-9-9
  */
 @IntDef({
-        com.coder.ffmpeg.anotation.CodecAttribute.ENCODE,
-        com.coder.ffmpeg.anotation.CodecAttribute.DECODE,
-        com.coder.ffmpeg.anotation.CodecAttribute.ENCODE_AUDIO,
-        com.coder.ffmpeg.anotation.CodecAttribute.DECODE_AUDIO,
-        com.coder.ffmpeg.anotation.CodecAttribute.ENCODE_VIDEO,
-        com.coder.ffmpeg.anotation.CodecAttribute.DECODE_VIDEO,
-        com.coder.ffmpeg.anotation.CodecAttribute.ENCODE_OTHER,
-        com.coder.ffmpeg.anotation.CodecAttribute.DECODE_OTHER
+        CodecAttribute.ENCODE,
+        CodecAttribute.DECODE,
+        CodecAttribute.ENCODE_AUDIO,
+        CodecAttribute.DECODE_AUDIO,
+        CodecAttribute.ENCODE_VIDEO,
+        CodecAttribute.DECODE_VIDEO,
+        CodecAttribute.ENCODE_OTHER,
+        CodecAttribute.DECODE_OTHER
 })
 public @interface CodecAttribute {
     int ENCODE = 1; // 编码格式

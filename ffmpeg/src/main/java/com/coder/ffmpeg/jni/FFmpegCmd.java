@@ -1,6 +1,8 @@
 package com.coder.ffmpeg.jni;
 
 import com.coder.ffmpeg.annotation.Attribute;
+import com.coder.ffmpeg.annotation.CodecAttribute;
+import com.coder.ffmpeg.annotation.FormatAttribute;
 
 /**
  * @author: AnJoiner
@@ -64,6 +66,18 @@ class FFmpegCmd {
     }
 
     private native int info(String videoPath, int type);
+
+    public String getFormatInfo(@FormatAttribute int format){
+        return formatInfo(format);
+    }
+
+    private native String formatInfo(int format);
+
+    public String getCodecInfo(@CodecAttribute int codec){
+        return codecInfo(codec);
+    }
+
+    private native String codecInfo(int codec);
 
     private String[] command(String[] cmd) {
         String[] cmds = new String[cmd.length + 1];

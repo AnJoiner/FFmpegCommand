@@ -130,6 +130,7 @@ class KFFmpegCommandActivity : AppCompatActivity() {
                 34 -> audio2Mp3lame()
                 35 -> video2HLS()
                 36 -> hls2Video()
+                37 -> audio2Amr()
             }
         }
     }
@@ -412,6 +413,11 @@ class KFFmpegCommandActivity : AppCompatActivity() {
         targetPath = dir.toString() + File.separator + "target.mp4"
         FFmpegCommand.runAsync(FFmpegUtils.hls2Video(videoIndexFile.absolutePath, targetPath), callback("合成切片成功", targetPath))
 
+    }
+
+    private fun audio2Amr(){
+        targetPath = externalCacheDir.toString() + File.separator + "target.amr"
+        FFmpegCommand.runAsync(FFmpegUtils.audio2Amr(mAudioPath, targetPath), callback("mp3转amr成功", targetPath))
     }
 
     private fun callback(msg: String, targetPath: String?): CommonCallBack? {

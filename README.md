@@ -3,7 +3,7 @@
 
 
 ## 前景提要
-在我们的开发中，经常会用到音视频相关内容，一般我们都会选择[FFmpeg](https://www.ffmpeg.org/)，但是其交叉编译对于我们来说是一件很麻烦的事情．所以这里方便日后使用就编写了这个`FFmpegCommand`，`FFmpegCommand`是由`FFmpeg`核心库，并且集成了`lame`、`libx264`和`fdk-aac`主流音视频处理程序构成的Android程序
+在我们的开发中，经常会用到音视频相关内容，一般我们都会选择[FFmpeg](https://www.ffmpeg.org/)，但是其交叉编译对于我们来说是一件很麻烦的事情．所以这里方便日后使用就编写了这个`FFmpegCommand`，`FFmpegCommand`是由`FFmpeg`核心库，并且集成了`lame`、`libx264`、`fdk-aac`和`libopencore-amr`主流音视频处理程序构成的Android程序
 
 **注意：当前库只适用于Android**
 
@@ -13,16 +13,18 @@
 * **支持所有FFmpeg命令**
 * **支持视频格式转换 mp4->flv**
 * **支持音频编解码 mp3->pcm pcm->mp3 pcm->aac**
+* **支持音频转码 mp3->aac mp3->amr**
 * **支持视频编解码 mp4->yuv yuv->h264**
+* **支持视频转码 mp4->flv mp4->avi**
 * **支持音视频的剪切、拼接**
 * **支持视频转图片 mp4->png mp4->gif**
 * **支持音频声音大小控制以及混音（比如朗读的声音加上背景音乐）**
 * **支持部分滤镜 音频淡入、淡出效果、视频亮度和对比度以及添加水印**
 * **支持获取媒体文件信息**
-* **支持多命令同步/异步执行**
+* **支持多命令同步执行**
 
 |执行FFmpeg|获取媒体信息|
-|---------| ----------------------------------| 
+|---------| ----------------------------------|
 |<img src="images/1.gif" alt="图-1：命令行展示" width="260px" />|<img src="images/2.gif" alt="图-2：命令行执行" width="260px"/>|
 
 
@@ -38,6 +40,7 @@ implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 ```
 
 **如果没有特别的编解码需求,强烈推荐建议使用`ffmpeg-mini`**
+<font size=2>当然如果有特别的编解码需求，或者对包的大小有超高要求的，可以通过下方的群联系我进行私人定制。当然这个定制是**有偿的**，毕竟撸码不易，光阴似箭～～</font>
 
 ## 使用
 
@@ -54,7 +57,6 @@ implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 |FFmpegCommand->getInfoSync(String path,@Attribute int type)|获取媒体信息，type值必须为`@Attribute`中注解参数|
 |FFmpegCommand->cancel()| 退出当前ffmpeg执行 |
 |FFmpegCommand->runMoreSync(List<String[]> cmds, OnFFmpegCommandListener listener)|同步多命令执行，并回调 完成，取消，进度|
-|FFmpegCommand->runMoreAsync(List<String[]> cmds, IFFmpegCallBack callBack)|同步多命令执行，并回调开始，完成，取消，进度|
 
 ### 使用runAsync
 以`runAsync`调用`FFmpeg`为异步方式，不需要单独开启子线程。强烈建议使用此方法进行音视频处理!!!   
@@ -118,25 +120,32 @@ FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
 * **runMoreAsync** 多条命令异步执行
 
 ```kotlin
-FFmpegCommand.runMoreAsync(st, object : CommonCallBack() {
-    override fun onStart() {
-        mErrorDialog?.show(supportFragmentManager, "Dialog")
-    }
 
-    override fun onComplete() {
-        mErrorDialog?.setContent(0)
-        mErrorDialog?.dismissAllowingStateLoss()
-        ToastUtils.show("多命令执行完成")
-        val target = targetAAC + "\n" + targetAVI + "\n" + targetYUV
-        tvContent!!.text = target
+FFmpegCommand.runMoreSync(st, object : FFmpegCommand.OnFFmpegCommandListener {
+    override fun onProgress(progress: Int) {
+        val msg = Message()
+        msg.what = 1
+        msg.arg1 = progress
+        handler.sendMessage(msg)
+        Log.d("runMoreSync", "globalProgress:$progress")
     }
 
     override fun onCancel() {
-        ToastUtils.show("用户取消")
+        Log.d("runMoreSync", "onCancel")
+        val msg = Message()
+        msg.what = -1
+        handler.sendMessage(msg)
     }
 
-    override fun onProgress(progress: Int) {
-        mErrorDialog?.setContent(progress)
+    override fun onComplete() {
+        val target = targetAAC + "\n" + targetAVI + "\n" + targetYUV
+
+        val msg = Message()
+        msg.what = 0
+        msg.obj = target
+        handler.sendMessage(msg)
+
+        Log.d("runMoreSync", "onComplete")
     }
 })
 ```
@@ -200,8 +209,6 @@ public class FFmpegCommandService2 extends Service {
 ```java
 FFmpegCommand.cancel();
 ```
-
-**[【其他方法】](ffmpeg-wiki/使用.md)**
 
 **[【功能详解】](ffmpeg-wiki/详细功能.md)**
 

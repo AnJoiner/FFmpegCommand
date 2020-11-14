@@ -1,4 +1,4 @@
-package com.coder.ffmpeg.anotation;
+package com.coder.ffmpeg.annotation;
 
 import androidx.annotation.IntDef;
 

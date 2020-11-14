@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.coder.ffmpeg.annotation.Attribute;
+import com.coder.ffmpeg.annotation.CodecAttribute;
+import com.coder.ffmpeg.annotation.FormatAttribute;
 import com.coder.ffmpeg.call.ICallBack;
 import com.coder.ffmpeg.call.IFFmpegCallBack;
 
@@ -88,6 +90,26 @@ public class FFmpegCommand {
     public static int getInfoSync(String path, @Attribute int type) {
         FFmpegCmd ffmpegCmd = new FFmpegCmd();
         return ffmpegCmd.getInfo(path, type);
+    }
+
+    /**
+     * 获取支持解封装格式
+     * @param formatType 格式类型 {@link FormatAttribute}
+     * @return 格式信息
+     */
+    public static String getSupportFormat(@FormatAttribute int formatType){
+        FFmpegCmd ffmpegCmd = new FFmpegCmd();
+        return ffmpegCmd.getFormatInfo(formatType);
+    }
+
+    /**
+     * 获取支持编解码
+     * @param codecType 编解码类型 {@link CodecAttribute}
+     * @return 编解码信息
+     */
+    public static String getSupportCodec(@CodecAttribute int codecType){
+        FFmpegCmd ffmpegCmd = new FFmpegCmd();
+        return ffmpegCmd.getCodecInfo(codecType);
     }
 
     /**

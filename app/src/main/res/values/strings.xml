@@ -41,4 +41,7 @@
     <string name="str_more_command2">同步多命令行\n合并执行</string>
     <string name="str_more_command3">异步多命令行\n合并执行</string>
     <string name="str_more_command4">多进程执行</string>
+
+    <string name="str_input_format">输入格式</string>
+    <string name="str_output_format">输入格式</string>
 </resources>

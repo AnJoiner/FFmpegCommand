@@ -848,4 +848,16 @@ public class FFmpegUtils {
         return command.split(" ");
     }
 
+
+    /**
+     * 将音频转为amr格式
+     * @param srcFile 音频源文件
+     * @param targetFile 目标文件
+     * @return amr格式音频
+     */
+    public static String[] audio2Amr(String srcFile, String targetFile){
+        String command = "ffmpeg -y -i %s -c:a libopencore_amrnb -ar 8000 -ac 1 %s";
+        command = String.format(command, srcFile ,targetFile);
+        return command.split(" ");
+    }
 }
