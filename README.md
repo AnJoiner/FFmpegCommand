@@ -42,6 +42,7 @@ implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 ```
 
 **如果没有特别的编解码需求,强烈推荐建议使用`ffmpeg-mini`**
+
 <font size=2>当然如果有特别的编解码需求，或者对包的大小有超高要求的，可以通过下方的群联系我进行私人定制。当然这个定制是**有偿的**，毕竟撸码不易，光阴似箭～～</font>
 
 ## 使用
