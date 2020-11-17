@@ -1,5 +1,7 @@
 package com.coder.ffmpeg.jni;
 
+import android.util.Log;
+
 import com.coder.ffmpeg.annotation.Attribute;
 import com.coder.ffmpeg.annotation.CodecAttribute;
 import com.coder.ffmpeg.annotation.FormatAttribute;
@@ -128,5 +130,9 @@ class FFmpegCmd {
         }
         // 移除当前对象,释放内存
         FFmpegCommand.cmds.remove(this);
+    }
+
+    void onError(int errorCode, String errorMsg){
+        Log.e("CmdError","error: "+errorCode+", msg:"+errorMsg);
     }
 }
