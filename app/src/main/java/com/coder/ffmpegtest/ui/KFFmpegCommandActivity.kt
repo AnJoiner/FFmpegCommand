@@ -420,6 +420,12 @@ class KFFmpegCommandActivity : AppCompatActivity() {
         FFmpegCommand.runAsync(FFmpegUtils.audio2Amr(mAudioPath, targetPath), callback("mp3转amr成功", targetPath))
     }
 
+    private fun errorTest(){
+        targetPath = externalCacheDir.toString() + File.separator + "target.mp3"
+        var command = "ffmpeg -y -f lavfi -t 10 -i anullsrc $targetPath"
+        FFmpegCommand.runAsync(command.split(" ").toTypedArray(), callback("生成静音文件成功", targetPath))
+    }
+
     private fun callback(msg: String, targetPath: String?): CommonCallBack? {
         tvContent!!.text = ""
         if (mErrorDialog == null) {

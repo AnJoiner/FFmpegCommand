@@ -180,11 +180,6 @@ public class FFmpegCommand {
                     public void onComplete() {
                         globalSyncCallbackComplete(listener,cmds.size());
                     }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-
-                    }
                 };
                 listeners.add(commandListener);
                 ffmpegCmd.runCmdSync(cmd, commandListener);
@@ -334,11 +329,6 @@ public class FFmpegCommand {
                             }
                         }
                     }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-
-                    }
                 };
                 ffmpegCmd.runCmdSync(cmd,commandListener);
             }
@@ -426,11 +416,6 @@ public class FFmpegCommand {
                                     mHandler.sendMessage(msg);
                                 }
                             }
-                        }
-
-                        @Override
-                        public void onError(Throwable throwable) {
-
                         }
                     };
                     FFmpegCommand.listeners.add(commandListener);
@@ -535,7 +520,5 @@ public class FFmpegCommand {
         void onCancel();
 
         void onComplete();
-
-        void onError(Throwable throwable);
     }
 }

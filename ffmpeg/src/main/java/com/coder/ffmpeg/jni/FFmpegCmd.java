@@ -5,7 +5,6 @@ import android.util.Log;
 import com.coder.ffmpeg.annotation.Attribute;
 import com.coder.ffmpeg.annotation.CodecAttribute;
 import com.coder.ffmpeg.annotation.FormatAttribute;
-import com.coder.ffmpeg.exception.CmdExecuteException;
 
 /**
  * @author: AnJoiner
@@ -134,9 +133,7 @@ class FFmpegCmd {
     }
 
     void onError(int errorCode, String errorMsg){
-        if (mCommandListener != null) {
-            mCommandListener.onError(new CmdExecuteException(errorMsg,errorCode));
-        }
+        Log.e("CmdError","errorCode:"+errorCode+", errorMsg:"+errorMsg);
         // 移除当前对象,释放内存
         FFmpegCommand.cmds.remove(this);
     }
