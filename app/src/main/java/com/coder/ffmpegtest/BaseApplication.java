@@ -16,7 +16,7 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        FFmpegCommand.setDebug(false);
+        FFmpegCommand.setDebug(true);
         CrashReport.initCrashReport(getApplicationContext(), "d7b0e14940", true);
     }
 
