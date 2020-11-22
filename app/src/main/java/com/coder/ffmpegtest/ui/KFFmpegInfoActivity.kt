@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.coder.ffmpeg.annotation.Attribute
+import com.coder.ffmpeg.annotation.MediaAttribute
 import com.coder.ffmpeg.jni.FFmpegCommand
 import com.coder.ffmpegtest.R
 import com.coder.ffmpegtest.model.CommandBean
@@ -81,7 +81,7 @@ class KFFmpegInfoActivity : AppCompatActivity() {
 
     private fun getDuration() {
         val AV_TIME_BASE = 1000000;
-        val duration = FFmpegCommand.getInfoSync(mVideoPath, Attribute.DURATION)
+        val duration = FFmpegCommand.getMediaInfo(mVideoPath, MediaAttribute.DURATION)
         Log.d("FFmpeg", "duration: $duration")
         var secs = duration / AV_TIME_BASE
         val us = duration % AV_TIME_BASE
@@ -95,43 +95,43 @@ class KFFmpegInfoActivity : AppCompatActivity() {
     }
 
     private fun getWidth() {
-        val width = FFmpegCommand.getInfoSync(mVideoPath, Attribute.WIDTH)
+        val width = FFmpegCommand.getMediaInfo(mVideoPath, MediaAttribute.WIDTH)
         val result = String.format("width = %s", width)
         tvContent?.text = result
     }
 
     private fun getHeight() {
-        val height = FFmpegCommand.getInfoSync(mVideoPath, Attribute.HEIGHT)
+        val height = FFmpegCommand.getMediaInfo(mVideoPath, MediaAttribute.HEIGHT)
         val result = String.format("height = %s", height)
         tvContent?.text = result
     }
 
     private fun getVideoBitRate() {
-        val bitRate = FFmpegCommand.getInfoSync(mVideoPath, Attribute.VIDEO_BIT_RATE)
+        val bitRate = FFmpegCommand.getMediaInfo(mVideoPath, MediaAttribute.VIDEO_BIT_RATE)
         val result = String.format("bitRate = %s", bitRate)
         tvContent?.text = result
     }
 
     private fun getVideoFPS() {
-        val fps = FFmpegCommand.getInfoSync(mVideoPath, Attribute.FPS)
+        val fps = FFmpegCommand.getMediaInfo(mVideoPath, MediaAttribute.FPS)
         val result = String.format("fps = %s", fps)
         tvContent?.text = result
     }
 
     private fun getChannels() {
-        val channels = FFmpegCommand.getInfoSync(mVideoPath, Attribute.CHANNELS)
+        val channels = FFmpegCommand.getMediaInfo(mVideoPath, MediaAttribute.CHANNELS)
         val result = String.format("channels = %s", channels)
         tvContent?.text = result
     }
 
     private fun getSampleRate() {
-        val sampleRate = FFmpegCommand.getInfoSync(mVideoPath, Attribute.SAMPLE_RATE)
+        val sampleRate = FFmpegCommand.getMediaInfo(mVideoPath, MediaAttribute.SAMPLE_RATE)
         val result = String.format("sampleRate = %s", sampleRate)
         tvContent?.text = result
     }
 
     private fun getAudioBitRate() {
-        val bitRate = FFmpegCommand.getInfoSync(mVideoPath, Attribute.AUDIO_BIT_RATE)
+        val bitRate = FFmpegCommand.getMediaInfo(mVideoPath, MediaAttribute.AUDIO_BIT_RATE)
         val result = String.format("bitRate = %s", bitRate)
         tvContent?.text = result
     }

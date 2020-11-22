@@ -23,7 +23,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.disposables.CompositeDisposable;
 
 public abstract class BaseDialog extends DialogFragment  {
 
@@ -37,7 +36,6 @@ public abstract class BaseDialog extends DialogFragment  {
 
     protected Context mContext;
     protected Activity mActivity;
-    protected CompositeDisposable disposables;
 
     private Unbinder unBinder;
 
@@ -89,7 +87,6 @@ public abstract class BaseDialog extends DialogFragment  {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        disposables = new CompositeDisposable();
         isPrepared = true;
         init();
         lazyLoad();
@@ -168,7 +165,6 @@ public abstract class BaseDialog extends DialogFragment  {
     public void onDestroyView() {
         super.onDestroyView();
         unBinder.unbind();
-        disposables.dispose();
     }
 
     @Override

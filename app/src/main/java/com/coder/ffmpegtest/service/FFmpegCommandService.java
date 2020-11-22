@@ -35,12 +35,7 @@ public class FFmpegCommandService extends Service {
         final String result = String.format(Locale.CHINA, cmd, videoPath, output);
         final String[] strings = result.split(" ");
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FFmpegCommand.runSync(strings);
-            }
-        }).start();
+        FFmpegCommand.runCmd(strings);
 
         return super.onStartCommand(intent, flags, startId);
     }

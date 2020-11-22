@@ -14,6 +14,7 @@ import java.util.Locale;
  * @datetime: 19-12-17
  */
 public class FFmpegUtils {
+
     /**
      * 使用ffmpeg命令行进行音频转码
      *
@@ -858,6 +859,17 @@ public class FFmpegUtils {
     public static String[] audio2Amr(String srcFile, String targetFile){
         String command = "ffmpeg -y -i %s -c:a libopencore_amrnb -ar 8000 -ac 1 %s";
         command = String.format(command, srcFile ,targetFile);
+        return command.split(" ");
+    }
+
+    /**
+     * 生成静音音频
+     * @param targetFile 目标文件
+     * @return 静音音频
+     */
+    public static String[] makeMuteAudio(String targetFile){
+        String command = "ffmpeg -y -f lavfi -t 10 -i anullsrc %s";
+        command = String.format(command ,targetFile);
         return command.split(" ");
     }
 }
