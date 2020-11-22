@@ -65,18 +65,20 @@ class KFFmpegInfoActivity : AppCompatActivity() {
     }
 
     private fun initListener() {
-        mAdapter!!.setItemClickListener { position ->
-            when (position) {
-                0 -> getDuration()
-                1 -> getWidth()
-                2 -> getHeight()
-                3 -> getVideoBitRate()
-                4 -> getVideoFPS()
-                5 -> getChannels()
-                6 -> getSampleRate()
-                7 -> getAudioBitRate()
+        mAdapter!!.setItemClickListener (object : FFmpegCommandAdapter.ItemClickListener {
+            override fun itemClick(id: Int) {
+                when (id) {
+                    0 -> getDuration()
+                    1 -> getWidth()
+                    2 -> getHeight()
+                    3 -> getVideoBitRate()
+                    4 -> getVideoFPS()
+                    5 -> getChannels()
+                    6 -> getSampleRate()
+                    7 -> getAudioBitRate()
+                }
             }
-        }
+        })
     }
 
     private fun getDuration() {

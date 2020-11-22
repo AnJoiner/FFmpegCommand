@@ -93,59 +93,61 @@ class KFFmpegCommandActivity : AppCompatActivity() {
 
 
     private fun initListener() {
-        mAdapter!!.setItemClickListener { position ->
-            tvContent!!.text = ""
-            if (mErrorDialog == null) {
-                mErrorDialog = PromptDialog.newInstance("进度", "完成", "", "停止")
-                mErrorDialog?.setHasNegativeButton(false)
-                mErrorDialog?.setOnPromptListener {
-                    if (it) {
-                        FFmpegCommand.cancel()
-                    }
+        mAdapter!!.setItemClickListener(object : FFmpegCommandAdapter.ItemClickListener {
+            override fun itemClick(id: Int) {
+                tvContent!!.text = ""
+                if (mErrorDialog == null) {
+                    mErrorDialog = PromptDialog.newInstance("进度", "完成", "", "停止")
+                    mErrorDialog?.setHasNegativeButton(false)
+                    mErrorDialog?.setOnPromptListener(object : OnPromptListener {
+                        override fun onPrompt(isPositive: Boolean) {
+                            if (isPositive) FFmpegCommand.cancel()
+                        }
+                    })
+                }
+                when (id) {
+                    0 -> transformAudio()
+                    1 -> transformVideo()
+                    2 -> cutAudio()
+                    3 -> cutVideo()
+                    4 -> concatAudio()
+                    5 -> concatVideo()
+                    6 -> extractAudio()
+                    7 -> extractVideo()
+                    8 -> mixAudioVideo()
+                    9 -> screenShot()
+                    10 -> video2Image()
+                    11 -> video2Gif()
+                    12 -> addWaterMark()
+                    13 -> image2Video()
+                    14 -> decodeAudio()
+                    15 -> encodeAudio()
+                    16 -> multiVideo()
+                    17 -> reverseVideo()
+                    18 -> picInPic()
+                    19 -> mixAudio()
+                    20 -> videoDoubleDown()
+                    21 -> videoSpeed2()
+                    22 -> denoiseVideo()
+                    23 -> reduceAudio()
+                    24 -> video2YUV()
+                    25 -> yuv2H264()
+                    26 -> fadeIn()
+                    27 -> fadeOut()
+                    28 -> bright()
+                    29 -> contrast()
+                    30 -> rotate()
+                    31 -> videoScale()
+                    32 -> frame2Image()
+                    33 -> audio2Fdkaac()
+                    34 -> audio2Mp3lame()
+                    35 -> video2HLS()
+                    36 -> hls2Video()
+                    37 -> audio2Amr()
+                    38 -> makeMuteAudio()
                 }
             }
-            when (position) {
-                0 -> transformAudio()
-                1 -> transformVideo()
-                2 -> cutAudio()
-                3 -> cutVideo()
-                4 -> concatAudio()
-                5 -> concatVideo()
-                6 -> extractAudio()
-                7 -> extractVideo()
-                8 -> mixAudioVideo()
-                9 -> screenShot()
-                10 -> video2Image()
-                11 -> video2Gif()
-                12 -> addWaterMark()
-                13 -> image2Video()
-                14 -> decodeAudio()
-                15 -> encodeAudio()
-                16 -> multiVideo()
-                17 -> reverseVideo()
-                18 -> picInPic()
-                19 -> mixAudio()
-                20 -> videoDoubleDown()
-                21 -> videoSpeed2()
-                22 -> denoiseVideo()
-                23 -> reduceAudio()
-                24 -> video2YUV()
-                25 -> yuv2H264()
-                26 -> fadeIn()
-                27 -> fadeOut()
-                28 -> bright()
-                29 -> contrast()
-                30 -> rotate()
-                31 -> videoScale()
-                32 -> frame2Image()
-                33 -> audio2Fdkaac()
-                34 -> audio2Mp3lame()
-                35 -> video2HLS()
-                36 -> hls2Video()
-                37 -> audio2Amr()
-                38 -> makeMuteAudio()
-            }
-        }
+        })
     }
 
     private fun transformAudio() {
@@ -186,7 +188,8 @@ class KFFmpegCommandActivity : AppCompatActivity() {
     }
 
     private fun concatVideo() {
-        val path = FileUtils.createInputFile(this, mVideoPath, mVideoPath, mVideoPath)
+        val path = FileUtils.createInputFile(this, mVideoPath!!, mVideoPath!!, mVideoPath!!)
+        //val path = FileUtils.createInputFile(this, mVideoPath, mVideoPath, mVideoPath)
         if (TextUtils.isEmpty(path)) {
             return
         }
@@ -531,7 +534,10 @@ class KFFmpegCommandActivity : AppCompatActivity() {
             }
 
             override fun onCancel() {
-               runOnUiThread {  ToastUtils.show("用户取消") }
+                runOnUiThread {
+                    ToastUtils.show("用户取消")
+                    mErrorDialog?.setContent(0)
+                }
                 Log.d("FFmpegCmd", "Cancel")
             }
 
