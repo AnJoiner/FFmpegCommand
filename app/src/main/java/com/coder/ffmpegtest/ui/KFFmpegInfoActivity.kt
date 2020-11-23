@@ -85,14 +85,14 @@ class KFFmpegInfoActivity : AppCompatActivity() {
         val AV_TIME_BASE = 1000000;
         val duration = FFmpegCommand.getMediaInfo(mVideoPath, MediaAttribute.DURATION)
         Log.d("FFmpeg", "duration: $duration")
-        var secs = duration / AV_TIME_BASE
-        val us = duration % AV_TIME_BASE
-        var mins = secs / 60
-        secs %= 60
-        val hours = mins / 60
-        mins %= 60
+        var secs = duration?.div(AV_TIME_BASE)
+        val us = duration?.rem(AV_TIME_BASE)
+        var mins = secs?.div(60)
+        secs = secs?.rem(60)
+        val hours = mins?.div(60)
+        mins = mins?.rem(60)
 
-        val result = String.format("%02d:%02d:%02d.%02d", hours, mins, secs, (100 * us) / AV_TIME_BASE)
+        val result = String.format("%02d:%02d:%02d.%02d", hours, mins, secs, (100 * us!!) / AV_TIME_BASE)
         tvContent?.text = result
     }
 

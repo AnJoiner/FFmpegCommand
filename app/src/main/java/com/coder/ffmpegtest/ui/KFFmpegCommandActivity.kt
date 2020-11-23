@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.coder.ffmpeg.annotation.Direction
 import com.coder.ffmpeg.annotation.ImageFormat
+import com.coder.ffmpeg.annotation.MediaAttribute
 import com.coder.ffmpeg.annotation.Transpose
 import com.coder.ffmpeg.call.CommonCallBack
 import com.coder.ffmpeg.jni.FFmpegCommand
@@ -30,6 +31,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
+import java.util.concurrent.Executors
 
 /**
  *
@@ -542,6 +544,8 @@ class KFFmpegCommandActivity : AppCompatActivity() {
             }
 
             override fun onProgress(progress: Int, pts: Long) {
+                var duration :Int? = FFmpegCommand.getMediaInfo(mAudioPath,MediaAttribute.DURATION)
+                var progressN = pts/duration!!
                 Log.d("FFmpegCmd", progress.toString() + "")
                 runOnUiThread { mErrorDialog?.setContent(progress) }
             }

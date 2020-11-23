@@ -3,7 +3,7 @@ package com.coder.ffmpegtest.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.coder.ffmpeg.jni.FFmpegCommand.runCmd
+import com.coder.ffmpeg.jni.FFmpegCommand
 import java.io.File
 import java.util.*
 
@@ -22,7 +22,7 @@ class FFmpegCommandService2 : Service() {
         val cmd = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s"
         val result = String.format(Locale.CHINA, cmd, videoPath, output)
         val strings: Array<String?> = result.split(" ").toTypedArray()
-        runCmd(strings)
+        FFmpegCommand.runCmd(strings)
         return super.onStartCommand(intent, flags, startId)
     }
 }

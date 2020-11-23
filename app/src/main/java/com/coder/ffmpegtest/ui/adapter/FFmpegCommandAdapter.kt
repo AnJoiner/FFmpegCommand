@@ -27,7 +27,7 @@ class FFmpegCommandAdapter(private val mStrings: List<CommandBean>) : RecyclerVi
         holder.mButton.text = mStrings[position].name
         holder.mButton.setOnClickListener {
             if (mItemClickListener != null) {
-                mItemClickListener!!.itemClick(mStrings[holder.adapterPosition].id)
+                mItemClickListener!!.itemClick(mStrings[position].id)
             }
         }
     }

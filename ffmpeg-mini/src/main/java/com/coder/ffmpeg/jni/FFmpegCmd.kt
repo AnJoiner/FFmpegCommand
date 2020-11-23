@@ -15,7 +15,6 @@ internal class FFmpegCmd private constructor() {
     private val mCallBacks = Collections.synchronizedList(ArrayList<IFFmpegCallBack>())
 
     companion object {
-        @JvmStatic
         var instance: FFmpegCmd? = null
             get() {
                 if (field == null) {
@@ -55,8 +54,8 @@ internal class FFmpegCmd private constructor() {
      * @param cmd ffmeng command
      * @return execute status
      */
-    fun runCmd(cmd: Array<String?>): Int {
-        var cmd = cmd
+    fun runCmd(command: Array<String?>): Int {
+        var cmd = command
         cmd = buildCommand(cmd)
         return run(getCommand(cmd))
     }
@@ -67,8 +66,8 @@ internal class FFmpegCmd private constructor() {
      * @param callBack callback result
      * @return execute status
      */
-    fun runCmd(cmd: Array<String?>, callBack: IFFmpegCallBack): Int {
-        var cmd = cmd
+    fun runCmd(command: Array<String?>, callBack: IFFmpegCallBack?): Int {
+        var cmd = command
         mCallBacks.add(callBack)
         cmd = buildCommand(cmd)
         return run(getCommand(cmd))
@@ -114,7 +113,7 @@ internal class FFmpegCmd private constructor() {
      * @param command ffmeng command
      * @return execute status
      */
-    private external fun run(command: String): Int
+    private external fun run(command: String?): Int
 
     /**
      * Get media information
@@ -122,11 +121,11 @@ internal class FFmpegCmd private constructor() {
      * @param type information type
      * @return media information
      */
-    fun getMediaInfo(videoPath: String, @MediaAttribute type: Int): Int {
+    fun getMediaInfo(videoPath: String?, @MediaAttribute type: Int): Int? {
         return info(videoPath, type)
     }
 
-    private external fun info(videoPath: String, type: Int): Int
+    private external fun info(videoPath: String?, type: Int): Int
     fun getFormatInfo(@FormatAttribute format: Int): String {
         return formatInfo(format)
     }
