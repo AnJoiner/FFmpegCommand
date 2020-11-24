@@ -1,6 +1,17 @@
 
 ![FFmpegCommand](images/ffmpeg-command.png)
 
+> 致`FFmpegCommand`使用者的一封信：
+> 	首先感谢大家对此库的支持，感谢你们的使用才让我们有了继续开源下去的动力，感谢你们提出的问题，让这个库更加的完善。
+> 	在`1.2.0`之前提供了异步处理和多代码执行，但是很多人反馈，无法执行异步而且多代码用处不大，所以我们经过讨论将在`1.2.0`及之后的版本作出如下更改：
+>
+> * 取消`runCmdAsync`和`runCmdSync`方法，统一更改为`runCmd`执行`FFmpeg`命令
+> * 取消多命令`runMoreAsync`和`runMoreSync`方法，`runCmd`内部自动实现同步顺序执行
+> * 新增错误日志提示，发生错误时使用`ffmpeg-cmd`进行筛选错误日志
+>
+> 此次修改对您造成的不便，敬请谅解。
+
+[【README-English】](./README.md)
 
 ## 前景提要
 在我们的开发中，经常会用到音视频相关内容，一般我们都会选择[FFmpeg](https://www.ffmpeg.org/)，但是其交叉编译对于我们来说是一件很麻烦的事情．所以这里方便日后使用就编写了这个`FFmpegCommand`，`FFmpegCommand`是由`FFmpeg`核心库，并且集成了`lame`、`libx264`、`fdk-aac`和`libopencore-amr`主流音视频处理程序构成的Android程序

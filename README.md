@@ -1,6 +1,16 @@
 
 ![FFmpegCommand](images/ffmpeg-command.png)
 
+> A letter to users of `FFmpegCommand`:
+> First of all, thank you all for your support of this library. Thank you for using it so that we have the motivation to continue to open source. Thank you for your questions and make this library more perfect.
+> Asynchronous processing and multi-code execution were provided before `1.2.0`, but many people reported that it is impossible to perform asynchronous and multi-code is not very useful, so we will make the following changes in `1.2.0` and later versions after discussion :
+>
+> * Delete the `runCmdAsync` and `runCmdSync` methods and change them to `runCmd` to execute the `FFmpeg` command
+> * Delete multi-command `runMoreAsync` and `runMoreSync` methods, `runCmd` internally realizes automatic synchronization and sequential execution
+> * Added error log prompt, use `ffmpeg-cmd` to filter the error log when an error occurs
+>
+> We apologize for the inconvenience caused by this modification.
+
 [【README-中文】](./README-CN.md)
 
 ## Summary

@@ -515,6 +515,14 @@ class KFFmpegCommandActivity : AppCompatActivity() {
         }
     }
 
+    private fun splitmute(){
+        GlobalScope.launch {
+            var commands = "ffmpeg -i %s -af pan=1c|c0=c0,silencedetect=n=-35dB:d=0.100 -f null /dev/null"
+            var cmd:Array<String?> = String.format(commands,mAudioPath).split(" ").toTypedArray()
+            FFmpegCommand.runCmd(cmd, callback("检测静音", targetPath))
+        }
+    }
+
     private fun callback(msg: String, targetPath: String?): CommonCallBack? {
         return object : CommonCallBack() {
             override fun onStart() {

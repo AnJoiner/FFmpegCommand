@@ -12,7 +12,7 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        FFmpegCommand.setDebug(false)
+        FFmpegCommand.setDebug(true)
         CrashReport.initCrashReport(applicationContext, "d7b0e14940", true)
     }
 
