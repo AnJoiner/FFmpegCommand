@@ -1,9 +1,9 @@
 
 ![FFmpegCommand](images/ffmpeg-command.png)
 
-> A letter to users of `FFmpegCommand`:
-> First of all, thank you all for your support of this library. Thank you for using it so that we have the motivation to continue to open source. Thank you for your questions and make this library more perfect.
-> Asynchronous processing and multi-code execution were provided before `1.2.0`, but many people reported that it is impossible to perform asynchronous and multi-code is not very useful, so we will make the following changes in `1.2.0` and later versions after discussion :
+> A letter to users of `FFmpegCommand`:		
+> First of all, thank you all for your support of this library. Thank you for using it so that we have the motivation to continue to open source. Thank you for your questions and make this library more perfect.		
+> Asynchronous processing and multi-code execution were provided before `1.2.0`, but many people reported that it is impossible to perform asynchronous and multi-code is not very useful, so we will make the following changes in `1.2.0` and later versions after discussion :		
 >
 > * Delete the `runCmdAsync` and `runCmdSync` methods and change them to `runCmd` to execute the `FFmpeg` command
 > * Delete multi-command `runMoreAsync` and `runMoreSync` methods, `runCmd` internally realizes automatic synchronization and sequential execution
@@ -74,7 +74,7 @@ android {
 
 ### FFmpegCommand Method
 
-|方法 |功能 |
+|Method |Function |
 |:---|----|
 |FFmpegCommand->setDebug(debug: Boolean)|Debug mode, printable log, default true|
 |FFmpegCommand->runCmd(cmd: Array<String?>)|Execute ffmpeg command without callback|
