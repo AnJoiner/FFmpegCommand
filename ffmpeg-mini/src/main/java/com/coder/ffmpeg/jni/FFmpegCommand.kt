@@ -11,65 +11,65 @@ import com.coder.ffmpeg.call.IFFmpegCallBack
  */
 object FFmpegCommand {
     /**
-     * 是否开启debug模式
+     * Whether to enable debug mode
      *
-     * @param debug true:开启 false :不开启
+     * @param debug true:enable false :not enable
      */
     fun setDebug(debug: Boolean) {
         FFmpegCmd.instance?.setDebug(debug)
     }
 
     /**
-     * 获取媒体信息
+     * Get media information
      *
-     * @param path 媒体地址
-     * @param type 属性类型 [MediaAttribute]
-     * @return 媒体信息
+     * @param path media path
+     * @param type media attribute type [MediaAttribute]
+     * @return media information
      */
     fun getMediaInfo(path: String?, @MediaAttribute type: Int): Int? {
         return FFmpegCmd.instance?.getMediaInfo(path, type)
     }
 
     /**
-     * 获取支持解封装格式
+     * Get support for unpacking format
      *
-     * @param formatType 格式类型 [FormatAttribute]
-     * @return 格式信息
+     * @param formatType format attribute type [FormatAttribute]
+     * @return format information
      */
     fun getSupportFormat(@FormatAttribute formatType: Int): String? {
         return FFmpegCmd.instance?.getFormatInfo(formatType)
     }
 
     /**
-     * 获取支持编解码
+     * Get support codec
      *
-     * @param codecType 编解码类型 [CodecAttribute]
-     * @return 编解码信息
+     * @param codecType codec attribute type [CodecAttribute]
+     * @return codec info
      */
     fun getSupportCodec(@CodecAttribute codecType: Int): String? {
         return FFmpegCmd.instance?.getCodecInfo(codecType)
     }
 
     /**
-     * 执行ffmpeg命令
+     * Execute FFmpeg commands.
      *
-     * @param cmd ffmpeg 命令 [com.coder.ffmpeg.utils.FFmpegUtils]
+     * @param cmd ffmpeg commands [com.coder.ffmpeg.utils.FFmpegUtils]
      */
     fun runCmd(cmd: Array<String?>, callBack: IFFmpegCallBack?): Int? {
         return FFmpegCmd.instance?.runCmd(cmd, callBack)
     }
 
     /**
-     * 执行ffmpeg命令
+     * Execute FFmpeg commands.
      *
-     * @param cmd ffmpeg 命令 [com.coder.ffmpeg.utils.FFmpegUtils]
+     * @param cmd ffmpeg commands [com.coder.ffmpeg.utils.FFmpegUtils]
      */
     fun runCmd(cmd: Array<String?>): Int? {
         return FFmpegCmd.instance?.runCmd(cmd)
     }
 
     /**
-     * 退出执行
+     * Quit execute.
      */
     fun cancel() {
         FFmpegCmd.instance?.cancel()
