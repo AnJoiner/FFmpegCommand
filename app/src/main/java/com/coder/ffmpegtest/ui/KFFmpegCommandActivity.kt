@@ -302,7 +302,7 @@ class KFFmpegCommandActivity : AppCompatActivity() {
     private fun decodeAudio() {
         targetPath = externalCacheDir.toString() + File.separator + "target.pcm"
         GlobalScope.launch {
-            FFmpegCommand.runCmd(FFmpegUtils.decodeAudio(mAudioPath, targetPath, 16000, 1), callback("音频解码PCM完成", targetPath))
+            FFmpegCommand.runCmd(FFmpegUtils.decodeAudio(mAudioPath, targetPath, 44100, 2), callback("音频解码PCM完成", targetPath))
         }
     }
 
