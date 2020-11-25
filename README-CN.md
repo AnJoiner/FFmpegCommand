@@ -206,7 +206,7 @@ FFmpegCommand.cancel();
 
 | 扫码下载｜[点击下载](http://fir.readdown.com/nfyz)  | 交流|微信赞赏|
 | :--------:   |:--------:   |:--------:   |
-| <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  | <img src="images/zan.jpg" alt="图-5 赞赏" width="260px" />|
+| <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  | <img src="images/zan.png" alt="图-5 赞赏" width="260px" />|
 
 ## Start
 
