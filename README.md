@@ -1,254 +1,216 @@
 
 ![FFmpegCommand](images/ffmpeg-command.png)
 
+> To users of `FFmpegCommand`:
+>
+> First of all, thank you all for your support of this library. Thank you for using it so that we have the motivation to continue to open source. Thank you for your questions and make this library more perfect.
+>
+> Asynchronous processing and multi-code execution were provided before `1.2.0`, but many people reported that it is impossible to perform asynchronous and multi-code is not very useful, so after repeated consideration, the following changes will be made in `1.2.0` and later versions :
+>
+> * Delete the `runCmdAsync` and `runCmdSync` methods and change them to `runCmd` to execute the `FFmpeg` command
+> * Delete multi-command `runMoreAsync` and `runMoreSync` methods, `runCmd` internally realizes automatic synchronization and sequential execution
+> * Added error log prompt, use `ffmpeg-cmd` to filter the error log when an error occurs
+>
+> We apologize for the inconvenience caused by this modification.
 
-## 前景提要
-在我们的开发中，经常会用到音视频相关内容，一般我们都会选择[FFmpeg](https://www.ffmpeg.org/)，但是其交叉编译对于我们来说是一件很麻烦的事情．所以这里方便日后使用就编写了这个`FFmpegCommand`，`FFmpegCommand`是由`FFmpeg`核心库，并且集成了`lame`、`libx264`、`fdk-aac`和`libopencore-amr`主流音视频处理程序构成的Android程序
+[【README-中文】](./README-CN.md)
 
-**注意：当前库只适用于Android**
+## Summary
+In our development, audio and video related content is often used, generally we will choose [FFmpeg](https://www.ffmpeg.org/), but its cross-compilation is a very troublesome thing for us . So here for the convenience of future use, I wrote this `FFmpegCommand`, `FFmpegCommand` is composed of `FFmpeg` core library, and integrates `lame`, `libx264`, `fdk-aac` and `libopencore-amr` mainstream audio and video processing Android program
+**Note: The current library is only available for Android**
 
-如果访问不了全部信息，请跳转[【Gitee仓库】](https://gitee.com/anjoiner/FFmpegCommand)
+If you can’t access all the information, please go to[【Domestic Mirror】](https://gitee.com/anjoiner/FFmpegCommand)
 
-## 主要功能
+## The main function
 [ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)[![License](https://img.shields.io/badge/license-Apache%202-success.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-4.2.1-orange.svg)](https://ffmpeg.org/releases/ffmpeg-4.2.1.tar.bz2)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
 
-* **支持所有FFmpeg命令**
-* **支持视频格式转换 mp4->flv**
-* **支持音频编解码 mp3->pcm pcm->mp3 pcm->aac**
-* **支持音频转码 mp3->aac mp3->amr**
-* **支持视频编解码 mp4->yuv yuv->h264**
-* **支持视频转码 mp4->flv mp4->avi**
-* **支持音视频的剪切、拼接**
-* **支持视频转图片 mp4->png mp4->gif**
-* **支持音频声音大小控制以及混音（比如朗读的声音加上背景音乐）**
-* **支持部分滤镜 音频淡入、淡出效果、视频亮度和对比度以及添加水印**
-* **支持获取媒体文件信息**
-* **支持多命令同步执行**
+* **Support all FFmpeg commands**
+* **Support video format conversion : mp4->flv**
+* **Support audio codec : mp3->pcm pcm->mp3 pcm->aac**
+* **Support audio transcoding : mp3->aac mp3->amr**
+* **Support video codec : mp4->yuv yuv->h264**
+* **Support video transcoding : mp4->flv mp4->avi**
+* **Support cutting and splicing of audio and video**
+* **Support video to picture : mp4->png mp4->gif**
+* **Support audio sound size control and mixing (such as reading sound plus background music)**
+* **Support some filters, audio fade in, fade out effects, video brightness and contrast, and add watermark**
+* **Support for generating silent audio**
+* **Support for obtaining media file information**
+* **Support continuous execution of FFmpeg commands**
 
-|执行FFmpeg|获取媒体信息|
+|Run FFmpeg|Get media information|
 |---------| ----------------------------------|
 |<img src="images/1.gif" alt="图-1：命令行展示" width="260px" />|<img src="images/2.gif" alt="图-2：命令行执行" width="260px"/>|
 
 
-## 引入
+## Introduce
 
-下面两种引入只选择一种即可,并根据最新版本替换下面的`${latestVersion}`，当前最新版本[ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)
+Choose only one of the following two introductions, and replace the following according to the latest version `${latestVersion}`，Current latest version[ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)
 
 ```groovy
-// 全部编解码-体积较大
+// All codecs-larger size
 implementation 'com.coder.command:ffmpeg:${latestVersion}'
-// 部分常用编解码-体积较小,比上面引入减少大约6M
+// Some commonly used codecs-smaller in size, about 6M less than the introduction above
 implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 ```
 
-**如果没有特别的编解码需求,强烈推荐建议使用`ffmpeg-mini`**
+Change build.gradle under module, the current library only supports `armeabi-v7a` and `arm64-v8a`, of course you can use only one (usually using `armeabi-v7a` for backward compatibility). You can Can refer to [【Android ABI】](https://developer.android.com/ndk/guides/abis)
 
-<font size=2>当然如果有特别的编解码需求，或者对包的大小有超高要求的，可以通过下方的群联系我进行私人定制。当然这个定制是**有偿的**，毕竟撸码不易，光阴似箭～～</font>
+```groovy
+android {
+    defaultConfig {
+        ndk {
+            abiFilters "armeabi-v7a",'arm64-v8a'
+            moduleName "app"
+        }
+    }
+}
+```
 
-## 使用
+**If there is no special codec requirement, it is strongly recommended to use `ffmpeg-mini`**
 
-下面只展示部分使用，其他可以参考 **[【WIKI】](ffmpeg-wiki/Home.md)**
+<font size=2>Of course, if you have special coding and decoding requirements, or have high requirements on the size of the package, you can contact me through the group below for private customization. Of course, this customization is **paid**, after all, it is not easy to code, the time is like an arrow~~</font>
 
-### FFmpegCommand方法
+## Use
 
-|方法 |功能 |
+
+### FFmpegCommand Method
+
+|Method |Function |
 |:---|----|
-|FFmpegCommand->setDebug(boolean debug)|Dubug模式，可打印日志，默认true|
-|FFmpegCommand->runSync(final String[] cmd)|同步执行ffmpeg命令，外部需添加延时线程|
-|FFmpegCommand->runSync(final String[] cmd, OnFFmpegCommandListener listener)|同步执行ffmpeg命令，并回调 完成，取消，进度|
-|FFmpegCommand->runAsync(final String[] cmd, IFFmpegCallBack callBack)|异步执行，外部无需添加延时线程，并回调 开始，完成，取消，进度|
-|FFmpegCommand->getInfoSync(String path,@Attribute int type)|获取媒体信息，type值必须为`@Attribute`中注解参数|
-|FFmpegCommand->cancel()| 退出当前ffmpeg执行 |
-|FFmpegCommand->runMoreSync(List<String[]> cmds, OnFFmpegCommandListener listener)|同步多命令执行，并回调 完成，取消，进度|
+|FFmpegCommand->setDebug(debug: Boolean)|Debug mode, printable log, default true|
+|FFmpegCommand->runCmd(cmd: Array<String?>)|Execute ffmpeg command without callback|
+|FFmpegCommand->runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?)|Execute ffmpeg command and call back start, complete, cancel, progress, error|
+|FFmpegCommand->getMediaInfo(path: String?, @MediaAttribute type: Int)|Get media information: video width and height, bit rate...|
+|FFmpegCommand->getSupportFormat(@FormatAttribute formatType: Int)|Get the encapsulation and decapsulation formats supported by the current library|
+|FFmpegCommand->getSupportCodec(@CodecAttribute codecType: Int)| Get the codec supported by the current library |
+|FFmpegCommand->cancel()|Exit FFmpeg command execution|
 
-### 使用runAsync
-以`runAsync`调用`FFmpeg`为异步方式，不需要单独开启子线程。强烈建议使用此方法进行音视频处理!!!   
-直接调用`FFmpegCommand.runAsync(String[] cmd, IFFmpegCallBack callback)`方法，其中第一个参数由`FFmpegUtils`工具类提供，也可以自己添加
+### runCmd
+Use `runCmd` to call `FFmpeg` to execute FFmpeg commands synchronously. External threads need to be added, otherwise the application will become unresponsive.
+Direct call `FFmpegCommand.runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?)` method，The first parameter is provided by the `FFmpegUtils` tool class, or you can add it yourself
 
-```java
-
-final long startTime = System.currentTimeMillis();
-
-FFmpegCommand.runAsync(FFmpegUtils.cutAudio(input, "00:00:30", "00:00:40", output),
-    new CommonCallBack() {
-         @Override
-         public void onComplete() {
-         Log.d("FFmpegTest", "run: 耗时：" + (System.currentTimeMillis() - startTime));
-
-         @Override
-         public void onCancel() {
-             Log.d("FFmpegTest", "Cancel");
-         }
-
-         @Override
-         public void onProgress(int progress) {
-             Log.d("FFmpegTest",progress+"");
-         }
-    }
-});
-
-```
-### 自定义FFmpeg命令
-
-这里只是演示了音频剪切，很多如上述功能请自行查阅[FFmpegUtils](https://github.com/AnJoiner/FFmpegCommand/blob/master/ffmpeg/src/main/java/com/coder/ffmpeg/utils/FFmpegUtils.java)
-如果其中不满足需求，可添加自己的FFmpeg命令．例如：
-
-```java
-String cmd = "ffmpeg -y -i %s -vn -acodec copy -ss %s -t %s %s";
-String result = String.format(cmd, input, "00:00:30", "00:00:40", output);
-
-FFmpegCommand.runAsync(result.split(" "), new CommonCallBack() {
-     @Override
-     public void onComplete() {
-         Log.d("FFmpegTest", "run: 耗时：" + (System.currentTimeMillis() - startTime));
-     }
-
-     @Override
-     public void onCancel() {
-         Log.d("FFmpegTest", "Cancel");
-     }
-
-     @Override
-     public void onProgress(int progress) {
-         Log.d("FFmpegTest",progress+"");
-     }
-})
-```
-
-### 多命令执行
-
-在`1.1.5`版本新增了多命令执行方式，可以多条命令一同执行，可返回总进度，提供了两种方式去实现。
-
-* **runMoreSync** 多条命令同步执行
-* **runMoreAsync** 多条命令异步执行
+**Does not support asynchronous execution of FFmpeg commands, after all, C is a process-oriented language, and resource occupation problems will occur**
 
 ```kotlin
-
-FFmpegCommand.runMoreSync(st, object : FFmpegCommand.OnFFmpegCommandListener {
-    override fun onProgress(progress: Int) {
-        val msg = Message()
-        msg.what = 1
-        msg.arg1 = progress
-        handler.sendMessage(msg)
-        Log.d("runMoreSync", "globalProgress:$progress")
-    }
-
-    override fun onCancel() {
-        Log.d("runMoreSync", "onCancel")
-        val msg = Message()
-        msg.what = -1
-        handler.sendMessage(msg)
-    }
-
-    override fun onComplete() {
-        val target = targetAAC + "\n" + targetAVI + "\n" + targetYUV
-
-        val msg = Message()
-        msg.what = 0
-        msg.obj = target
-        handler.sendMessage(msg)
-
-        Log.d("runMoreSync", "onComplete")
-    }
-})
+GlobalScope.launch {
+    FFmpegCommand.runCmd(FFmpegUtils.transformAudio(audioPath, targetPath), callback("transcoding complete", targetPath))
+}
 ```
 
-需要注意的是：
+The second parameter is the callback method
+```kotlin
+open class CommonCallBack : IFFmpegCallBack {
+    // Start callback
+    override fun onStart() {}
+    // Progress callback
+    override fun onProgress(progress: Int, pts: Long) {}
+    // Cancel callback
+    override fun onCancel() {}
+    // Complete callback
+    override fun onComplete() {}
+    // Error callback
+    override fun onError(errorCode: Int, errorMsg: String?) {}
+}
+```
 
-在`1.1.5`版本之后可以使用**多条同步命令**进行执行，但**不可**同时使用**多条异步命令**
+It should be noted that in the `onProgress` method, you can see that the callback returns 2 values:
+
+* progress：progress, calculated by referring to the first input file (that is the input file after the first `-i`), and it may be incorrect when there are multiple input files
+* pts：Elapsed time, progress appears incorrectly using the current value for calculation, the calculation method is as follows
 
 ```kotlin
-Thread(Runnable {
-	FFmpegCommand.runSync(FFmpegUtils.transformAudio(audioPath, targetPath), object : FFmpegCommand.OnFFmpegCommandListener{})
-	FFmpegCommand.runSync(FFmpegUtils.decode2YUV(mVideoPath, targetPath), object : FFmpegCommand.OnFFmpegCommandListener{})
-  FFmpegCommand.runSync(FFmpegUtils.transformVideo(videoPath, targetPath), object : FFmpegCommand.OnFFmpegCommandListener())
-}).start()
+var duration :Int? = FFmpegCommand.getMediaInfo(mAudioPath,MediaAttribute.DURATION)
+var progress = pts/duration!!
 ```
 
-### 多进程执行
-由于底层暂时无法实现多线程(资源占用问题)，所以如果需要在推流的同时，是无法再同时执行其他命令。为了解决这个问题，可以使用如下多进程方法：
+### Custom FFmpeg command
 
-1. 定义与主进程不同的其他进程
+This is just a demonstration of audio cutting, many functions such as the above, please refer to it yourself [FFmpegUtils](ffmpeg/src/main/java/com/coder/ffmpeg/utils/FFmpegUtils.java)
+If the requirements are not met, you can add your own FFmpeg command, E.g:
+
+```kotlin
+var command = "ffmpeg -y -i %s -vn -acodec copy -ss %d -t %d %s"
+command = String.format(command, srcFile, startTime, duration, targetFile)
+
+GlobalScope.launch {
+    FFmpegCommand.runCmd(command.split(" ").toTypedArray(), callback("Audio cut is complete", targetPath))
+}
+
+```
+
+### Multi-process execution
+Since the bottom layer is temporarily unable to implement multithreading (after all, C is a process-oriented language), if you need to push the stream at the same time, it is impossible to execute other commands at the same time.
+To solve this problem, you can use the following multi-process method:
+
+1. Define other processes different from the main process
 ```xml
 <service android:name=".service.FFmpegCommandService" android:process=":ffmpegCommand" />
 <service android:name=".service.FFmpegCommandService2" android:process=":ffmpegCommand2" />
 ```
 
-2. 在其他进程中执行推流的操作
+2. Perform push operations in other processes
 ```
-public class FFmpegCommandService2 extends Service {
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+class FFmpegCommandService : Service() {
+    override fun onBind(intent: Intent): IBinder? {
+        return null
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-        String videoPath = new File(getExternalCacheDir(), "test.mp4").getAbsolutePath();
-
-        String output = new File(getExternalCacheDir(), "output3.yuv").getAbsolutePath();
-
-        String cmd = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s";
-        final String result = String.format(Locale.CHINA, cmd, videoPath, output);
-        final String[] strings = result.split(" ");
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FFmpegCommand.runSync(strings);
-            }
-        }).start();
-
-        return super.onStartCommand(intent, flags, startId);
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        val videoPath = File(externalCacheDir, "test.mp4").absolutePath
+        val output = File(externalCacheDir, "output.yuv").absolutePath
+        val cmd = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s"
+        val result = String.format(Locale.CHINA, cmd, videoPath, output)
+        val strings: Array<String?> = result.split(" ").toTypedArray()
+        FFmpegCommand.runCmd(strings)
+        return super.onStartCommand(intent, flags, startId)
     }
 }
 ```
 
-### 取消执行
-执行下面方法后将会回调 `CommonCallBack->onCancel()` 或 `OnFFmpegCommandListener->onCancel()` 方法
+### Cancel execution
+After executing the following method, the `CommonCallBack->onCancel()` method will be called back
 
 ```java
 FFmpegCommand.cancel();
 ```
 
-**[【功能详解】](ffmpeg-wiki/详细功能.md)**
+**[【common problem】](ffmpeg-wiki/常见问题.md)**
 
-**[【常见问题】](ffmpeg-wiki/常见问题.md)**
+**[【new version update】](UPDATE.md)**
 
-**[【版本更新】](UPDATE.md)**
+## Reference
 
-## 参考
+**[【KFFmpegCommandActivity-Command reference】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCommandActivity.kt)**
+**[【KFFmpegInfoActivity-Media Information Reference】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegInfoActivity.kt)**
+**[【KFFmppegFormatActivity-Support package format】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmppegFormatActivity.kt)**
+**[【KFFmpegCodecActivity-Support codec】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCodecActivity.kt)**
 
-**[【KFFmpegCommandActivity】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCommandActivity.kt)**
-**[【KFFmpegMoreCommandActivity】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegMoreCommandActivity.kt)**
-**[【KFFmpegInfoActivity】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegInfoActivity.kt)**
+## Compatibility
 
-## 兼容性
-兼容Android minSdkVersion >=14（version>=1.1.4，此前的版本只兼容minSdkVersion >=21）
+Compatible with Android minSdkVersion >=14 (use version requires `1.1.4` and above)
 
 <img src="images/compatibility1.png" alt="图-7 Demo下载" width="800px" />
 <img src="images/compatibility2.png" alt="图-8 Demo下载" width="800px" />
 <img src="images/compatibility3.png" alt="图-9 Demo下载" width="800px" />
 
-## 编译SO
+## Compile SO
 
-[【编译FFmpeg在Android中使用】](ffmpeg-wiki/编译FFmpeg.md)
-[【自定义MP3编码器】](ffmpeg-wiki/自定义MP3编码器.md)
+[【Compile FFmpeg for use in Android】](ffmpeg-wiki/编译FFmpeg.md)
+[【Custom MP3 encoder】](ffmpeg-wiki/自定义MP3编码器.md)
 
 
-## 体验交流
+## Experiential exchange
 
-| 扫码下载｜[点击下载](http://fir.readdown.com/nfyz)  | 交流|微信赞赏|
+| Scan code to download｜[click to download](http://fir.readdown.com/nfyz)  | communication |WeChat appreciation|
 | :--------:   |:--------:   |:--------:   |
-| <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  | <img src="images/zan.jpg" alt="图-5 赞赏" width="260px" />|
+| <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  | <img src="images/zan.png" alt="图-5 赞赏" width="260px" />|
 
 ## Start
 
-如果觉得对你有所帮助，给个Start支持一下吧，也欢迎多多fork！
+If you think it is helpful to you, give a start to support it, and welcome a lot of forks!
 
-## 混淆
+## Confuse
 
 ```
 -keep class com.coder.ffmpeg.** {*;}

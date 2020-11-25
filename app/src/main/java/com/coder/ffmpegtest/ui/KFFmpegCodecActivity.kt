@@ -60,18 +60,20 @@ class KFFmpegCodecActivity : AppCompatActivity(){
     }
 
     private fun initListener() {
-        mAdapter!!.setItemClickListener { position ->
-            when (position) {
-                0 -> enCodecs()
-                1 -> deCodecs()
-                2 -> audioCodecs()
-                3 -> audioDeCodecs()
-                4 -> videoCodecs()
-                5 -> videoDeCodecs()
-                6 -> otherCodecs()
-                7 -> otherDeCodecs()
+        mAdapter!!.setItemClickListener (object : FFmpegCommandAdapter.ItemClickListener {
+            override fun itemClick(id: Int) {
+                when (id) {
+                    0 -> enCodecs()
+                    1 -> deCodecs()
+                    2 -> audioCodecs()
+                    3 -> audioDeCodecs()
+                    4 -> videoCodecs()
+                    5 -> videoDeCodecs()
+                    6 -> otherCodecs()
+                    7 -> otherDeCodecs()
+                }
             }
-        }
+        })
     }
 
 
