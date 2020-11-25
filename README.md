@@ -5,7 +5,7 @@
 >
 > First of all, thank you all for your support of this library. Thank you for using it so that we have the motivation to continue to open source. Thank you for your questions and make this library more perfect.
 >
-> Asynchronous processing and multi-code execution were provided before `1.2.0`, but many people reported that it is impossible to perform asynchronous and multi-code is not very useful, so we will make the following changes in `1.2.0` and later versions after discussion :		
+> Asynchronous processing and multi-code execution were provided before `1.2.0`, but many people reported that it is impossible to perform asynchronous and multi-code is not very useful, so after repeated consideration, the following changes will be made in `1.2.0` and later versions :
 >
 > * Delete the `runCmdAsync` and `runCmdSync` methods and change them to `runCmd` to execute the `FFmpeg` command
 > * Delete multi-command `runMoreAsync` and `runMoreSync` methods, `runCmd` internally realizes automatic synchronization and sequential execution
@@ -54,7 +54,7 @@ implementation 'com.coder.command:ffmpeg:${latestVersion}'
 implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
 ```
 
-Change build.gradle under module, the current library only supports `armeabi-v7a` and `arm64-v8a`, of course you can use only one (usually using `armeabi-v7a` for backward compatibility)
+Change build.gradle under module, the current library only supports `armeabi-v7a` and `arm64-v8a`, of course you can use only one (usually using `armeabi-v7a` for backward compatibility). You can Can refer to [【Android ABI】](https://developer.android.com/ndk/guides/abis)
 
 ```groovy
 android {
