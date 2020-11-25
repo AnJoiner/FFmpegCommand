@@ -1,7 +1,7 @@
 
 ![FFmpegCommand](images/ffmpeg-command.png)
 
-> 致`FFmpegCommand`使用者的一封信：
+> 致`FFmpegCommand`使用者：
 >
 > 	首先感谢大家对此库的支持，感谢你们的使用才让我们有了继续开源下去的动力，感谢你们提出的问题，让这个库更加的完善。
 >

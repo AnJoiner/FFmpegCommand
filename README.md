@@ -1,7 +1,7 @@
 
 ![FFmpegCommand](images/ffmpeg-command.png)
 
-> A letter to users of `FFmpegCommand`:
+> To users of `FFmpegCommand`:
 >
 > First of all, thank you all for your support of this library. Thank you for using it so that we have the motivation to continue to open source. Thank you for your questions and make this library more perfect.
 >
@@ -94,7 +94,7 @@ Direct call `FFmpegCommand.runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?
 
 ```kotlin
 GlobalScope.launch {
-    FFmpegCommand.runCmd(FFmpegUtils.transformAudio(audioPath, targetPath), callback("音频转码完成", targetPath))
+    FFmpegCommand.runCmd(FFmpegUtils.transformAudio(audioPath, targetPath), callback("transcoding complete", targetPath))
 }
 ```
 
