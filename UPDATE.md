@@ -1,3 +1,9 @@
+## v1.2.0-beta1
+1. 启用kotlin替代java
+2. 取消`runCmdAsync`和`runCmdSync`方法，统一更改为`runCmd`执行`FFmpeg`命令
+3. 取消多命令`runMoreAsync`和`runMoreSync`方法，`runCmd`内部自动实现同步顺序执行
+4. 新增错误日志提示，发生错误时使用`ffmpeg-cmd`进行筛选错误日志
+
 ## v1.1.7
 1. 新增获取支持的编解码
 2. 新增获取支持的封装格式
