@@ -206,9 +206,9 @@ Compatible with Android minSdkVersion >=14 (use version requires `1.1.4` and abo
 | :--------:   |:--------:   |:--------:   |
 | <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  | <img src="images/zan.png" alt="图-5 赞赏" width="260px" />|
 
-## Start
+## Star
 
-If you think it is helpful to you, give a start to support it, and welcome a lot of forks!
+If you think it is helpful to you, give a star to support it, and welcome a lot of forks!
 
 ## Confuse
 
