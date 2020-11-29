@@ -846,4 +846,15 @@ object FFmpegUtils {
         command = String.format(command, targetFile)
         return command.split(" ").toTypedArray()
     }
+
+    /**
+     * 使用ffmpeg进行推流
+     * @param src 源文件
+     * @param url 推流地址
+     */
+    fun rtmp(src: String?, url:String?):Array<String?>{
+        var command = "ffmpeg -re -i %s -f flv %s"
+        command = String.format(command, src,url)
+        return command.split(" ").toTypedArray()
+    }
 }

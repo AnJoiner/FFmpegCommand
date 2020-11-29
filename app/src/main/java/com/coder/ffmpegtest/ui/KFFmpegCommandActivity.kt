@@ -31,7 +31,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
-import java.util.concurrent.Executors
 
 /**
  *
@@ -146,7 +145,7 @@ class KFFmpegCommandActivity : AppCompatActivity() {
                     35 -> video2HLS()
                     36 -> hls2Video()
                     37 -> audio2Amr()
-                    38 -> makeMuteAudio()
+                    38 -> rtmp()
                 }
             }
         })
@@ -520,6 +519,14 @@ class KFFmpegCommandActivity : AppCompatActivity() {
             var commands = "ffmpeg -i %s -af pan=1c|c0=c0,silencedetect=n=-35dB:d=0.100 -f null /dev/null"
             var cmd:Array<String?> = String.format(commands,mAudioPath).split(" ").toTypedArray()
             FFmpegCommand.runCmd(cmd, callback("检测静音", targetPath))
+        }
+    }
+    // 推流
+    private fun rtmp(){
+        GlobalScope.launch {
+            // 需替换成你的推流地址
+            var cmd:Array<String?> = FFmpegUtils.rtmp(mVideoPath,"rtmp://192.168.2.101:1935/live/film")
+            FFmpegCommand.runCmd(cmd, callback("推流", targetPath))
         }
     }
 
