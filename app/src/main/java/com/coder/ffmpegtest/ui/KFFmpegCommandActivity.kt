@@ -145,7 +145,7 @@ class KFFmpegCommandActivity : AppCompatActivity() {
                     35 -> video2HLS()
                     36 -> hls2Video()
                     37 -> audio2Amr()
-                    38 -> rtmp()
+                    38 -> makeMuteAudio()
                 }
             }
         })
