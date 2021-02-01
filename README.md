@@ -188,7 +188,7 @@ FFmpegCommand.cancel();
 
 ## Compatibility
 
-Compatible with Android minSdkVersion >=14 (use version requires `1.1.4` and above)
+Compatible with Android minSdkVersion >=21
 
 <img src="images/compatibility1.png" alt="图-7 Demo下载" width="800px" />
 <img src="images/compatibility2.png" alt="图-8 Demo下载" width="800px" />

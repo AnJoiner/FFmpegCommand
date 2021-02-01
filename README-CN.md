@@ -4,7 +4,7 @@
 > 致`FFmpegCommand`使用者：
 >
 > 	首先感谢大家对此库的支持，感谢你们的使用才让我们有了继续开源下去的动力，感谢你们提出的问题，让这个库更加的完善。
->
+>	
 > 	在`1.2.0`之前提供了异步处理和多代码执行，但是很多人反馈，无法执行异步而且多代码用处不大，所以经过反复考虑将在`1.2.0`及之后的版本作出如下更改：
 >
 > * 取消`runCmdAsync`和`runCmdSync`方法，统一更改为`runCmd`执行`FFmpeg`命令
@@ -190,7 +190,7 @@ FFmpegCommand.cancel();
 
 ## 兼容性
 
-兼容Android minSdkVersion >=14（使用版本需要`1.1.4`及以上）
+兼容Android minSdkVersion >=21
 
 <img src="images/compatibility1.png" alt="图-7 Demo下载" width="800px" />
 <img src="images/compatibility2.png" alt="图-8 Demo下载" width="800px" />
