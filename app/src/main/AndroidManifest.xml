@@ -54,7 +54,7 @@
         <activity android:name=".ui.KFFmpegCodecActivity"
             android:screenOrientation="portrait"/>
 
-        <service android:name=".service.FFmpegCommandService" android:process=":ffmpegCommand" />
+        <service android:name=".service.FFmpegCommandService" />
         <service android:name=".service.FFmpegCommandService2" android:process=":ffmpegCommand2" />
     </application>
 

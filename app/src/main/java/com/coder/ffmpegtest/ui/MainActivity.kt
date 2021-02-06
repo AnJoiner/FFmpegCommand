@@ -1,6 +1,7 @@
 package com.coder.ffmpegtest.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -8,9 +9,11 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.coder.ffmpegtest.R
+import com.coder.ffmpegtest.service.FFmpegCommandService
 
 @SuppressLint("NonConstantResourceId")
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+    var mServiceBtn :Button ? =null
     var mCommandBtn: Button? = null
     var mInfoBtn: Button? = null
     var mFormatBtn: Button? = null
@@ -24,6 +27,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun intiView() {
+        mServiceBtn = findViewById(R.id.btn_service)
         mCommandBtn = findViewById(R.id.btn_command)
         mInfoBtn = findViewById(R.id.btn_info)
         mFormatBtn = findViewById(R.id.btn_format)
@@ -33,6 +37,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initListener() {
+        mServiceBtn!!.setOnClickListener(this)
         mCommandBtn!!.setOnClickListener(this)
         mInfoBtn!!.setOnClickListener(this)
         mFormatBtn!!.setOnClickListener(this)
@@ -41,6 +46,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.btn_service -> startService(Intent(this,FFmpegCommandService::class.java))
             R.id.btn_command -> KFFmpegCommandActivity.start(this)
             R.id.btn_info -> KFFmpegInfoActivity.start(this)
             R.id.btn_format -> KFFmppegFormatActivity.start(this)
