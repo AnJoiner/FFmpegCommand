@@ -27,15 +27,8 @@ internal class FFmpegCmd private constructor() {
             private set
 
         init {
-            System.loadLibrary("avdevice")
-            System.loadLibrary("avutil")
-            System.loadLibrary("avcodec")
-            System.loadLibrary("swresample")
-            System.loadLibrary("avformat")
-            System.loadLibrary("swscale")
-            System.loadLibrary("avfilter")
-            System.loadLibrary("postproc")
-            System.loadLibrary("ffmpeg-invoke")
+            System.loadLibrary("ffmpeg")
+            System.loadLibrary("ffmpeg-command")
         }
     }
 
