@@ -80,7 +80,7 @@ android {
 
 |方法 |功能 |
 |:---|----|
-|FFmpegCommand->setDebug(debug: Boolean)|Dubug模式，可打印日志，默认true|
+|FFmpegCommand->setDebug(debug: Boolean)|Dubug模式，可打印日志|
 |FFmpegCommand->runCmd(cmd: Array<String?>)|执行ffmpeg命令，无回调|
 |FFmpegCommand->runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?)|执行ffmpeg命令，并回调 开始，完成，取消，进度，错误|
 |FFmpegCommand->getMediaInfo(path: String?, @MediaAttribute type: Int)|获取媒体信息：视频宽高、比特率...|

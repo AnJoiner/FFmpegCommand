@@ -10,13 +10,6 @@
     tools:context=".ui.MainActivity">
 
 
-    <Button
-        android:id="@+id/btn_service"
-        android:layout_width="100dp"
-        android:text="启动服务"
-        android:inputType="text"
-        android:background="@drawable/shape_button_border"
-        android:layout_height="100dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

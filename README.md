@@ -78,7 +78,7 @@ android {
 
 |Method |Function |
 |:---|----|
-|FFmpegCommand->setDebug(debug: Boolean)|Debug mode, printable log, default true|
+|FFmpegCommand->setDebug(debug: Boolean)|Debug mode, printable log|
 |FFmpegCommand->runCmd(cmd: Array<String?>)|Execute ffmpeg command without callback|
 |FFmpegCommand->runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?)|Execute ffmpeg command and call back start, complete, cancel, progress, error|
 |FFmpegCommand->getMediaInfo(path: String?, @MediaAttribute type: Int)|Get media information: video width and height, bit rate...|
