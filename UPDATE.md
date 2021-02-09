@@ -1,3 +1,8 @@
+## v1.2.0-beta3
+1. 修复内存溢出
+2. 将多个so文件合并为一个
+3. 替换日志打印方式
+
 ## v1.2.0-beta1
 1. 启用kotlin替代java
 2. 取消`runCmdAsync`和`runCmdSync`方法，统一更改为`runCmd`执行`FFmpeg`命令
