@@ -26,8 +26,8 @@ android {
         applicationId "com.coder.ffmpegtest"
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 3
-        versionName "1.2.0"
+        versionCode 4
+        versionName "1.2.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -63,6 +63,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation project(path: ':ffmpeg')
+//    implementation 'com.coder.command:ffmpeg-mini:1.2.0-beta3'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     // 腾讯bugly
     implementation 'com.tencent.bugly:crashreport:3.3.1'

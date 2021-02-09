@@ -37,9 +37,7 @@ internal class FFmpegCmd private constructor() {
      * Whether to enable debugging mode
      * @param debug true or false
      */
-    fun setDebug(debug: Boolean) {
-        this.ffdebug = debug
-    }
+    external fun setDebug(debug: Boolean)
 
     /**
      * Provide ffmpeg command method to execute
@@ -47,9 +45,7 @@ internal class FFmpegCmd private constructor() {
      * @return execute status
      */
     fun runCmd(command: Array<String?>): Int {
-        var cmd = command
-        cmd = buildCommand(cmd)
-        return run(getCommand(cmd))
+        return run(getCommand(command))
     }
 
     /**
@@ -59,10 +55,8 @@ internal class FFmpegCmd private constructor() {
      * @return execute status
      */
     fun runCmd(command: Array<String?>, callBack: IFFmpegCallBack?): Int {
-        var cmd = command
         mCallBacks.add(callBack)
-        cmd = buildCommand(cmd)
-        return run(getCommand(cmd))
+        return run(getCommand(command))
     }
 
     /**
