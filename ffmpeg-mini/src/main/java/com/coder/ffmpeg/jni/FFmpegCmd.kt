@@ -27,7 +27,7 @@ internal class FFmpegCmd private constructor() {
             private set
 
         init {
-            System.loadLibrary("ffmpeg")
+            System.loadLibrary("ffmpeg-org")
             System.loadLibrary("ffmpeg-command")
         }
     }
