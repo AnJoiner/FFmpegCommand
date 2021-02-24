@@ -26,11 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.FFmpegCommandActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-
         <!--通过命令行执行-->
         <activity android:name=".ui.KFFmpegCommandActivity"
             android:screenOrientation="portrait">
@@ -41,17 +36,15 @@
         <activity android:name=".ui.KFFmpegInfoActivity"
             android:screenOrientation="portrait">
         </activity>
-
-        <!--多条命令同事执行-->
-        <activity android:name=".ui.KFFmpegMoreCommandActivity"
-            android:screenOrientation="portrait"/>
-
         <!--获取支持格式-->
         <activity android:name=".ui.KFFmppegFormatActivity"
             android:screenOrientation="portrait"/>
 
         <!--获取支持编码-->
         <activity android:name=".ui.KFFmpegCodecActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.TestCodecActivity"
             android:screenOrientation="portrait"/>
 
         <service android:name=".service.FFmpegCommandService" />

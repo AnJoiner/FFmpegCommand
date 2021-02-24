@@ -19,6 +19,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件（后缀指定转码格式）
      * @return 转码后的文件
      */
+    @JvmStatic
     fun transformAudio(srcFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s %s"
         command = String.format(command, srcFile, targetFile)
@@ -36,6 +37,7 @@ object FFmpegUtils {
      * @return 剪切后的文件
      */
     @SuppressLint("DefaultLocale")
+    @JvmStatic
     fun cutAudio(srcFile: String?, startTime: Int, duration: Int,
                  targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -vn -acodec copy -ss %d -t %d %s"
@@ -51,6 +53,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件
      * @return 剪切后的文件
      */
+    @JvmStatic
     fun cutAudio(srcFile: String?, startTime: String?, endTime: String?,
                  targetFile: String?): Array<String?> {
         val cmd = "ffmpeg -y -i %s -vn -acodec copy -ss %s -t %s %s"
@@ -67,6 +70,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件
      * @return 合并后的文件
      */
+    @JvmStatic
     fun concatAudio(srcFile: String?, appendFile: String?, targetFile: String?): Array<String?> {
         //ffmpeg -y -i "concat:123.mp3|124.mp3" -acodec copy output.mp3
         //ffmpeg -i 1.mp3 -i 2.mp3 -filter_complex '[0:0] [1:0] concat=n=2:v=0:a=1 [a]' -map [a] new.mp3
@@ -84,6 +88,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件
      * @return 混合后的文件
      */
+    @JvmStatic
     fun mixAudio(srcFile: String?, mixFile: String?, targetFile: String?): Array<String?> {
         //-filter_complex
         //        amix=inputs=2:duration=shortest output.wav
@@ -99,6 +104,7 @@ object FFmpegUtils {
      * @param outPath 输出地址
      * @return 命令
      */
+    @JvmStatic
     fun changeVolume(audio: String?, reduce: Int, outPath: String?): Array<String?> {
         val cmd = "ffmpeg -y -i %s -af volume=%sdB %s"
         val command = String.format(cmd, audio, reduce, outPath)
@@ -112,6 +118,7 @@ object FFmpegUtils {
      * @param outPath 输出地址
      * @return 命令
      */
+    @JvmStatic
     fun changeVolume(audio: String?, reduce: Float, outPath: String?): Array<String?> {
         val cmd = "ffmpeg -y -i %s -af volume=%s %s"
         val command = String.format(cmd, audio, reduce, outPath)
@@ -129,6 +136,7 @@ object FFmpegUtils {
      * @return 合成后的文件
      */
     @SuppressLint("DefaultLocale")
+    @JvmStatic
     fun mixAudioVideo(videoFile: String?, audioFile: String?, duration: Int,
                       muxFile: String?): Array<String?> {
         //-t:时长  如果忽略音视频时长，则把"-t %d"去掉
@@ -147,6 +155,7 @@ object FFmpegUtils {
      * @return 合成后的文件
      */
     @SuppressLint("DefaultLocale")
+    @JvmStatic
     fun mixAudioVideo(videoFile: String?, audioFile: String?,
                       muxFile: String?): Array<String?> {
         //-t:时长  如果忽略音视频时长，则把"-t %d"去掉
@@ -163,6 +172,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件
      * @return 抽取后的音频文件
      */
+    @JvmStatic
     fun extractAudio(srcFile: String?, targetFile: String?): Array<String?> {
         //-vn:video not
         var command = "ffmpeg -y -i %s -acodec copy -vn %s"
@@ -178,6 +188,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件
      * @return 抽取后的视频文件
      */
+    @JvmStatic
     fun extractVideo(srcFile: String?, targetFile: String?): Array<String?> {
         //-an audio not
         var command = "ffmpeg -y -i %s -vcodec copy -an %s"
@@ -193,6 +204,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件（后缀指定转码格式）
      * @return 转码后的文件
      */
+    @JvmStatic
     fun transformVideo(srcFile: String?, targetFile: String?): Array<String?> {
         //指定目标视频的帧率、码率、分辨率
 //        String transformVideoCmd = "ffmpeg -i %s -r 25 -b 200 -s 1080x720 %s";
@@ -212,6 +224,7 @@ object FFmpegUtils {
      * @return 剪切后的文件
      */
     @SuppressLint("DefaultLocale")
+    @JvmStatic
     fun cutVideo(srcFile: String?, startTime: Int, duration: Int,
                  targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -ss %d -t %d -c copy %s"
@@ -230,6 +243,7 @@ object FFmpegUtils {
      * @return 剪切后的文件
      */
     @SuppressLint("DefaultLocale")
+    @JvmStatic
     fun cutVideo2(srcFile: String?, startTime: Int, duration: Int,
                   targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -ss %d -t %d -accurate_seek -i %s -codec copy " +
@@ -246,6 +260,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件
      * @return 合并后的文件
      */
+    @JvmStatic
     fun concatVideo(inputFile: String?, targetFile: String?): Array<String?> {
         // ffmpeg -f concat -i inputs.txt -c copy output.flv
         var command = "ffmpeg -y -f concat -i %s -codec copy %s"
@@ -262,6 +277,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件
      * @return 截图后的文件
      */
+    @JvmStatic
     fun screenShot(srcFile: String?, size: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -f image2 -t 0.001 -s %s %s"
         command = String.format(command, srcFile, size, targetFile)
@@ -276,6 +292,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件
      * @return 截图后的文件
      */
+    @JvmStatic
     fun screenShot(srcFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -f image2 -t 0.001 %s"
         command = String.format(command, srcFile, targetFile)
@@ -289,6 +306,7 @@ object FFmpegUtils {
      * @param format    图片格式
      * @return 图片文件
      */
+    @JvmStatic
     fun video2Image(inputFile: String?, targetDir: String?,
                     @ImageFormat format: String): Array<String?> {
         //ffmpeg -i ss.mp4 -r 1 -f image2 image-%3d.jpeg
@@ -310,6 +328,7 @@ object FFmpegUtils {
      * @param format     图片格式
      * @return 视频抽帧的命令行
      */
+    @JvmStatic
     fun video2Image(inputFile: String?, startTime: Int, duration: Int,
                     frameRate: Int, targetFile: String?,
                     @ImageFormat format: String): Array<String?> {
@@ -331,6 +350,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件
      * @return 添加水印后的文件
      */
+    @JvmStatic
     fun addWaterMark(srcFile: String?, waterMark: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -i %s -filter_complex overlay=40:40 %s"
         command = String.format(command, srcFile, waterMark, targetFile)
@@ -348,6 +368,7 @@ object FFmpegUtils {
      * @return Gif文件
      */
     @SuppressLint("DefaultLocale")
+    @JvmStatic
     fun video2Gif(srcFile: String?, startTime: Int, duration: Int,
                   targetFile: String?): Array<String?> {
         //String screenShotCmd = "ffmpeg -i %s -vframes %d -s 320x240 -f gif %s";
@@ -366,6 +387,7 @@ object FFmpegUtils {
      * @return 屏幕录制文件
      */
     @SuppressLint("DefaultLocale")
+    @JvmStatic
     fun screenRecord(size: String?, recordTime: Int, targetFile: String?): Array<String?> {
         //-vd x11:0,0 指录制所使用的偏移为 x=0 和 y=0
         //String screenRecordCmd = "ffmpeg -vcodec mpeg4 -b 1000 -r 10 -g 300 -vd x11:0,0 -s %s %s";
@@ -385,6 +407,7 @@ object FFmpegUtils {
      * @return 合成的视频文件
      */
     @SuppressLint("DefaultLocale")
+    @JvmStatic
     fun image2Video(srcFile: String?, targetFile: String?): Array<String?> {
         //-f image2：代表使用image2格式，需要放在输入文件前面
         var command = "ffmpeg -y -f image2 -r 1 -i %simg#d.jpg -vcodec mpeg4 %s"
@@ -395,6 +418,7 @@ object FFmpegUtils {
                 .toTypedArray()
     }
 
+    @JvmStatic
     fun image2Video(srcDir: String?, @ImageFormat format: String?,
                     targetFile: String?): Array<String?> {
         //-f image2：代表使用image2格式，需要放在输入文件前面
@@ -415,6 +439,7 @@ object FFmpegUtils {
      * @param channel 声道:单声道为1/立体声道为2
      * @return 音频解码的命令行
      */
+    @JvmStatic
     fun decodeAudio(srcFile: String?, targetFile: String?, sampleRate: Int,
                     channel: Int): Array<String?> {
         var command = "ffmpeg -y -i %s -acodec pcm_s16le -ar %d -ac %d -f s16le %s"
@@ -432,6 +457,7 @@ object FFmpegUtils {
      * @return 音频编码的命令行
      */
     @SuppressLint("DefaultLocale")
+    @JvmStatic
     fun encodeAudio(srcFile: String?, targetFile: String?, sampleRate: Int,
                     channel: Int): Array<String?> {
         var command = "ffmpeg -y -f s16le -ar %d -ac %d -acodec pcm_s16le -i %s %s"
@@ -448,6 +474,7 @@ object FFmpegUtils {
      * @param targetFile 画面拼接文件
      * @return 画面拼接的命令行
      */
+    @JvmStatic
     fun multiVideo(input1: String?, input2: String?, targetFile: String?,
                    @Direction direction: Int): Array<String?> {
 //        String multiVideo = "ffmpeg -i %s -i %s -i %s -i %s -filter_complex " +
@@ -468,6 +495,7 @@ object FFmpegUtils {
      * @param targetFile 反序文件
      * @return 视频反序的命令行
      */
+    @JvmStatic
     fun reverseVideo(inputFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -filter_complex [0:v]reverse[v] -map [v] %s" //单纯视频反序
         command = String.format(command, inputFile, targetFile)
@@ -481,6 +509,7 @@ object FFmpegUtils {
      * @param targetFile 反序文件
      * @return 视频反序的命令行
      */
+    @JvmStatic
     fun reverseAudioVideo(inputFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -filter_complex [0:v]reverse[v];[0:a]reverse[a] -map [v] -map [a] %s"
         command = String.format(command, inputFile, targetFile)
@@ -494,6 +523,7 @@ object FFmpegUtils {
      * @param targetFile 输出文件
      * @return 视频降噪的命令行
      */
+    @JvmStatic
     fun denoiseVideo(inputFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -nr 500 %s"
         command = String.format(command, inputFile, targetFile)
@@ -511,6 +541,7 @@ object FFmpegUtils {
      * @return 视频画中画的命令行
      */
     @SuppressLint("DefaultLocale")
+    @JvmStatic
     fun picInPicVideo(inputFile1: String?, inputFile2: String?, x: Int, y: Int,
                       targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -i %s -filter_complex overlay=%d:%d %s"
@@ -524,6 +555,7 @@ object FFmpegUtils {
      * @param targetFile  输出文件
      * @return 视频缩小一倍 命令行
      */
+    @JvmStatic
     fun videoDoubleDown(srcFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -vf scale=iw/2:-1 %s"
         command = String.format(command, srcFile, targetFile)
@@ -537,6 +569,7 @@ object FFmpegUtils {
      * @return 视频放大一倍命令行
      */
     @Deprecated("")
+    @JvmStatic
     fun videoDouble(srcFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -vf scale=iw*2:-1 %s"
         command = String.format(command, srcFile, targetFile)
@@ -549,6 +582,7 @@ object FFmpegUtils {
      * @param targetFile 输出文件
      * @return 视频放大一倍命令行
      */
+    @JvmStatic
     fun videoDoubleUp(srcFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -vf scale=iw*2:-1 %s"
         command = String.format(command, srcFile, targetFile)
@@ -563,6 +597,7 @@ object FFmpegUtils {
      * @param height 缩放后高度
      * @return 视频缩放命令行
      */
+    @JvmStatic
     fun videoScale(srcFile: String?, targetFile: String?, width: Int, height: Int): Array<String?> {
         return scale(srcFile, targetFile, width, height)
     }
@@ -574,6 +609,7 @@ object FFmpegUtils {
      * @param width 缩放后宽度
      * @return 视频缩放命令行
      */
+    @JvmStatic
     fun videoScale(srcFile: String?, targetFile: String?, width: Int): Array<String?> {
         return scale(srcFile, targetFile, width)
     }
@@ -586,6 +622,7 @@ object FFmpegUtils {
      * @param height 缩放后高度
      * @return 视频缩放命令行
      */
+    @JvmStatic
     fun imageScale(srcFile: String?, targetFile: String?, width: Int, height: Int): Array<String?> {
         return scale(srcFile, targetFile, width, height)
     }
@@ -597,6 +634,7 @@ object FFmpegUtils {
      * @param width 缩放后宽度
      * @return 视频缩放命令行
      */
+    @JvmStatic
     fun imageScale(srcFile: String?, targetFile: String?, width: Int): Array<String?> {
         return scale(srcFile, targetFile, width)
     }
@@ -609,6 +647,7 @@ object FFmpegUtils {
      * @param height 缩放后高度
      * @return 缩放命令行
      */
+    @JvmStatic
     fun scale(srcFile: String?, targetFile: String?, width: Int, height: Int): Array<String?> {
         var command = "ffmpeg -y -i %s -vf scale=%d:%d %s"
         command = String.format(Locale.CHINA, command, srcFile, width, height, targetFile)
@@ -622,6 +661,7 @@ object FFmpegUtils {
      * @param width 缩放后宽度
      * @return 缩放命令行
      */
+    @JvmStatic
     fun scale(srcFile: String?, targetFile: String?, width: Int): Array<String?> {
         var command = "ffmpeg -y -i %s -vf scale=%d:-1 %s"
         command = String.format(Locale.CHINA, command, srcFile, width, targetFile)
@@ -634,6 +674,7 @@ object FFmpegUtils {
      * @param targetFile 输出文件
      * @return 倍速播放命令行
      */
+    @JvmStatic
     fun videoSpeed2(srcFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -filter_complex [0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a] -map [v] -map [a] %s"
         command = String.format(command, srcFile, targetFile)
@@ -646,6 +687,7 @@ object FFmpegUtils {
      * @param targetFile 输出文件
      * @return 视频解码命令行
      */
+    @JvmStatic
     fun decode2YUV(srcFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s"
         command = String.format(command, srcFile, targetFile)
@@ -666,6 +708,7 @@ object FFmpegUtils {
      * @return YUV 转 H264命令行
      */
     @JvmOverloads
+    @JvmStatic
     fun yuv2H264(srcFile: String?, targetFile: String?, width: Int = 720, height: Int = 1280): Array<String?> {
         var command = "ffmpeg -y -f rawvideo -pix_fmt yuv420p -s #wx#h -r 30 -i %s -c:v libx264 -f rawvideo %s"
         command = String.format(Locale.CHINA, command, srcFile, targetFile)
@@ -687,6 +730,7 @@ object FFmpegUtils {
      * @return 音频前5s淡入命令行
      */
     @JvmOverloads
+    @JvmStatic
     fun audioFadeIn(srcFile: String?, targetFile: String?, start: Int = 0, duration: Int = 5): Array<String?> {
         var command = "ffmpeg -y -i %s -filter_complex afade=t=in:ss=%d:d=%d %s"
         command = String.format(Locale.CHINA, command, srcFile, start, duration, targetFile)
@@ -701,6 +745,7 @@ object FFmpegUtils {
      * @param duration 持续时间(s)
      * @return 音频淡出命令行
      */
+    @JvmStatic
     fun audioFadeOut(srcFile: String?, targetFile: String?, start: Int, duration: Int): Array<String?> {
         var command = "ffmpeg -y -i %s -filter_complex afade=t=out:st=%d:d=%d %s"
         command = String.format(Locale.CHINA, command, srcFile, start, duration, targetFile)
@@ -714,6 +759,7 @@ object FFmpegUtils {
      * @param bright 亮度(-1.0 ~ 1.0), 默认0
      * @return 视频亮度命令行
      */
+    @JvmStatic
     fun videoBright(srcFile: String?, targetFile: String?, bright: Float): Array<String?> {
         var command = "ffmpeg -y -i %s -c:v libx264 -b:v 800k -c:a libfdk_aac -vf eq=brightness=%f -f mp4 %s"
         command = String.format(Locale.CHINA, command, srcFile, bright, targetFile)
@@ -727,6 +773,7 @@ object FFmpegUtils {
      * @param contrast 对比度(-2.0 ~ 2.0), 默认1.0
      * @return
      */
+    @JvmStatic
     fun videoContrast(srcFile: String?, targetFile: String?, contrast: Float): Array<String?> {
         var command = "ffmpeg -y -i %s -c:v libx264 -b:v 800k -c:a libfdk_aac -vf eq=contrast=%f -f mp4 %s"
         command = String.format(Locale.CHINA, command, srcFile, contrast, targetFile)
@@ -740,6 +787,7 @@ object FFmpegUtils {
      * @param transpose
      * @return 视频旋转命令行
      */
+    @JvmStatic
     fun videoRotation(srcFile: String?, targetFile: String?, @Transpose transpose: Int): Array<String?> {
         var command = "ffmpeg -y -i %s -vf transpose=%d -b:v 600k %s"
         command = String.format(Locale.CHINA, command, srcFile, transpose, targetFile)
@@ -753,6 +801,7 @@ object FFmpegUtils {
      * @param time 一帧的时间：hh:mm:ss.xxx
      * @return 从视频中获取一帧输出图片命令行
      */
+    @JvmStatic
     fun frame2Image(srcFile: String?, targetFile: String?, time: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -ss %s -vframes 1 %s"
         command = String.format(command, srcFile, time, targetFile)
@@ -765,6 +814,7 @@ object FFmpegUtils {
      * @param targetFile 音频输出文件（m4a或aac）
      * @return 将音频进行fdk_aac编码命令
      */
+    @JvmStatic
     fun audio2Fdkaac(srcFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -c:a libfdk_aac %s"
         command = String.format(command, srcFile, targetFile)
@@ -777,6 +827,7 @@ object FFmpegUtils {
      * @param targetFile 音频输出文件（mp3）
      * @return 将音频进行VBR MP3编码命令
      */
+    @JvmStatic
     fun audio2Mp3lame(srcFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -c:a libmp3lame %s"
         command = String.format(command, srcFile, targetFile)
@@ -793,6 +844,7 @@ object FFmpegUtils {
      * [com.coder.ffmpeg.utils.FFmpegUtils.video2HLS]
      */
     @Deprecated("")
+    @JvmStatic
     fun videoHLS(srcFile: String?, targetFile: String?, splitTime: Int): Array<String?> {
         var command = "ffmpeg -y -i %s -c copy -bsf:v h264_mp4toannexb -hls_time %s %s"
         command = String.format(command, srcFile, splitTime, targetFile)
@@ -806,6 +858,7 @@ object FFmpegUtils {
      * @param splitTime 切割时间 （单位：秒）
      * @return 返回以target文件名开头的ts系列文件 如：out0.ts out1.ts ...
      */
+    @JvmStatic
     fun video2HLS(srcFile: String?, targetFile: String?, splitTime: Int): Array<String?> {
         var command = "ffmpeg -y -i %s -c copy -bsf:v h264_mp4toannexb -hls_time %s %s"
         command = String.format(command, srcFile, splitTime, targetFile)
@@ -818,6 +871,7 @@ object FFmpegUtils {
      * @param targetFile 目标路径
      * @return 返回合成视频
      */
+    @JvmStatic
     fun hls2Video(m3u8Index: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -c copy %s"
         command = String.format(command, m3u8Index, targetFile)
@@ -830,6 +884,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件
      * @return amr格式音频
      */
+    @JvmStatic
     fun audio2Amr(srcFile: String?, targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -i %s -c:a libopencore_amrnb -ar 8000 -ac 1 %s"
         command = String.format(command, srcFile, targetFile)
@@ -841,6 +896,7 @@ object FFmpegUtils {
      * @param targetFile 目标文件
      * @return 静音音频
      */
+    @JvmStatic
     fun makeMuteAudio(targetFile: String?): Array<String?> {
         var command = "ffmpeg -y -f lavfi -t 10 -i anullsrc %s"
         command = String.format(command, targetFile)
@@ -852,6 +908,7 @@ object FFmpegUtils {
      * @param src 源文件
      * @param url 推流地址
      */
+    @JvmStatic
     fun rtmp(src: String?, url:String?):Array<String?>{
         var command = "ffmpeg -re -i %s -f flv %s"
         command = String.format(command, src,url)

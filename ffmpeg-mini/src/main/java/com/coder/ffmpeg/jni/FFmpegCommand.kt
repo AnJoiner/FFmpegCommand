@@ -15,6 +15,7 @@ object FFmpegCommand {
      *
      * @param debug true:enable false :not enable
      */
+    @JvmStatic
     fun setDebug(debug: Boolean) {
         FFmpegCmd.instance?.setDebug(debug)
     }
@@ -26,6 +27,7 @@ object FFmpegCommand {
      * @param type media attribute type [MediaAttribute]
      * @return media information
      */
+    @JvmStatic
     fun getMediaInfo(path: String?, @MediaAttribute type: Int): Int? {
         return FFmpegCmd.instance?.getMediaInfo(path, type)
     }
@@ -36,6 +38,7 @@ object FFmpegCommand {
      * @param formatType format attribute type [FormatAttribute]
      * @return format information
      */
+    @JvmStatic
     fun getSupportFormat(@FormatAttribute formatType: Int): String? {
         return FFmpegCmd.instance?.getFormatInfo(formatType)
     }
@@ -46,6 +49,7 @@ object FFmpegCommand {
      * @param codecType codec attribute type [CodecAttribute]
      * @return codec info
      */
+    @JvmStatic
     fun getSupportCodec(@CodecAttribute codecType: Int): String? {
         return FFmpegCmd.instance?.getCodecInfo(codecType)
     }
@@ -55,6 +59,7 @@ object FFmpegCommand {
      *
      * @param cmd ffmpeg commands [com.coder.ffmpeg.utils.FFmpegUtils]
      */
+    @JvmStatic
     fun runCmd(cmd: Array<String?>, callBack: IFFmpegCallBack?): Int? {
         return FFmpegCmd.instance?.runCmd(cmd, callBack)
     }
@@ -64,6 +69,7 @@ object FFmpegCommand {
      *
      * @param cmd ffmpeg commands [com.coder.ffmpeg.utils.FFmpegUtils]
      */
+    @JvmStatic
     fun runCmd(cmd: Array<String?>): Int? {
         return FFmpegCmd.instance?.runCmd(cmd)
     }
@@ -71,6 +77,7 @@ object FFmpegCommand {
     /**
      * Quit execute.
      */
+    @JvmStatic
     fun cancel() {
         FFmpegCmd.instance?.cancel()
     }
