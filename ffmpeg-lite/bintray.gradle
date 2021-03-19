@@ -16,7 +16,7 @@ install {
             project {
                 packaging 'aar'
                 // Add your description here
-                name 'core libary'
+                name 'A program about using ffmpeg on Android'
                 url siteUrl
                 // Set your license
                 licenses {
@@ -82,7 +82,7 @@ bintray {
     pkg {
         repo = "repositories"    //发布到Bintray的哪个仓库
         name = "ffmpeg-lite"    //发布到Bintray上的名字
-        desc = "A FFmpeg library of Android"    //项目描述
+        desc = "A program about using ffmpeg on Android"    //项目描述
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         issueTrackerUrl = issueUrl
