@@ -80,8 +80,6 @@ android {
 
 **If there is no special codec requirement, it is strongly recommended to use `lite` tag**
 
-<font size=2>Of course, if you have special coding and decoding requirements, or have high requirements on the size of the package, you can contact me through the group below for private customization. Of course, this customization is **paid**, after all, it is not easy to code, the time is like an arrow~~</font>
-
 ## Use
 
 
