@@ -56,6 +56,7 @@ allprojects {
 }
 ```
 Then add the import in `build.gradle` in `app` or other `module` directory
+
 Choose only one of the following two introductions, and replace the following according to the latest version `${latestVersion}`，Current latest version[![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)
 
 ```groovy
