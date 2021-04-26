@@ -36,6 +36,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     apply from: 'nexus.gradle'
+//    apply from: 'nexus-lite.gradle'
 }
 repositories {
     mavenCentral()
