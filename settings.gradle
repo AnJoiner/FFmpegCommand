@@ -1,2 +1,2 @@
-include ':app', ':ffmpeg',':ffmpeg-lite'
+include ':app', ':ffmpeg'
 rootProject.name='FFmpegCommand'
