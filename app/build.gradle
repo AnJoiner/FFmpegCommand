@@ -63,7 +63,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 //    implementation project(path: ':ffmpeg')
-//    implementation 'com.cli.ffmpeg:command-android-lite:0.0.1'
     implementation 'com.github.AnJoiner:FFmpegCommand:1.2.1-lite'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     // 腾讯bugly

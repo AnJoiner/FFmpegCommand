@@ -62,9 +62,9 @@ allprojects {
 
 ```groovy
 // 全部编解码-体积较大
-implementation 'com.github.AnJoiner:FFmpegCommand:1.2.0'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.2.1'
 // 部分常用编解码-体积较小,比上面引入减少大约6M
-implementation 'com.github.AnJoiner:FFmpegCommand:1.2.0-lite'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.2.1-lite'
 ```
 
 更改module下build.gradle，当前库只支持`armeabi-v7a`和`arm64-v8a`，当然也可以只使用一种（一般使用`armeabi-v7a`可以向下兼容），可以参考[【Android ABI】](https://developer.android.com/ndk/guides/abis)
@@ -80,7 +80,7 @@ android {
 }
 ```
 
-**如果没有特别的编解码需求,强烈推荐建议使用`ffmpeg-lite`**
+**如果没有特别的编解码需求,强烈推荐建议使用`lite`版本**
 
 <font size=2>当然如果有特别的编解码需求，或者对包的大小有超高要求的，可以通过下方的群联系我进行私人定制。当然这个定制是**有偿的**，毕竟撸码不易，光阴似箭～～</font>
 
