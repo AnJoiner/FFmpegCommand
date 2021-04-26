@@ -4,7 +4,7 @@
 > 致`FFmpegCommand`使用者：
 >
 > 	首先感谢大家对此库的支持，感谢你们的使用才让我们有了继续开源下去的动力，感谢你们提出的问题，让这个库更加的完善。
->	
+>		
 > 	在`1.2.0`之前提供了异步处理和多代码执行，但是很多人反馈，无法执行异步而且多代码用处不大，所以经过反复考虑将在`1.2.0`及之后的版本作出如下更改：
 >
 > * 取消`runCmdAsync`和`runCmdSync`方法，统一更改为`runCmd`执行`FFmpeg`命令
@@ -46,13 +46,25 @@
 
 ## 引入
 
-下面两种引入只选择一种即可,并根据最新版本替换下面的`${latestVersion}`，当前最新版本[ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)
+在项目根目录下找到`build.gradle`，并添加如下
+
+```groovy
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+}
+```
+
+然后在`app`或者其他`module`下的`build.gradle`添加引入
+下面两种引入只选择一种即可,并根据最新版本替换下面的`${latestVersion}`，当前最新版本[![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)
 
 ```groovy
 // 全部编解码-体积较大
-implementation 'com.coder.command:ffmpeg:${latestVersion}'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.2.0'
 // 部分常用编解码-体积较小,比上面引入减少大约6M
-implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.2.0-lite'
 ```
 
 更改module下build.gradle，当前库只支持`armeabi-v7a`和`arm64-v8a`，当然也可以只使用一种（一般使用`armeabi-v7a`可以向下兼容），可以参考[【Android ABI】](https://developer.android.com/ndk/guides/abis)
@@ -68,7 +80,7 @@ android {
 }
 ```
 
-**如果没有特别的编解码需求,强烈推荐建议使用`ffmpeg-mini`**
+**如果没有特别的编解码需求,强烈推荐建议使用`ffmpeg-lite`**
 
 <font size=2>当然如果有特别的编解码需求，或者对包的大小有超高要求的，可以通过下方的群联系我进行私人定制。当然这个定制是**有偿的**，毕竟撸码不易，光阴似箭～～</font>
 

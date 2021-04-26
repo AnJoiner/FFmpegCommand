@@ -45,13 +45,24 @@ If you can’t access all the information, please go to[【Domestic Mirror】](h
 
 ## Introduce
 
-Choose only one of the following two introductions, and replace the following according to the latest version `${latestVersion}`，Current latest version[ ![Download](https://api.bintray.com/packages/sourfeng/repositories/ffmpeg/images/download.svg) ](https://bintray.com/sourfeng/repositories/ffmpeg/_latestVersion)
+Find `build.gradle` in the project root directory and add the following：
+
+```groovy
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+}
+```
+Then add the import in `build.gradle` in `app` or other `module` directory
+Choose only one of the following two introductions, and replace the following according to the latest version `${latestVersion}`，Current latest version[![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)
 
 ```groovy
 // All codecs-larger size
-implementation 'com.coder.command:ffmpeg:${latestVersion}'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.2.0'
 // Some commonly used codecs-smaller in size, about 6M less than the introduction above
-implementation 'com.coder.command:ffmpeg-mini:${latestVersion}'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.2.0-lite'
 ```
 
 Change build.gradle under module, the current library only supports `armeabi-v7a` and `arm64-v8a`, of course you can use only one (usually using `armeabi-v7a` for backward compatibility). You can Can refer to [【Android ABI】](https://developer.android.com/ndk/guides/abis)
