@@ -477,7 +477,8 @@ object FFmpegUtils {
     @JvmStatic
     fun multiVideo(input1: String?, input2: String?, targetFile: String?,
                    @Direction direction: Int): Array<String?> {
-//        ffmpeg -i %s -i %s -filter_complex [0:v]pad=iw*2:ih[int];[int][1:v]overlay=W/2:0[vid] -map [vid] -c:v libx264 -crf 23 -preset veryfast %s
+        // ffmpeg -i %s -i %s -filter_complex [0:v]pad=iw*2:ih[int];[int][1:v]overlay=W/2:0[vid] -map [vid] -c:v libx264 -crf 23 -preset veryfast %s
+        // ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex [0:v]pad=iw*2:ih[int];[int][1:v]overlay=W/2:0[vid];[0:a][1:a]amix=inputs=2:duration=longest[aud] -map [vid] -map [aud] -c:v libx264 -crf 23 -c:a aac -b:a 192k output.mp4
         var command = "ffmpeg -y -i %s -i %s -filter_complex hstack %s" //hstack:水平拼接，默认
         if (direction == Direction.LAYOUT_VERTICAL) { //vstack:垂直拼接
             command = command.replace("hstack", "vstack")
