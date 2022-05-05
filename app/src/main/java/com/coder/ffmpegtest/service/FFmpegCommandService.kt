@@ -67,7 +67,7 @@ class FFmpegCommandService : IntentService("") {
             }
 
             override fun onError(errorCode: Int, errorMsg: String?) {
-                Log.d("FFmpegCmd", errorMsg)
+                Log.d("FFmpegCmd", errorMsg+"")
             }
         }
     }

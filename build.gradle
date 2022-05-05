@@ -2,14 +2,20 @@
 
 buildscript {
 //    ext.kotlin_version = '1.4.20'
-    ext.kotlin_version = '1.4.32'
+    ext.kotlin_version = '1.6.20'
 
     repositories {
+        gradlePluginPortal()
         google()
-        jcenter()
+        maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://maven.aliyun.com/repository/public/'
+        }
+        mavenLocal()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:7.1.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -19,12 +25,14 @@ buildscript {
 
 allprojects {
     repositories {
+        gradlePluginPortal()
         google()
-        jcenter()
         maven { url 'https://jitpack.io' }
-        maven{
-            url 'http://www.readdown.com:8081/repository/maven-releases/'
+        maven {
+            url 'https://maven.aliyun.com/repository/public/'
         }
+        mavenLocal()
+        mavenCentral()
     }
 }
 

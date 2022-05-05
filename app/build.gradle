@@ -20,12 +20,11 @@ android {
 
     }
 
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.coder.ffmpegtest"
         minSdkVersion 15
-        targetSdkVersion 29
+        targetSdkVersion 31
         versionCode 4
         versionName "1.2.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

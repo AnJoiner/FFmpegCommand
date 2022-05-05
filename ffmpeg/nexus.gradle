@@ -1,4 +1,4 @@
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 
 task androidJavadocs(type: Javadoc) {

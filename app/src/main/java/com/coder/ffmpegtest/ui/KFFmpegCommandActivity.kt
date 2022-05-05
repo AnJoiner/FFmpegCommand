@@ -566,7 +566,7 @@ class KFFmpegCommandActivity : AppCompatActivity() {
             }
 
             override fun onError(errorCode: Int, errorMsg: String?) {
-                Log.d("FFmpegCmd", errorMsg)
+                Log.d("FFmpegCmd", errorMsg+"")
                 runOnUiThread {
                     ToastUtils.show(errorMsg)
                     mErrorDialog?.setContent(0)
