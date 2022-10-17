@@ -146,6 +146,7 @@ class KFFmpegCommandActivity : AppCompatActivity() {
                     36 -> hls2Video()
                     37 -> audio2Amr()
                     38 -> makeMuteAudio()
+                    39 -> cropVideoScreen()
                 }
             }
         })
@@ -527,6 +528,13 @@ class KFFmpegCommandActivity : AppCompatActivity() {
             // 需替换成你的推流地址
             var cmd:Array<String?> = FFmpegUtils.rtmp(mVideoPath,"rtmp://192.168.2.101:1935/live/film")
             FFmpegCommand.runCmd(cmd, callback("推流", targetPath))
+        }
+    }
+
+    private fun cropVideoScreen() {
+        targetPath = externalCacheDir.toString() + File.separator + "target.mp4"
+        GlobalScope.launch {
+            FFmpegCommand.runCmd(FFmpegUtils.cropVideoScreen(mVideoPath, targetPath, 500, 500, 0, 100), callback("裁切视频画面成功", targetPath))
         }
     }
 
