@@ -45,7 +45,7 @@
             android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:textSize="15sp"
-            android:textStyle="bold"
+            android:textColor="#333333"
             android:layout_margin="10dp"
             android:maxHeight="400dp"
             android:layout_height="wrap_content"/>
