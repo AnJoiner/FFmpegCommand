@@ -5,6 +5,7 @@ import android.util.Log
 import com.coder.ffmpeg.annotation.Direction
 import com.coder.ffmpeg.annotation.ImageFormat
 import com.coder.ffmpeg.annotation.Transpose
+import java.io.File
 import java.util.*
 
 /**
@@ -21,10 +22,12 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun transformAudio(srcFile: String?, targetFile: String?): Array<String?> {
-        var command = "ffmpeg -y -i %s %s"
-        command = String.format(command, srcFile, targetFile)
-        return command.split(" ") //以空格分割为字符串数组
-                .toTypedArray()
+//        var command = "ffmpeg -y -i %s %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append(targetFile)
+            .get()
     }
 
     /**
@@ -40,10 +43,19 @@ object FFmpegUtils {
     @JvmStatic
     fun cutAudio(srcFile: String?, startTime: Int, duration: Int,
                  targetFile: String?): Array<String?> {
-        var command = "ffmpeg -y -i %s -vn -acodec copy -ss %d -t %d %s"
-        command = String.format(command, srcFile, startTime, duration, targetFile)
-        return command.split(" ") //以空格分割为字符串数组
-                .toTypedArray()
+//        var command = "ffmpeg -y -i %s -vn -acodec copy -ss %d -t %d %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-vn")
+            .append("-c:a")
+            .append("copy")
+            .append("-ss")
+            .append(startTime.toString())
+            .append("-t")
+            .append(duration.toString())
+            .append(targetFile)
+            .get()
     }
 
     /**
@@ -56,10 +68,19 @@ object FFmpegUtils {
     @JvmStatic
     fun cutAudio(srcFile: String?, startTime: String?, endTime: String?,
                  targetFile: String?): Array<String?> {
-        val cmd = "ffmpeg -y -i %s -vn -acodec copy -ss %s -t %s %s"
-        val command = String.format(cmd, srcFile, startTime, endTime, targetFile)
-        return command.split(" ") //以空格分割为字符串数组
-                .toTypedArray()
+//        val cmd = "ffmpeg -y -i %s -vn -acodec copy -ss %s -t %s %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-vn")
+            .append("-c:a")
+            .append("copy")
+            .append("-ss")
+            .append(startTime.toString())
+            .append("-t")
+            .append(endTime.toString())
+            .append(targetFile)
+            .get()
     }
 
     /**
@@ -72,12 +93,14 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun concatAudio(srcFile: String?, appendFile: String?, targetFile: String?): Array<String?> {
-        //ffmpeg -y -i "concat:123.mp3|124.mp3" -acodec copy output.mp3
-        //ffmpeg -i 1.mp3 -i 2.mp3 -filter_complex '[0:0] [1:0] concat=n=2:v=0:a=1 [a]' -map [a] new.mp3
-        var command = "ffmpeg -y -i concat:%s|%s -acodec copy %s"
-        command = String.format(command, srcFile, appendFile, targetFile)
-        return command.split(" ") //以空格分割为字符串数组
-                .toTypedArray()
+//        var command = "ffmpeg -y -i concat:%s|%s -acodec copy %s"
+        return CommandParams()
+            .append("-i")
+            .append("concat:$srcFile|$appendFile")
+            .append("-c:a")
+            .append("copy")
+            .append(targetFile)
+            .get()
     }
 
     /**
@@ -90,12 +113,16 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun mixAudio(srcFile: String?, mixFile: String?, targetFile: String?): Array<String?> {
-        //-filter_complex
-        //        amix=inputs=2:duration=shortest output.wav
-        var command = "ffmpeg -y -i %s -i %s -filter_complex amix=inputs=2:duration=shortest %s"
-        command = String.format(command, srcFile, mixFile, targetFile)
-        return command.split(" ") //以空格分割为字符串数组
-                .toTypedArray()
+//        var command = "ffmpeg -y -i %s -i %s -filter_complex amix=inputs=2:duration=shortest %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-i")
+            .append(mixFile)
+            .append("-filter_complex")
+            .append("amix=inputs=2:duration=shortest")
+            .append(targetFile)
+            .get()
     }
 
     /**
@@ -106,10 +133,14 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun changeVolume(audio: String?, reduce: Int, outPath: String?): Array<String?> {
-        val cmd = "ffmpeg -y -i %s -af volume=%sdB %s"
-        val command = String.format(cmd, audio, reduce, outPath)
-        Log.d("FFMEPG", command)
-        return command.split(" ").toTypedArray()
+//        val cmd = "ffmpeg -y -i %s -af volume=%sdB %s"
+        return CommandParams()
+            .append("-i")
+            .append(audio)
+            .append("-af")
+            .append("volume=${reduce}dB")
+            .append(outPath)
+            .get()
     }
 
     /**
@@ -120,10 +151,14 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun changeVolume(audio: String?, reduce: Float, outPath: String?): Array<String?> {
-        val cmd = "ffmpeg -y -i %s -af volume=%s %s"
-        val command = String.format(cmd, audio, reduce, outPath)
-        Log.d("FFMEPG", command)
-        return command.split(" ").toTypedArray()
+//        val cmd = "ffmpeg -y -i %s -af volume=%s %s"
+        return CommandParams()
+            .append("-i")
+            .append(audio)
+            .append("-af")
+            .append("volume=${reduce}")
+            .append(outPath)
+            .get()
     }
 
     /**
@@ -140,10 +175,16 @@ object FFmpegUtils {
     fun mixAudioVideo(videoFile: String?, audioFile: String?, duration: Int,
                       muxFile: String?): Array<String?> {
         //-t:时长  如果忽略音视频时长，则把"-t %d"去掉
-        var command = "ffmpeg -y -i %s -i %s -t %d %s"
-        command = String.format(command, videoFile, audioFile, duration, muxFile)
-        return command.split(" ") //以空格分割为字符串数组
-                .toTypedArray()
+//        var command = "ffmpeg -y -i %s -i %s -t %d %s"
+        return CommandParams()
+            .append("-i")
+            .append(videoFile)
+            .append("-i")
+            .append(audioFile)
+            .append("-t")
+            .append(duration)
+            .append(muxFile)
+            .get()
     }
 
     /**
@@ -648,9 +689,13 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun scale(srcFile: String?, targetFile: String?, width: Int, height: Int): Array<String?> {
-        var command = "ffmpeg -y -i %s -vf scale=%d:%d %s"
-        command = String.format(Locale.CHINA, command, srcFile, width, height, targetFile)
-        return command.split(" ").toTypedArray()
+//        var command = "ffmpeg -y -i %s -vf scale=%d:%d %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-vf")
+            .append("scale=$width:$height")
+            .append(targetFile).get()
     }
 
     /**
@@ -662,9 +707,13 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun scale(srcFile: String?, targetFile: String?, width: Int): Array<String?> {
-        var command = "ffmpeg -y -i %s -vf scale=%d:-1 %s"
-        command = String.format(Locale.CHINA, command, srcFile, width, targetFile)
-        return command.split(" ").toTypedArray()
+//        var command = "ffmpeg -y -i %s -vf scale=%d:-1 %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-vf")
+            .append("scale=$width:-1")
+            .append(targetFile).get()
     }
 
     /**
@@ -675,9 +724,19 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun videoSpeed2(srcFile: String?, targetFile: String?): Array<String?> {
-        var command = "ffmpeg -y -i %s -filter_complex [0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a] -map [v] -map [a] %s"
-        command = String.format(command, srcFile, targetFile)
-        return command.split(" ").toTypedArray()
+//        var command = "ffmpeg -y -i %s -filter_complex [0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a] -map [v] -map [a] %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-filter_complex")
+            .append("[0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a]")
+            .append("-map")
+            .append("[v]")
+            .append("-map")
+            .append("[a]")
+            .append("-c:v")
+            .append("libx264")
+            .append(targetFile).get()
     }
 
     /**
@@ -688,18 +747,18 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun decode2YUV(srcFile: String?, targetFile: String?): Array<String?> {
-        var command = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s"
-        command = String.format(command, srcFile, targetFile)
-        return command.split(" ").toTypedArray()
+//        var command = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-an")
+            .append("-c:v")
+            .append("rawvideo")
+            .append("-pixel_format")
+            .append("yuv420p")
+            .append(targetFile)
+            .get()
     }
-    /**
-     * YUV 编码 H264
-     * @param srcFile 源文件
-     * @param targetFile 输出文件
-     * @param width 输出文件宽
-     * @param height 输出文件高
-     * @return YUV 转 H264命令行
-     */
     /**
      * YUV 转 H264
      * @param srcFile 源文件
@@ -709,19 +768,27 @@ object FFmpegUtils {
     @JvmOverloads
     @JvmStatic
     fun yuv2H264(srcFile: String?, targetFile: String?, width: Int = 720, height: Int = 1280): Array<String?> {
-        var command = "ffmpeg -y -f rawvideo -pix_fmt yuv420p -s #wx#h -r 30 -i %s -c:v libx264 -f rawvideo %s"
-        command = String.format(Locale.CHINA, command, srcFile, targetFile)
-        command = command.replace("#wx#h", width.toString() + "x" + height)
-        return command.split(" ").toTypedArray()
+//        var command = "ffmpeg -y -f rawvideo -pix_fmt yuv420p -s #wx#h -r 30 -i %s -c:v libx264 -f rawvideo %s"
+//        command = String.format(Locale.CHINA, command, srcFile, targetFile)
+//        command = command.replace("#wx#h", width.toString() + "x" + height)
+        return CommandParams()
+            .append("-f")
+            .append("rawvideo")
+            .append("-pix_fmt")
+            .append("yuv420p")
+            .append("-s")
+            .append("${width}x${height}")
+            .append("-r")
+            .append("30")
+            .append("-i")
+            .append(srcFile)
+            .append("-c:v")
+            .append("libx264")
+            .append("-f")
+            .append("rawvideo")
+            .append(targetFile)
+            .get()
     }
-    /**
-     * 音频淡入
-     * @param srcFile 源文件
-     * @param targetFile 输出文件
-     * @param start 开始位置(s)
-     * @param duration 持续时间(s)
-     * @return 音频淡入命令行
-     */
     /**
      * 音频前5s淡入
      * @param srcFile 源文件
@@ -731,9 +798,14 @@ object FFmpegUtils {
     @JvmOverloads
     @JvmStatic
     fun audioFadeIn(srcFile: String?, targetFile: String?, start: Int = 0, duration: Int = 5): Array<String?> {
-        var command = "ffmpeg -y -i %s -filter_complex afade=t=in:ss=%d:d=%d %s"
-        command = String.format(Locale.CHINA, command, srcFile, start, duration, targetFile)
-        return command.split(" ").toTypedArray()
+//        var command = "ffmpeg -y -i %s -filter_complex afade=t=in:ss=%d:d=%d %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-filter_complex")
+            .append("afade=t=in:ss=$start:d=$duration")
+            .append(targetFile)
+            .get()
     }
 
     /**
@@ -746,9 +818,14 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun audioFadeOut(srcFile: String?, targetFile: String?, start: Int, duration: Int): Array<String?> {
-        var command = "ffmpeg -y -i %s -filter_complex afade=t=out:st=%d:d=%d %s"
-        command = String.format(Locale.CHINA, command, srcFile, start, duration, targetFile)
-        return command.split(" ").toTypedArray()
+//        var command = "ffmpeg -y -i %s -filter_complex afade=t=out:st=%d:d=%d %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-filter_complex")
+            .append("afade=t=out:st=$start:d=$duration")
+            .append(targetFile)
+            .get()
     }
 
     /**
@@ -760,9 +837,21 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun videoBright(srcFile: String?, targetFile: String?, bright: Float): Array<String?> {
-        var command = "ffmpeg -y -i %s -c:v libx264 -b:v 800k -c:a libfdk_aac -vf eq=brightness=%f -f mp4 %s"
-        command = String.format(Locale.CHINA, command, srcFile, bright, targetFile)
-        return command.split(" ").toTypedArray()
+//        var command = "ffmpeg -y -i %s -c:v libx264 -b:v 800k -c:a libfdk_aac -vf eq=brightness=%f -f mp4 %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-c:v")
+            .append("libx264")
+            .append("-b:v")
+            .append("800k")
+            .append("-c:a")
+            .append("libfdk_aac")
+            .append("-vf")
+            .append("eq=brightness=$bright")
+            .append("-f")
+            .append("mp4")
+            .append(targetFile).get()
     }
 
     /**
@@ -774,9 +863,21 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun videoContrast(srcFile: String?, targetFile: String?, contrast: Float): Array<String?> {
-        var command = "ffmpeg -y -i %s -c:v libx264 -b:v 800k -c:a libfdk_aac -vf eq=contrast=%f -f mp4 %s"
-        command = String.format(Locale.CHINA, command, srcFile, contrast, targetFile)
-        return command.split(" ").toTypedArray()
+//        var command = "ffmpeg -y -i %s -c:v libx264 -b:v 800k -c:a libfdk_aac -vf eq=contrast=%f -f mp4 %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-c:v")
+            .append("libx264")
+            .append("-b:v")
+            .append("800k")
+            .append("-c:a")
+            .append("libfdk_aac")
+            .append("-vf")
+            .append("eq=contrast=$contrast")
+            .append("-f")
+            .append("mp4")
+            .append(targetFile).get()
     }
 
     /**
@@ -788,9 +889,16 @@ object FFmpegUtils {
      */
     @JvmStatic
     fun videoRotation(srcFile: String?, targetFile: String?, @Transpose transpose: Int): Array<String?> {
-        var command = "ffmpeg -y -i %s -vf transpose=%d -b:v 600k %s"
-        command = String.format(Locale.CHINA, command, srcFile, transpose, targetFile)
-        return command.split(" ").toTypedArray()
+//        var command = "ffmpeg -y -i %s -vf transpose=%d -b:v 600k %s"
+        return CommandParams()
+            .append("-i")
+            .append(srcFile)
+            .append("-vf")
+            .append("transpose=$transpose")
+            .append("-b:v")
+            .append("600k")
+            .append(targetFile)
+            .get()
     }
 
     /**
