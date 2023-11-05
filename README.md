@@ -22,7 +22,7 @@ In our development, audio and video related content is often used, generally we 
 If you can’t access all the information, please go to[【国内镜像】](https://gitee.com/anjoiner/FFmpegCommand)
 
 ## Cross Compile
-* Macos 13.2 + GCC + Cmake + NDK 21
+* Macos 13.2 + GCC + Cmake + NDK 21 (支持MediaCodec 编解码)
 
 | 第三方库       | 版本                 | 下载地址                                                                                                 |
 |------------|--------------------|------------------------------------------------------------------------------------------------------|
@@ -36,28 +36,29 @@ If you can’t access all the information, please go to[【国内镜像】](http
 ## The main function
 [![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)[![License](https://img.shields.io/badge/license-Apache%202-informational.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-6.0-orange.svg)](https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
 
-| 特色功能                      | 支持                 | 描述                                        |
-|---------------------------|--------------------|-------------------------------------------|
-| ffmpeg commands           | :white_check_mark: | Support all FFmpeg commands               |
-| progress callback         | :white_check_mark: | Support callback of ffmpeg commands       |
-| cancel commands           | :white_check_mark: | Support cancel the commands that is doing |
-| debug model               | :white_check_mark: | Support debug model for develop           |
-| get media info            | :white_check_mark: | Support to get media info                 |
-| gpu hardware acceleration | :white_check_mark:  | Support MediaCodec of android gpu（v1.2.3） |
+| Special feature      | Support            | Description                                      |
+|----------------------|--------------------|--------------------------------------------------|
+| ffmpeg commands      | :white_check_mark: | Support all FFmpeg commands                      |
+| progress callback    | :white_check_mark: | Support callback of ffmpeg commands              |
+| cancel commands      | :white_check_mark: | Support cancel the commands that is doing        |
+| debug model          | :white_check_mark: | Support debug model for develop                  |
+| get media info       | :white_check_mark: | Support to get media info                        |
+| mediacodec codec     | :white_check_mark: | Support MediaCodec of android gpu（ since v1.3.0） |
+| android architecture |:white_check_mark:| Support armeabi-v7a, arm64-v8a |
+| one so               |:white_check_mark:| Merge multiple so into one `ffmpeg-or.so`   |
 
-* **Support all FFmpeg commands**
-* **Support video format conversion : mp4->flv**
-* **Support audio codec : mp3->pcm pcm->mp3 pcm->aac**
-* **Support audio transcoding : mp3->aac mp3->amr**
-* **Support video codec : mp4->yuv yuv->h264**
-* **Support video transcoding : mp4->flv mp4->avi**
-* **Support cutting and splicing of audio and video**
-* **Support video to picture : mp4->png mp4->gif**
-* **Support audio sound size control and mixing (such as reading sound plus background music)**
-* **Support some filters, audio fade in, fade out effects, video brightness and contrast, and add watermark**
-* **Support for generating silent audio**
-* **Support for obtaining media file information**
-* **Support continuous execution of FFmpeg commands**
+The general functions are as follows：   
+* Support all FFmpeg commands
+* Support video format conversion : mp4->flv
+* Support audio codec : mp3->pcm pcm->mp3 pcm->aac
+* Support audio transcoding : mp3->aac mp3->amr
+* Support video codec : mp4->yuv yuv->h264
+* Support video transcoding : mp4->flv mp4->avi
+* Support cutting and splicing of audio and video
+* Support video to picture : mp4->png mp4->gif
+* Support audio sound size control and mixing (such as reading sound plus background music)
+* Support some filters, audio fade in, fade out effects, video brightness and contrast, and add watermark
+* Support for generating silent audio
 
 |Run FFmpeg|Get media information|
 |---------| ----------------------------------|
@@ -158,25 +159,32 @@ var progress = pts/duration!!
 ### Custom FFmpeg command
 
 This is just a demonstration of audio cutting, many functions such as the above, please refer to it yourself [FFmpegUtils](ffmpeg/src/main/java/com/coder/ffmpeg/utils/FFmpegUtils.java)
-If the requirements are not met, you can add your own FFmpeg command, E.g:
+If the requirements are not met, you can add your own FFmpeg command, The following is an example of customizing conversion using `MediaCodec`:
 
 ```kotlin
+// shell command: ffmpeg -y -c:v h264_mediacodec -i inputPath -c:v h264_mediacodec outputPath
 val command = CommandParams()
+    .append("-c:v")
+    .append("h264_mediacodec")
     .append("-i")
-    .append(srcFile)
-    .append("-vn")
-    .append("-c:a")
-    .append("copy")
-    .append("-ss")
-    .append(startTime)
-    .append("-t")
-    .append(duration)
-    .append(targetPath)
+    .append(inputPath)
+    .append("-c:v")
+    .append("h264_mediacodec")
+    .append(outputPath)
     .get()
 
-GlobalScope.launch {
-    FFmpegCommand.runCmd(command, callback("Audio cut is complete", targetPath))
+MainScope().launch(Dispatchers.IO) {
+    FFmpegCommand.runCmd(command, callback("Format conversion successful", targetPath))
 }
+```
+requires attention:
+* When using `MediaCodec` for encoding, `MediaCodec` decoding must be configured at the same time, as shown in the above example, otherwise it will cause failure! ! !
+* The H264 codec is `h264_mediacodec`, and the H265 codec is `hevc_mediacodec`. H264 decoding and H265 encoding can be used at the same time.
+* Hard coding generally requires setting the bitrate of the video, otherwise the picture will be blurry and unclear.
+* It is best to use `CommandParams` to construct our command parameters. This can ensure that the parameters are not affected by spaces in the path, causing the command execution to fail. We can also construct our parameters as follows
+
+```kotlin
+val command = arrayOf("ffmpeg","-y","-i",inputPath,outputPath)
 ```
 
 ### Multi-process execution
@@ -220,8 +228,6 @@ FFmpegCommand.cancel()
 ```
 
 **[【common problem】](ffmpeg-wiki/常见问题.md)**
-
-**[【new version update】](UPDATE.md)**
 
 ## Reference
 

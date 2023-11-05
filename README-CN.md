@@ -37,27 +37,29 @@
 ## 主要功能
 [![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)[![License](https://img.shields.io/badge/license-Apache%202-informational.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-6.0-orange.svg)](https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
 
-| 特色功能 | 支持                 | 描述                     |
-|------|--------------------|------------------------|
-| ffmpeg命令 | :white_check_mark: | 支持所有的ffmpeg命令          |
-| 进度回调 | :white_check_mark: | 支持所有命令的回调              |
-| 命令取消 | :white_check_mark: | 支持在命令执行过程中取消命令执行       |
-| debug模式 | :white_check_mark: | 支持开启/关闭调试模式            |
-| 获取媒体信息 | :white_check_mark: | 获取媒体信息（宽、高...）         |
-| 支持GPU | :white_check_mark:  | 支持MediaCodec（v1.2.3） |
+| 特色功能          | 支持                 | 描述                      |
+|---------------|--------------------|-------------------------|
+| ffmpeg命令      | :white_check_mark: | 支持所有的ffmpeg命令           |
+| 进度回调          | :white_check_mark: | 支持所有命令的回调               |
+| 命令取消          | :white_check_mark: | 支持在命令执行过程中取消命令执行        |
+| debug模式       | :white_check_mark: | 支持开启/关闭调试模式             |
+| 获取媒体信息        | :white_check_mark: | 获取媒体信息（宽、高...）          |
+| MediaCodec编解码 | :white_check_mark:  | 支持MediaCodec（从 v1.3.0）  |
+| 平台架构          |:white_check_mark:| 支持 armeabi-v7a, arm64-v8a |
+| 独立so          |:white_check_mark:| 将多个so合并成一个 `ffmpeg-or.so`   |
 
-* **支持视频格式转换 mp4->flv**
-* **支持音频编解码 mp3->pcm pcm->mp3 pcm->aac**
-* **支持音频转码 mp3->aac mp3->amr**
-* **支持视频编解码 mp4->yuv yuv->h264**
-* **支持视频转码 mp4->flv mp4->avi**
-* **支持音视频的剪切、拼接**
-* **支持视频转图片 mp4->png mp4->gif**
-* **支持音频声音大小控制以及混音（比如朗读的声音加上背景音乐）**
-* **支持部分滤镜 音频淡入、淡出效果、视频亮度和对比度以及添加水印**
-* **支持生成静音音频**
-* **支持获取媒体文件信息**
-* **支持连续执行FFmpeg命令**
+大致的功能如下：    
+* 支持视频格式转换 mp4->flv
+* 支持音频编解码 mp3->pcm pcm->mp3 pcm->aac
+* 支持音频转码 mp3->aac mp3->amr
+* 支持视频编解码 mp4->yuv yuv->h264
+* 支持视频转码 mp4->flv mp4->avi
+* 支持音视频的剪切、拼接
+* 支持视频转图片 mp4->png mp4->gif
+* 支持音频声音大小控制以及混音（比如朗读的声音加上背景音乐）
+* 支持部分滤镜 音频淡入、淡出效果、视频亮度和对比度以及添加水印
+* 支持生成静音音频
+* 支持获取媒体文件信息
 
 | 执行FFmpeg                                                 | 获取媒体信息                                                  |
 |----------------------------------------------------------|---------------------------------------------------------|
@@ -160,28 +162,32 @@ var progress = pts/duration!!
 ### 自定义FFmpeg命令
 
 这里只是演示了音频剪切，很多如上述功能请自行查阅[FFmpegUtils](ffmpeg/src/main/java/com/coder/ffmpeg/utils/FFmpegUtils.java)
-如果其中不满足需求，可添加自己的FFmpeg命令．例如：
+如果其中不满足需求，可添加自己的FFmpeg命令．以下是一个自定义使用`MediaCodec`进行转格式的例子：
 
 ```kotlin
+// shell 命令: ffmpeg -y -c:v h264_mediacodec -i inputPath -c:v h264_mediacodec outputPath
 val command = CommandParams()
+    .append("-c:v")
+    .append("h264_mediacodec")
     .append("-i")
-    .append(srcFile)
-    .append("-vn")
-    .append("-c:a")
-    .append("copy")
-    .append("-ss")
-    .append(startTime)
-    .append("-t")
-    .append(duration)
-    .append(targetPath)
+    .append(inputPath)
+    .append("-b") // 硬编码一般需要设置视频的比特率（bitrate）
+    .append("1500k")
+    .append("-c:v")
+    .append("h264_mediacodec")
+    .append(outputPath)
     .get()
 
-GlobalScope.launch {
-    FFmpegCommand.runCmd(command, callback("音频剪切完成", targetPath))
+MainScope().launch(Dispatchers.IO) {
+    FFmpegCommand.runCmd(command, callback("格式转换成功", targetPath))
 }
-
 ```
-最好使用`CommandParams`构建我们的命令参数，这样能保证参数不被路径中空格影响，导致命令执行不成功。也可以使用如下方式构造我们的参数
+需要注意：   
+* 在使用`MediaCodec`进行编码的时候，必须同时配置`MediaCodec`解码，如上例子所示，不然会造成失败！！！  
+* H264编解码器是`h264_mediacodec`，H265的编解码器是`hevc_mediacodec`。同时可以使用H264解码和H265编码。
+* 硬编码一般需要设置视频的比特率，否则会出现画面模糊不清晰的情况。
+* 最好使用`CommandParams`构建我们的命令参数，这样能保证参数不被路径中空格影响，导致命令执行不成功。也可以使用如下方式构造我们的参数。
+
 ```kotlin
 val command = arrayOf("ffmpeg","-y","-i",inputPath,outputPath)
 ```
@@ -227,8 +233,6 @@ FFmpegCommand.cancel()
 ```
 
 **[【常见问题】](ffmpeg-wiki/常见问题.md)**
-
-**[【版本更新】](UPDATE.md)**
 
 ## 参考
 
