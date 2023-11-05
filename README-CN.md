@@ -22,10 +22,30 @@
 
 如果访问不了全部信息，请跳转[【国内镜像】](https://gitee.com/anjoiner/FFmpegCommand)
 
-## 主要功能
-[![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)[![License](https://img.shields.io/badge/license-Apache%202-informational.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-4.2.1-orange.svg)](https://ffmpeg.org/releases/ffmpeg-4.2.1.tar.bz2)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
+## 交叉编译
+* Macos 13.2 + GCC + Cmake + NDK 21
 
-* **支持所有FFmpeg命令**
+| 第三方库       | 版本                 | 下载地址                                                                                                 |
+|------------|--------------------|------------------------------------------------------------------------------------------------------|
+| ffmpeg     | 6.0                | https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz                                                        |
+| x264       | X264-20191217.2245 | http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2  |
+| mp3lame    | 3.100              | https://sourceforge.net/projects/lame/files/latest/download                                          |
+| fdkaac     | 2.0.1-ff69b4       | https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz                                  |
+| opencore-amr | 1.1.5              | https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz           |
+| ndk        | 21                 | https://dl.google.com/android/repository/android-ndk-r21e-darwin-x86_64.zip                          |
+
+## 主要功能
+[![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)[![License](https://img.shields.io/badge/license-Apache%202-informational.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-6.0-orange.svg)](https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
+
+| 特色功能 | 支持                 | 描述                     |
+|------|--------------------|------------------------|
+| ffmpeg命令 | :white_check_mark: | 支持所有的ffmpeg命令          |
+| 进度回调 | :white_check_mark: | 支持所有命令的回调              |
+| 命令取消 | :white_check_mark: | 支持在命令执行过程中取消命令执行       |
+| debug模式 | :white_check_mark: | 支持开启/关闭调试模式            |
+| 获取媒体信息 | :white_check_mark: | 获取媒体信息（宽、高...）         |
+| 支持GPU | :white_check_mark:  | 支持MediaCodec（v1.2.3） |
+
 * **支持视频格式转换 mp4->flv**
 * **支持音频编解码 mp3->pcm pcm->mp3 pcm->aac**
 * **支持音频转码 mp3->aac mp3->amr**
@@ -39,9 +59,9 @@
 * **支持获取媒体文件信息**
 * **支持连续执行FFmpeg命令**
 
-|执行FFmpeg|获取媒体信息|
-|---------| ----------------------------------|
-|<img src="images/1.gif" alt="图-1：命令行展示" width="260px" />|<img src="images/2.gif" alt="图-2：命令行执行" width="260px"/>|
+| 执行FFmpeg                                                 | 获取媒体信息                                                  |
+|----------------------------------------------------------|---------------------------------------------------------|
+| <img src="images/1.gif" alt="图-1：命令行展示" width="260px" /> | <img src="images/2.gif" alt="图-2：命令行执行" width="260px"/> |
 
 
 ## 引入
@@ -63,9 +83,9 @@ allprojects {
 
 ```groovy
 // 全部编解码-体积较大
-implementation 'com.github.AnJoiner:FFmpegCommand:1.2.1'
-// 部分常用编解码-体积较小,比上面引入减少大约6M
-implementation 'com.github.AnJoiner:FFmpegCommand:1.2.1-lite'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.2.3'
+// 部分常用编解码-体积较小,比上面引入减少大约5M
+implementation 'com.github.AnJoiner:FFmpegCommand:1.2.3-lite'
 ```
 
 更改module下build.gradle，当前库只支持`armeabi-v7a`和`arm64-v8a`，当然也可以只使用一种（一般使用`armeabi-v7a`可以向下兼容），可以参考[【Android ABI】](https://developer.android.com/ndk/guides/abis)
@@ -89,21 +109,21 @@ android {
 
 ### FFmpegCommand方法
 
-|方法 |功能 |
-|:---|----|
-|FFmpegCommand->setDebug(debug: Boolean)|Dubug模式，可打印日志|
-|FFmpegCommand->runCmd(cmd: Array<String?>)|执行ffmpeg命令，无回调|
-|FFmpegCommand->runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?)|执行ffmpeg命令，并回调 开始，完成，取消，进度，错误|
-|FFmpegCommand->getMediaInfo(path: String?, @MediaAttribute type: Int)|获取媒体信息：视频宽高、比特率...|
-|FFmpegCommand->getSupportFormat(@FormatAttribute formatType: Int)|获取当前库支持的封装、解封装格式|
-|FFmpegCommand->getSupportCodec(@CodecAttribute codecType: Int)| 获取当前库支持的编解码 |
-|FFmpegCommand->cancel()|退出FFmpeg命令执行|
+| 方法                                                                    | 功能                            |
+|-----------------------------------------------------------------------|-------------------------------|
+| FFmpegCommand->setDebug(debug: Boolean)                               | Dubug模式，可打印日志调试               |
+| FFmpegCommand->runCmd(cmd: Array<String?>)                            | 执行ffmpeg命令，无回调                |
+| FFmpegCommand->runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?) | 执行ffmpeg命令，并回调 开始，完成，取消，进度，错误 |
+| FFmpegCommand->getMediaInfo(path: String?, @MediaAttribute type: Int) | 获取媒体信息：视频宽高、比特率...            |
+| FFmpegCommand->getSupportFormat(@FormatAttribute formatType: Int)     | 获取当前库支持的封装、解封装格式              |
+| FFmpegCommand->getSupportCodec(@CodecAttribute codecType: Int)        | 获取当前库支持的编解码                   |
+| FFmpegCommand->cancel()                                               | 退出FFmpeg命令执行                  |
 
 ### runCmd
 以`runCmd`调用`FFmpeg`为同步执行FFmpeg命令，外部需增加线程，否则会造成应用无响应。
 直接调用`FFmpegCommand.runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?)`方法，其中第一个参数由`FFmpegUtils`工具类提供，也可以自己添加
 
-**不支持异步执行FFmpeg命令，毕竟C是面向过程语言，会出现资源占用问题**
+**不支持异步执行FFmpeg命令**
 
 ```kotlin
 GlobalScope.launch {
@@ -143,17 +163,31 @@ var progress = pts/duration!!
 如果其中不满足需求，可添加自己的FFmpeg命令．例如：
 
 ```kotlin
-var command = "ffmpeg -y -i %s -vn -acodec copy -ss %d -t %d %s"
-command = String.format(command, srcFile, startTime, duration, targetFile)
+val command = CommandParams()
+    .append("-i")
+    .append(srcFile)
+    .append("-vn")
+    .append("-c:a")
+    .append("copy")
+    .append("-ss")
+    .append(startTime)
+    .append("-t")
+    .append(duration)
+    .append(targetPath)
+    .get()
 
 GlobalScope.launch {
-    FFmpegCommand.runCmd(command.split(" ").toTypedArray(), callback("音频剪切完成", targetPath))
+    FFmpegCommand.runCmd(command, callback("音频剪切完成", targetPath))
 }
 
 ```
+最好使用`CommandParams`构建我们的命令参数，这样能保证参数不被路径中空格影响，导致命令执行不成功。也可以使用如下方式构造我们的参数
+```kotlin
+val command = arrayOf("ffmpeg","-y","-i",inputPath,outputPath)
+```
 
 ### 多进程执行
-由于底层暂时无法实现多线程(毕竟C是面向过程的语言)，所以如果需要在推流的同时，是无法再同时执行其他命令。
+由于底层暂时无法实现多线程，所以如果需要在推流的同时，是无法再同时执行其他命令。
 为了解决这个问题，可以使用如下多进程方法：
 
 1. 定义与主进程不同的其他进程
@@ -163,7 +197,7 @@ GlobalScope.launch {
 ```
 
 2. 在其他进程中执行推流的操作
-```
+```kotlin
 class FFmpegCommandService : Service() {
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -171,11 +205,15 @@ class FFmpegCommandService : Service() {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val videoPath = File(externalCacheDir, "test.mp4").absolutePath
-        val output = File(externalCacheDir, "output.yuv").absolutePath
-        val cmd = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s"
-        val result = String.format(Locale.CHINA, cmd, videoPath, output)
-        val strings: Array<String?> = result.split(" ").toTypedArray()
-        FFmpegCommand.runCmd(strings)
+        val output = File(externalCacheDir, "leak.avi").absolutePath
+        val command = CommandParams()
+            .append("-i")
+            .append(videoPath)
+            .append("-b:v")
+            .append("600k")
+            .append(output)
+            .get()
+        FFmpegCommand.runCmd(command)
         return super.onStartCommand(intent, flags, startId)
     }
 }
@@ -184,8 +222,8 @@ class FFmpegCommandService : Service() {
 ### 取消执行
 执行下面方法后将会回调 `CommonCallBack->onCancel()` 方法
 
-```java
-FFmpegCommand.cancel();
+```kotlin
+FFmpegCommand.cancel()
 ```
 
 **[【常见问题】](ffmpeg-wiki/常见问题.md)**
@@ -232,7 +270,7 @@ FFmpegCommand.cancel();
 
 ## License
 ```
-Copyright 2019 AnJoiner
+Copyright 2019-2023 AnJoiner
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

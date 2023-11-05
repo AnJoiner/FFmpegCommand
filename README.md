@@ -21,8 +21,29 @@ In our development, audio and video related content is often used, generally we 
 
 If you can’t access all the information, please go to[【Domestic Mirror】](https://gitee.com/anjoiner/FFmpegCommand)
 
+## Cross Compile
+* Macos 13.2 + GCC + Cmake + NDK 21
+
+| 第三方库       | 版本                 | 下载地址                                                                                                 |
+|------------|--------------------|------------------------------------------------------------------------------------------------------|
+| ffmpeg     | 6.0                | https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz                                                        |
+| x264       | X264-20191217.2245 | http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2  |
+| mp3lame    | 3.100              | https://sourceforge.net/projects/lame/files/latest/download                                          |
+| fdkaac     | 2.0.1-ff69b4       | https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz                                  |
+| opencore-amr | 1.1.5              | https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz           |
+| ndk        | 21                 | https://dl.google.com/android/repository/android-ndk-r21e-darwin-x86_64.zip                          |
+
 ## The main function
-[![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)[![License](https://img.shields.io/badge/license-Apache%202-informational.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-4.2.1-orange.svg)](https://ffmpeg.org/releases/ffmpeg-4.2.1.tar.bz2)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
+[![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)[![License](https://img.shields.io/badge/license-Apache%202-informational.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-6.0-orange.svg)](https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
+
+| 特色功能 | 支持                 | 描述                                        |
+|------|--------------------|-------------------------------------------|
+| ffmpeg命令 | :white_check_mark: | Support all FFmpeg commands               |
+| 进度回调 | :white_check_mark: | Support callback of ffmpeg commands       |
+| 命令取消 | :white_check_mark: | Support cancel the commands that is doing |
+| debug模式 | :white_check_mark: | Support debug model for develop           |
+| 获取媒体信息 | :white_check_mark: | Support to get media info                 |
+| 支持GPU | :white_check_mark:  | Support MediaCodec of android gpu（v1.2.3） |
 
 * **Support all FFmpeg commands**
 * **Support video format conversion : mp4->flv**
@@ -61,9 +82,9 @@ Choose only one of the following two introductions, and replace the following ac
 
 ```groovy
 // All codecs-larger size
-implementation 'com.github.AnJoiner:FFmpegCommand:1.2.1'
-// Some commonly used codecs-smaller in size, about 6M less than the introduction above
-implementation 'com.github.AnJoiner:FFmpegCommand:1.2.1-lite'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.2.3'
+// Some commonly used codecs-smaller in size, about 5M less than the introduction above
+implementation 'com.github.AnJoiner:FFmpegCommand:1.2.3-lite'
 ```
 
 Change build.gradle under module, the current library only supports `armeabi-v7a` and `arm64-v8a`, of course you can use only one (usually using `armeabi-v7a` for backward compatibility). You can Can refer to [【Android ABI】](https://developer.android.com/ndk/guides/abis)
@@ -140,13 +161,22 @@ This is just a demonstration of audio cutting, many functions such as the above,
 If the requirements are not met, you can add your own FFmpeg command, E.g:
 
 ```kotlin
-var command = "ffmpeg -y -i %s -vn -acodec copy -ss %d -t %d %s"
-command = String.format(command, srcFile, startTime, duration, targetFile)
+val command = CommandParams()
+    .append("-i")
+    .append(srcFile)
+    .append("-vn")
+    .append("-c:a")
+    .append("copy")
+    .append("-ss")
+    .append(startTime)
+    .append("-t")
+    .append(duration)
+    .append(targetPath)
+    .get()
 
 GlobalScope.launch {
-    FFmpegCommand.runCmd(command.split(" ").toTypedArray(), callback("Audio cut is complete", targetPath))
+    FFmpegCommand.runCmd(command, callback("Audio cut is complete", targetPath))
 }
-
 ```
 
 ### Multi-process execution
@@ -160,7 +190,7 @@ To solve this problem, you can use the following multi-process method:
 ```
 
 2. Perform push operations in other processes
-```
+```kotlin
 class FFmpegCommandService : Service() {
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -168,11 +198,15 @@ class FFmpegCommandService : Service() {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val videoPath = File(externalCacheDir, "test.mp4").absolutePath
-        val output = File(externalCacheDir, "output.yuv").absolutePath
-        val cmd = "ffmpeg -y -i %s -an -c:v rawvideo -pixel_format yuv420p %s"
-        val result = String.format(Locale.CHINA, cmd, videoPath, output)
-        val strings: Array<String?> = result.split(" ").toTypedArray()
-        FFmpegCommand.runCmd(strings)
+        val output = File(externalCacheDir, "leak.avi").absolutePath
+        val command = CommandParams()
+            .append("-i")
+            .append(videoPath)
+            .append("-b:v")
+            .append("600k")
+            .append(output)
+            .get()
+        FFmpegCommand.runCmd(command)
         return super.onStartCommand(intent, flags, startId)
     }
 }
@@ -181,8 +215,8 @@ class FFmpegCommandService : Service() {
 ### Cancel execution
 After executing the following method, the `CommonCallBack->onCancel()` method will be called back
 
-```java
-FFmpegCommand.cancel();
+```kotlin
+FFmpegCommand.cancel()
 ```
 
 **[【common problem】](ffmpeg-wiki/常见问题.md)**
@@ -229,7 +263,7 @@ If you think it is helpful to you, give a star to support it, and welcome a lot 
 
 ## License
 ```
-Copyright 2019 AnJoiner
+Copyright 2019-2023 AnJoiner
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

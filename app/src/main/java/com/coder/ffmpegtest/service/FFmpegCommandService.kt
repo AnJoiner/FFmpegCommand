@@ -8,6 +8,7 @@ import android.util.Log
 import com.coder.ffmpeg.annotation.MediaAttribute
 import com.coder.ffmpeg.call.CommonCallBack
 import com.coder.ffmpeg.jni.FFmpegCommand
+import com.coder.ffmpeg.utils.CommandParams
 import com.coder.ffmpegtest.utils.FileUtils
 import com.coder.ffmpegtest.utils.ToastUtils
 import kotlinx.coroutines.GlobalScope
@@ -41,10 +42,15 @@ class FFmpegCommandService : IntentService("") {
     override fun onHandleIntent(intent: Intent?) {
         val videoPath = File(externalCacheDir, "test.mp4").absolutePath
         val output = File(externalCacheDir, "leak.avi").absolutePath
-        val cmd = "ffmpeg -y -i %s -b:v 600k %s"
-        val result = String.format(Locale.CHINA, cmd, videoPath, output)
-        val strings: Array<String?> = result.split(" ").toTypedArray()
-        FFmpegCommand.runCmd(strings, callback("测试内存抖动", output))
+//        val cmd = "ffmpeg -y -i %s -b:v 600k %s"
+        val command = CommandParams()
+            .append("-i")
+            .append(videoPath)
+            .append("-b:v")
+            .append("600k")
+            .append(output)
+            .get()
+        FFmpegCommand.runCmd(command, callback("测试内存抖动", output))
     }
 
     private fun callback(msg: String, targetPath: String?): CommonCallBack? {
