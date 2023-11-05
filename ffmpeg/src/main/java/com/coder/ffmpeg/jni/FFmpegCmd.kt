@@ -2,9 +2,11 @@ package com.coder.ffmpeg.jni
 
 import android.util.Log
 import com.coder.ffmpeg.annotation.CodecAttribute
+import com.coder.ffmpeg.annotation.CodecProperty
 import com.coder.ffmpeg.annotation.FormatAttribute
 import com.coder.ffmpeg.annotation.MediaAttribute
 import com.coder.ffmpeg.call.IFFmpegCallBack
+import com.coder.ffmpeg.model.CodecInfo
 import java.util.*
 
 /**
@@ -129,6 +131,19 @@ internal class FFmpegCmd private constructor() {
      * @param type information type.
      */
     private external fun info(videoPath: String?, type: Int): Int
+    /**
+     * Provide method to get codec info .
+     * @param property property type.
+     */
+    fun getCodecProperty(videoPath: String?,@CodecProperty property: Int): CodecInfo? {
+        return codec(videoPath, property)
+    }
+    /**
+     * Call native to get media information.
+     * @param videoPath media path
+     * @param type information type.
+     */
+    private external fun codec(videoPath: String?, type: Int): CodecInfo?
 
     /**
      * Provide method to get format info .

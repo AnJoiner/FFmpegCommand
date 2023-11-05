@@ -9,6 +9,8 @@
         <item>音频声道数</item>
         <item>音频采样率</item>
         <item>音频比特率</item>
+        <item>视频Codec</item>
+        <item>音频Codec</item>
     </string-array>
 
     <string-array name="formats">

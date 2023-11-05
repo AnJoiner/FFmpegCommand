@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.coder.ffmpeg.annotation.CodecProperty
 import com.coder.ffmpeg.annotation.MediaAttribute
 import com.coder.ffmpeg.jni.FFmpegCommand
 import com.coder.ffmpegtest.R
@@ -76,6 +77,8 @@ class KFFmpegInfoActivity : AppCompatActivity() {
                     5 -> getChannels()
                     6 -> getSampleRate()
                     7 -> getAudioBitRate()
+                    8 -> getVideoCodec()
+                    9 -> getAudioCodec()
                 }
             }
         })
@@ -135,6 +138,18 @@ class KFFmpegInfoActivity : AppCompatActivity() {
     private fun getAudioBitRate() {
         val bitRate = FFmpegCommand.getMediaInfo(mVideoPath, MediaAttribute.AUDIO_BIT_RATE)
         val result = String.format("bitRate = %s", bitRate)
+        tvContent?.text = result
+    }
+
+    private fun getVideoCodec() {
+        val codecInfo = FFmpegCommand.getCodecInfo(mVideoPath, CodecProperty.VIDEO)
+        val result =codecInfo?.toString()?:""
+        tvContent?.text = result
+    }
+
+    private fun getAudioCodec() {
+        val codecInfo = FFmpegCommand.getCodecInfo(mVideoPath, CodecProperty.AUDIO)
+        val result =codecInfo?.toString()?:""
         tvContent?.text = result
     }
 

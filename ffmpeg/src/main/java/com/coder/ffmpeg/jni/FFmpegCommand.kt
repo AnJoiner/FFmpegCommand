@@ -1,9 +1,11 @@
 package com.coder.ffmpeg.jni
 
 import com.coder.ffmpeg.annotation.CodecAttribute
+import com.coder.ffmpeg.annotation.CodecProperty
 import com.coder.ffmpeg.annotation.FormatAttribute
 import com.coder.ffmpeg.annotation.MediaAttribute
 import com.coder.ffmpeg.call.IFFmpegCallBack
+import com.coder.ffmpeg.model.CodecInfo
 
 /**
  * @author: AnJoiner
@@ -30,6 +32,18 @@ object FFmpegCommand {
     @JvmStatic
     fun getMediaInfo(path: String?, @MediaAttribute type: Int): Int? {
         return FFmpegCmd.instance?.getMediaInfo(path, type)
+    }
+
+    /**
+     * Get media codec info
+     *
+     * @param path media path
+     * @param type media property type [CodecProperty]
+     * @return media codec info [CodecInfo]
+     */
+    @JvmStatic
+    fun getCodecInfo(path: String?, @CodecProperty type: Int): CodecInfo? {
+        return FFmpegCmd.instance?.getCodecProperty(path, type)
     }
 
     /**
