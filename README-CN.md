@@ -37,16 +37,16 @@
 ## 主要功能
 [![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)[![License](https://img.shields.io/badge/license-Apache%202-informational.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-6.0-orange.svg)](https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
 
-| 特色功能          | 支持                 | 描述                      |
-|---------------|--------------------|-------------------------|
-| ffmpeg命令      | :white_check_mark: | 支持所有的ffmpeg命令           |
-| 进度回调          | :white_check_mark: | 支持所有命令的回调               |
-| 命令取消          | :white_check_mark: | 支持在命令执行过程中取消命令执行        |
-| debug模式       | :white_check_mark: | 支持开启/关闭调试模式             |
-| 获取媒体信息        | :white_check_mark: | 获取媒体信息（宽、高...）          |
-| MediaCodec编解码 | :white_check_mark:  | 支持MediaCodec（从 v1.3.0）  |
-| 平台架构          |:white_check_mark:| 支持 armeabi-v7a, arm64-v8a |
-| 独立so          |:white_check_mark:| 将多个so合并成一个 `ffmpeg-or.so`   |
+| 特色功能          | 支持                 | 描述                         |
+|---------------|--------------------|----------------------------|
+| ffmpeg命令      | :white_check_mark: | 支持所有的ffmpeg命令              |
+| 进度回调          | :white_check_mark: | 支持所有命令的回调                  |
+| 命令取消          | :white_check_mark: | 支持在命令执行过程中取消命令执行           |
+| debug模式       | :white_check_mark: | 支持开启/关闭调试模式                |
+| 获取媒体信息        | :white_check_mark: | 获取媒体信息（宽、高...）             |
+| MediaCodec编解码 | :white_check_mark:  | 支持MediaCodec（从 v1.3.0）     |
+| 平台架构          |:white_check_mark:| 支持 armeabi-v7a, arm64-v8a  |
+| 独立so          |:white_check_mark:| 将多个so合并成一个 `ffmpeg-org.so` |
 
 大致的功能如下：    
 * 支持视频格式转换 mp4->flv
@@ -167,13 +167,13 @@ var progress = pts/duration!!
 ```kotlin
 // shell 命令: ffmpeg -y -c:v h264_mediacodec -i inputPath -c:v h264_mediacodec outputPath
 val command = CommandParams()
-    .append("-c:v")
+    .append("-c:v") // 设置解码器
     .append("h264_mediacodec")
     .append("-i")
     .append(inputPath)
     .append("-b") // 硬编码一般需要设置视频的比特率（bitrate）
     .append("1500k")
-    .append("-c:v")
+    .append("-c:v") // 设置编码器
     .append("h264_mediacodec")
     .append(outputPath)
     .get()

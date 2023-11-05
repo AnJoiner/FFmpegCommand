@@ -164,11 +164,13 @@ If the requirements are not met, you can add your own FFmpeg command, The follow
 ```kotlin
 // shell command: ffmpeg -y -c:v h264_mediacodec -i inputPath -c:v h264_mediacodec outputPath
 val command = CommandParams()
-    .append("-c:v")
+    .append("-c:v") // decode
     .append("h264_mediacodec")
     .append("-i")
     .append(inputPath)
-    .append("-c:v")
+    .append("-b") // bitrate
+    .append("1500k")
+    .append("-c:v") // encode
     .append("h264_mediacodec")
     .append(outputPath)
     .get()
