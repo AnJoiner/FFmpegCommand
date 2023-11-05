@@ -1,5 +1,6 @@
 package com.coder.ffmpeg.jni
 
+import android.util.Log
 import com.coder.ffmpeg.annotation.CodecAttribute
 import com.coder.ffmpeg.annotation.FormatAttribute
 import com.coder.ffmpeg.annotation.MediaAttribute
@@ -45,7 +46,7 @@ internal class FFmpegCmd private constructor() {
      * @return execute status
      */
     fun runCmd(command: Array<String?>): Int {
-        return run(getCommand(command))
+        return execute(command)
     }
 
     /**
@@ -56,7 +57,7 @@ internal class FFmpegCmd private constructor() {
      */
     fun runCmd(command: Array<String?>, callBack: IFFmpegCallBack?): Int {
         mCallBacks.add(callBack)
-        return run(getCommand(command))
+        return execute(command)
     }
 
     /**
@@ -104,6 +105,13 @@ internal class FFmpegCmd private constructor() {
      * @return execute status
      */
     private external fun run(command: String?): Int
+
+    /**
+     * Execute ffmpeg command method
+     * @param command ffmeng command
+     * @return execute status
+     */
+    private external fun execute(command: Array<String?>): Int
 
     /**
      * Get media information

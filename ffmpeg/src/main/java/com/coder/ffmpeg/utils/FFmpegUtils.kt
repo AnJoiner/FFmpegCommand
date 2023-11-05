@@ -471,6 +471,8 @@ object FFmpegUtils {
             .append(waterMark)
             .append("-filter_complex")
             .append("overlay=40:40")
+            .append("-c:v")
+            .append("libx264")
             .append(targetFile)
             .get()
     }
@@ -665,6 +667,8 @@ object FFmpegUtils {
             .append(input2)
             .append("-filter_complex")
             .append(tack)
+            .append("-c:v")
+            .append("libx264")
             .append(targetFile)
             .get()
     }
@@ -686,6 +690,8 @@ object FFmpegUtils {
             .append("[0:v]reverse[v]")
             .append("-map")
             .append("[v]")
+            .append("-c:v")
+            .append("libx264")
             .append(targetFile)
             .get()
     }
@@ -728,6 +734,8 @@ object FFmpegUtils {
             .append(inputFile)
             .append("-nr")
             .append("500")
+            .append("-c:v")
+            .append("libx264")
             .append(targetFile)
             .get()
     }
@@ -754,6 +762,8 @@ object FFmpegUtils {
             .append(inputFile2)
             .append("-filter_complex")
             .append("overlay=$x:$y")
+            .append("-c:v")
+            .append("libx264")
             .append(targetFile)
             .get()
     }
@@ -1096,6 +1106,8 @@ object FFmpegUtils {
             .append("transpose=$transpose")
             .append("-b:v")
             .append("600k")
+            .append("-c:v")
+            .append("libx264")
             .append(targetFile)
             .get()
     }
@@ -1197,7 +1209,8 @@ object FFmpegUtils {
             .append(srcFile)
             .append("-c")
             .append("copy")
-            .append("-bsf:v h264_mp4toannexb")
+            .append("-bsf:v")
+            .append("h264_mp4toannexb")
             .append("-hls_time")
             .append(splitTime)
             .append(targetFile)
