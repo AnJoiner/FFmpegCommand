@@ -19,7 +19,7 @@
 In our development, audio and video related content is often used, generally we will choose [FFmpeg](https://www.ffmpeg.org/), but its cross-compilation is a very troublesome thing for us . So here for the convenience of future use, I wrote this `FFmpegCommand`, `FFmpegCommand` is composed of `FFmpeg` core library, and integrates `lame`, `libx264`, `fdk-aac` and `libopencore-amr` mainstream audio and video processing Android program
 **Note: The current library is only available for Android**
 
-If you can’t access all the information, please go to[【Domestic Mirror】](https://gitee.com/anjoiner/FFmpegCommand)
+If you can’t access all the information, please go to[【国内镜像】](https://gitee.com/anjoiner/FFmpegCommand)
 
 ## Cross Compile
 * Macos 13.2 + GCC + Cmake + NDK 21
@@ -36,14 +36,14 @@ If you can’t access all the information, please go to[【Domestic Mirror】](h
 ## The main function
 [![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)[![License](https://img.shields.io/badge/license-Apache%202-informational.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-6.0-orange.svg)](https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
 
-| 特色功能 | 支持                 | 描述                                        |
-|------|--------------------|-------------------------------------------|
-| ffmpeg命令 | :white_check_mark: | Support all FFmpeg commands               |
-| 进度回调 | :white_check_mark: | Support callback of ffmpeg commands       |
-| 命令取消 | :white_check_mark: | Support cancel the commands that is doing |
-| debug模式 | :white_check_mark: | Support debug model for develop           |
-| 获取媒体信息 | :white_check_mark: | Support to get media info                 |
-| 支持GPU | :white_check_mark:  | Support MediaCodec of android gpu（v1.2.3） |
+| 特色功能                      | 支持                 | 描述                                        |
+|---------------------------|--------------------|-------------------------------------------|
+| ffmpeg commands           | :white_check_mark: | Support all FFmpeg commands               |
+| progress callback         | :white_check_mark: | Support callback of ffmpeg commands       |
+| cancel commands           | :white_check_mark: | Support cancel the commands that is doing |
+| debug model               | :white_check_mark: | Support debug model for develop           |
+| get media info            | :white_check_mark: | Support to get media info                 |
+| gpu hardware acceleration | :white_check_mark:  | Support MediaCodec of android gpu（v1.2.3） |
 
 * **Support all FFmpeg commands**
 * **Support video format conversion : mp4->flv**
