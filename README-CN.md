@@ -71,11 +71,12 @@
 在项目根目录下找到`build.gradle`，并添加如下
 
 ```groovy
-allprojects {
-	repositories {
-		...
-		maven { url 'https://jitpack.io' }
-	}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
 }
 ```
 
@@ -85,9 +86,9 @@ allprojects {
 
 ```groovy
 // 全部编解码-体积较大
-implementation 'com.github.AnJoiner:FFmpegCommand:1.3.0'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.3.1'
 // 部分常用编解码-体积较小,比上面引入减少大约6M
-implementation 'com.github.AnJoiner:FFmpegCommand:1.3.0-lite'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.3.1-lite'
 ```
 
 更改module下build.gradle，当前库只支持`armeabi-v7a`和`arm64-v8a`，当然也可以只使用一种（一般使用`armeabi-v7a`可以向下兼容），可以参考[【Android ABI】](https://developer.android.com/ndk/guides/abis)

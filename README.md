@@ -70,11 +70,12 @@ The general functions are as follows：
 Find `build.gradle` in the project root directory and add the following：
 
 ```groovy
-allprojects {
-	repositories {
-	    ...
-	    maven { url 'https://jitpack.io' }
-	}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
 }
 ```
 Then add the import in `build.gradle` in `app` or other `module` directory
@@ -83,9 +84,9 @@ Choose only one of the following two introductions, and replace the following ac
 
 ```groovy
 // All codecs-larger size
-implementation 'com.github.AnJoiner:FFmpegCommand:1.3.0'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.3.1'
 // Some commonly used codecs-smaller in size, about 6M less than the introduction above
-implementation 'com.github.AnJoiner:FFmpegCommand:1.3.0-lite'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.3.1-lite'
 ```
 
 Change build.gradle under module, the current library only supports `armeabi-v7a` and `arm64-v8a`, of course you can use only one (usually using `armeabi-v7a` for backward compatibility). You can Can refer to [【Android ABI】](https://developer.android.com/ndk/guides/abis)
