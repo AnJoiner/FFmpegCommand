@@ -23,7 +23,7 @@ android {
     compileSdkVersion 31
     defaultConfig {
         applicationId "com.coder.ffmpegtest"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 31
         versionCode 4
         versionName "1.2.3"
@@ -50,6 +50,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures{
+        viewBinding true
     }
 }
 
