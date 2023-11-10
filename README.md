@@ -22,7 +22,7 @@ In our development, audio and video related content is often used, generally we 
 If you can’t access all the information, please go to[【国内镜像】](https://gitee.com/anjoiner/FFmpegCommand)
 
 ## Cross Compile
-* Macos 13.2 + GCC + Cmake + NDK 21 (支持MediaCodec 编解码)
+* Macos 13.2 + Clang + Cmake + NDK 21 (支持MediaCodec 编解码)
 
 | 第三方库       | 版本                 | 下载地址                                                                                                 |
 |------------|--------------------|------------------------------------------------------------------------------------------------------|

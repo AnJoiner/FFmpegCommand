@@ -47,6 +47,9 @@
 
         <activity android:name=".ui.TestCodecActivity"
             android:screenOrientation="portrait"/>
+        <!--添加文字、字幕-->
+        <activity android:name=".ui.KFFmpegFontActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".service.FFmpegCommandService" />
         <service android:name=".service.FFmpegCommandService2" android:process=":ffmpegCommand2" />

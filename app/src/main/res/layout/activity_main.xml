@@ -10,35 +10,6 @@
     tools:context=".ui.MainActivity">
 
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
-
-
-        <Button
-            android:id="@+id/btn_codec"
-            android:layout_width="100dp"
-            android:text="支持编码"
-            android:inputType="text"
-            android:background="@drawable/shape_button_border"
-            android:layout_height="100dp"/>
-
-
-        <Button
-            android:id="@+id/btn_format"
-            android:layout_width="100dp"
-            android:text="支持格式"
-            android:layout_marginLeft="10dp"
-            android:inputType="text"
-            android:background="@drawable/shape_button_border"
-            android:layout_height="100dp"/>
-
-    </LinearLayout>
-
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:orientation="horizontal"
@@ -46,7 +17,7 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_command"
+            android:id="@+id/command_btn"
             android:layout_width="100dp"
             android:text="Command"
             android:inputType="text"
@@ -55,19 +26,57 @@
 
 
         <Button
-            android:id="@+id/btn_info"
+            android:id="@+id/font_btn"
+            android:layout_width="100dp"
+            android:text="文本、字幕"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/shape_button_border"
+            android:layout_height="100dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:id="@+id/codec_btn"
+            android:layout_width="100dp"
+            android:text="支持编码"
+            android:inputType="text"
+            android:background="@drawable/shape_button_border"
+            android:layout_height="100dp"/>
+
+
+        <Button
+            android:id="@+id/format_btn"
+            android:layout_width="100dp"
+            android:text="支持格式"
+            android:layout_marginLeft="10dp"
+            android:inputType="text"
+            android:background="@drawable/shape_button_border"
+            android:layout_height="100dp"/>
+
+
+        <Button
+            android:id="@+id/info_btn"
             android:layout_width="100dp"
             android:layout_marginLeft="10dp"
             android:text="媒体信息"
             android:background="@drawable/shape_button_border"
             android:layout_height="100dp"/>
 
-
     </LinearLayout>
 
 
+
+
+
     <TextView
-        android:id="@+id/tv_abi"
+        android:id="@+id/abi_text"
         android:layout_width="wrap_content"
         android:text="当前使用abi："
         android:layout_gravity="center_horizontal"

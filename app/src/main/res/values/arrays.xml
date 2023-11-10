@@ -71,4 +71,9 @@
         <item>生成静音音频</item>
     </string-array>
 
+    <string-array name="fonts">
+        <item>文本绘制（drawtext）</item>
+        <item>字幕添加（subtitles）</item>
+    </string-array>
+
 </resources>
