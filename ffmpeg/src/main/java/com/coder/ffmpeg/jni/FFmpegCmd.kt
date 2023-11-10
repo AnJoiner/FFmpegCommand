@@ -1,6 +1,5 @@
 package com.coder.ffmpeg.jni
 
-import android.util.Log
 import com.coder.ffmpeg.annotation.CodecAttribute
 import com.coder.ffmpeg.annotation.CodecProperty
 import com.coder.ffmpeg.annotation.FormatAttribute
@@ -39,7 +38,9 @@ internal class FFmpegCmd private constructor() {
     /**
      * Whether to enable debugging mode
      * @param debug true or false
+     * you can see [FFmpegConfig.setDebug]
      */
+    @Deprecated("delete")
     external fun setDebug(debug: Boolean)
 
     /**
@@ -106,13 +107,6 @@ internal class FFmpegCmd private constructor() {
      * @param command ffmeng command
      * @return execute status
      */
-    private external fun run(command: String?): Int
-
-    /**
-     * Execute ffmpeg command method
-     * @param command ffmeng command
-     * @return execute status
-     */
     private external fun execute(command: Array<String?>): Int
 
     /**
@@ -131,6 +125,13 @@ internal class FFmpegCmd private constructor() {
      * @param type information type.
      */
     private external fun info(videoPath: String?, type: Int): Int
+
+    /**
+     * Call native to get media information.
+     * @param videoPath media path
+     * @param type information type.
+     */
+    private external fun codec(videoPath: String?, type: Int): CodecInfo?
     /**
      * Provide method to get codec info .
      * @param property property type.
@@ -138,13 +139,6 @@ internal class FFmpegCmd private constructor() {
     fun getCodecProperty(videoPath: String?,@CodecProperty property: Int): CodecInfo? {
         return codec(videoPath, property)
     }
-    /**
-     * Call native to get media information.
-     * @param videoPath media path
-     * @param type information type.
-     */
-    private external fun codec(videoPath: String?, type: Int): CodecInfo?
-
     /**
      * Provide method to get format info .
      * @param format format type.

@@ -16,7 +16,9 @@ object FFmpegCommand {
      * Whether to enable debug mode
      *
      * @param debug true:enable false :not enable
+     * you can see [FFmpegConfig.setDebug]
      */
+    @Deprecated("the method is deprecated", ReplaceWith("FFmpegConfig.setDebug(debug)"))
     @JvmStatic
     fun setDebug(debug: Boolean) {
         FFmpegCmd.instance?.setDebug(debug)
