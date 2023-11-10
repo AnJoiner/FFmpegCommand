@@ -24,28 +24,33 @@ If you can’t access all the information, please go to[【国内镜像】](http
 ## Cross Compile
 * Macos 13.2 + Clang + Cmake + NDK 21 (支持MediaCodec 编解码)
 
-| 第三方库       | 版本                 | 下载地址                                                                                                 |
-|------------|--------------------|------------------------------------------------------------------------------------------------------|
-| ffmpeg     | 6.0                | https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz                                                        |
-| x264       | X264-20191217.2245 | http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2  |
-| mp3lame    | 3.100              | https://sourceforge.net/projects/lame/files/latest/download                                          |
-| fdkaac     | 2.0.1-ff69b4       | https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz                                  |
-| opencore-amr | 1.1.5              | https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz           |
-| ndk        | 21                 | https://dl.google.com/android/repository/android-ndk-r21e-darwin-x86_64.zip                          |
+| third party  | version            | download url                                                                                        | available version |
+|--------------|--------------------|-----------------------------------------------------------------------------------------------------|-------------------|
+| ffmpeg       | 6.0                | https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz                                                       | 1.0.0             |
+| x264         | X264-20191217.2245 | http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2 | 1.0.0             |
+| mp3lame      | 3.100              | https://sourceforge.net/projects/lame/files/latest/download                                         | 1.0.0             |
+| fdkaac       | 2.0.1-ff69b4       | https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz                                 | 1.0.0             |
+| opencore-amr | 1.1.5              | https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz          | 1.0.0             |
+| fribidi      | 1.0.10             | https://github.com/fribidi/fribidi/releases/download/v1.0.10/fribidi-1.0.10.tar.xz                  | 1.3.2             |
+| freetype     | 2.10.2             | https://mirror.yongbok.net/nongnu/freetype/freetype-2.10.2.tar.gz                                   | 1.3.2             |
+| fontconfig   | 2.13.92            | https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.92.tar.gz                   | 1.3.2             |
+| ass          | 0.14.0             | https://github.com/libass/libass/releases/download/0.14.0/libass-0.14.0.tar.gz                      | 1.3.2             |
 
 ## The main function
 [![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)[![License](https://img.shields.io/badge/license-Apache%202-informational.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-6.0-orange.svg)](https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
 
-| Special feature      | Support            | Description                                      |
-|----------------------|--------------------|--------------------------------------------------|
-| ffmpeg commands      | :white_check_mark: | Support all FFmpeg commands                      |
-| progress callback    | :white_check_mark: | Support callback of ffmpeg commands              |
-| cancel commands      | :white_check_mark: | Support cancel the commands that is doing        |
-| debug model          | :white_check_mark: | Support debug model for develop                  |
-| get media info       | :white_check_mark: | Support to get media info                        |
-| mediacodec codec     | :white_check_mark: | Support MediaCodec of android gpu（ since v1.3.0） |
-| android architecture |:white_check_mark:| Support armeabi-v7a, arm64-v8a |
-| one so               |:white_check_mark:| Merge multiple so into one `ffmpeg-or.so`   |
+| Special feature           | Support              | Description                                                                  |
+|---------------------------|----------------------|------------------------------------------------------------------------------|
+| ffmpeg commands           | :white_check_mark:   | Support all FFmpeg commands                                                  |
+| progress callback         | :white_check_mark:   | Support callback of ffmpeg commands                                          |
+| cancel commands           | :white_check_mark:   | Support cancel the commands that is doing                                    |
+| debug model               | :white_check_mark:   | Support debug model for develop                                              |
+| get media info            | :white_check_mark:   | Support to get media info                                                    |
+| draw text (drawtext)      | :white_check_mark:   | Support to draw text to video (text watermark - since v1.3.2)                |
+| add subtitles (subtitles) | :white_check_mark:   | Support to add subtitles to videos (support srt, ass formats - since v1.3.2) |
+| mediacodec codec          | :white_check_mark:   | Support MediaCodec of android gpu（ since v1.3.0）                             |
+| android architecture      | :white_check_mark:   | Support armeabi-v7a, arm64-v8a                                               |
+| one so                    | :white_check_mark:   | Merge multiple so into one `ffmpeg-or.so`                                    |
 
 The general functions are as follows：   
 * Support all FFmpeg commands
@@ -84,9 +89,9 @@ Choose only one of the following two introductions, and replace the following ac
 
 ```groovy
 // All codecs-larger size
-implementation 'com.github.AnJoiner:FFmpegCommand:1.3.1'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.3.2'
 // Some commonly used codecs-smaller in size, about 6M less than the introduction above
-implementation 'com.github.AnJoiner:FFmpegCommand:1.3.1-lite'
+implementation 'com.github.AnJoiner:FFmpegCommand:1.3.2-lite'
 ```
 
 Change build.gradle under module, the current library only supports `armeabi-v7a` and `arm64-v8a`, of course you can use only one (usually using `armeabi-v7a` for backward compatibility). You can Can refer to [【Android ABI】](https://developer.android.com/ndk/guides/abis)
