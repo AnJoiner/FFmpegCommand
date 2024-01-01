@@ -1293,4 +1293,20 @@ object FFmpegUtils {
             .append(url)
             .get()
     }
+
+    /**
+     * 使用ffmpeg进行视频画面裁切
+     * @param srcFile 源文件
+     * @param targetFile 目标文件
+     * @param width 输出视频宽度
+     * @param height 输出视频高度
+     * @param x 裁切视频的基准点x坐标
+     * @param y 裁切视频的基准点y坐标
+     */
+    @JvmStatic
+    fun cropVideoScreen(srcFile: String?, targetFile: String?, width: Int, height: Int, x: Int, y: Int): Array<String?> {
+        var command = "ffmpeg -i %s -vf crop=%d:%d:%d:%d %s -y"
+        command = String.format(command, srcFile, width, height, x, y, targetFile)
+        return command.split(" ").toTypedArray()
+    }
 }
