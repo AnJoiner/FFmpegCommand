@@ -96,10 +96,12 @@ dependencyResolutionManagement {
 
 ```groovy
 // 全部编解码-体积较大
-implementation 'com.github.AnJoiner:FFmpegCommand:1.3.2'
+implementation 'com.github.AnJoiner.FFmpegCommand:ffmpeg:1.3.3'
 // 部分常用编解码-体积较小,比上面引入减少大约6M
-implementation 'com.github.AnJoiner:FFmpegCommand:1.3.2-lite'
+implementation 'com.github.AnJoiner.FFmpegCommand:ffmpeg-lite:1.3.3'
 ```
+
+
 
 更改module下build.gradle，当前库只支持`armeabi-v7a`和`arm64-v8a`
 ，当然也可以只使用一种（一般使用`armeabi-v7a`

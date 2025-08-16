@@ -90,9 +90,9 @@ Choose only one of the following two introductions, and replace the following ac
 
 ```groovy
 // All codecs-larger size
-implementation 'com.github.AnJoiner:FFmpegCommand:1.3.2'
+implementation 'com.github.AnJoiner.FFmpegCommand:ffmpeg:1.3.3'
 // Some commonly used codecs-smaller in size, about 6M less than the introduction above
-implementation 'com.github.AnJoiner:FFmpegCommand:1.3.2-lite'
+implementation 'com.github.AnJoiner.FFmpegCommand:ffmpeg-lite:1.3.3'
 ```
 
 Change build.gradle under module, the current library only supports `armeabi-v7a` and `arm64-v8a`, of course you can use only one (usually using `armeabi-v7a` for backward compatibility). You can Can refer to [【Android ABI】](https://developer.android.com/ndk/guides/abis)
