@@ -1,0 +1,19 @@
+ext {
+    // 定义发布配置
+    setupPublishing = { project ->
+        project.afterEvaluate {
+            publishing {
+                publications {
+                    release(MavenPublication) {
+                        groupId = 'com.coder' // 对于 JitPack 应该是 com.github.yourusername
+                        artifactId = project.name
+                        version = '1.3.3'
+
+                        // 指定要发布的 artifact
+                        from project.components.release
+                    }
+                }
+            }
+        }
+    }
+}

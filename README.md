@@ -22,7 +22,7 @@ In our development, audio and video related content is often used, generally we 
 If you can’t access all the information, please go to[【国内镜像】](https://gitee.com/anjoiner/FFmpegCommand)
 
 ## Cross Compile
-* Macos 13.2 + Clang + Cmake + NDK 21 (支持MediaCodec 编解码)
+* Macos 13.2 & Clang++ & Cmake & NDK 21 (Support MediaCodec)
 
 | third party  | version            | download url                                                                                        | available version |
 |--------------|--------------------|-----------------------------------------------------------------------------------------------------|-------------------|
@@ -39,18 +39,19 @@ If you can’t access all the information, please go to[【国内镜像】](http
 ## The main function
 [![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)[![License](https://img.shields.io/badge/license-Apache%202-informational.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-6.0-orange.svg)](https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
 
-| Special feature           | Support              | Description                                                                  |
-|---------------------------|----------------------|------------------------------------------------------------------------------|
-| ffmpeg commands           | :white_check_mark:   | Support all FFmpeg commands                                                  |
-| progress callback         | :white_check_mark:   | Support callback of ffmpeg commands                                          |
-| cancel commands           | :white_check_mark:   | Support cancel the commands that is doing                                    |
-| debug model               | :white_check_mark:   | Support debug model for develop                                              |
-| get media info            | :white_check_mark:   | Support to get media info                                                    |
-| draw text (drawtext)      | :white_check_mark:   | Support to draw text to video (text watermark - since v1.3.2)                |
-| add subtitles (subtitles) | :white_check_mark:   | Support to add subtitles to videos (support srt, ass formats - since v1.3.2) |
-| mediacodec codec          | :white_check_mark:   | Support MediaCodec of android gpu（ since v1.3.0）                             |
-| android architecture      | :white_check_mark:   | Support armeabi-v7a, arm64-v8a                                               |
-| one so                    | :white_check_mark:   | Merge multiple so into one `ffmpeg-or.so`                                    |
+| Special feature                                              | Support            | Description                                                  |
+| ------------------------------------------------------------ | ------------------ | ------------------------------------------------------------ |
+| ffmpeg commands                                              | :white_check_mark: | Support all FFmpeg commands                                  |
+| progress callback                                            | :white_check_mark: | Support callback of ffmpeg commands                          |
+| cancel commands                                              | :white_check_mark: | Support cancel the commands that is doing                    |
+| debug model                                                  | :white_check_mark: | Support debug model for develop                              |
+| get media info                                               | :white_check_mark: | Support to get media info                                    |
+| draw text (drawtext)                                         | :white_check_mark: | Support to draw text to video (text watermark - since v1.3.2) |
+| add subtitles (subtitles)                                    | :white_check_mark: | Support to add subtitles to videos (support srt, ass formats - since v1.3.2) |
+| mediacodec codec                                             | :white_check_mark: | Support MediaCodec of android gpu（ since v1.3.0）           |
+| android architecture                                         | :white_check_mark: | Support armeabi-v7a, arm64-v8a                               |
+| one so                                                       | :white_check_mark: | Merge multiple so into one `ffmpeg-or.so`                    |
+| [16 kb align](https://developer.android.com/guide/practices/page-sizes?hl=zh-cn#cmake_1) | :white_check_mark: | Support 16KB page size, align all so files ( since  v1.3.3)  |
 
 The general functions are as follows：   
 * Support all FFmpeg commands
@@ -116,24 +117,29 @@ android {
 
 |Method |Function |
 |:---|----|
-|FFmpegCommand->setDebug(debug: Boolean)|Debug mode, printable log|
+|FFmpegConfig->setDebug(debug: Boolean)|Debug mode, printable log|
 |FFmpegCommand->runCmd(cmd: Array<String?>)|Execute ffmpeg command without callback|
 |FFmpegCommand->runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?)|Execute ffmpeg command and call back start, complete, cancel, progress, error|
 |FFmpegCommand->getMediaInfo(path: String?, @MediaAttribute type: Int)|Get media information: video width and height, bit rate...|
 |FFmpegCommand->getSupportFormat(@FormatAttribute formatType: Int)|Get the encapsulation and decapsulation formats supported by the current library|
 |FFmpegCommand->getSupportCodec(@CodecAttribute codecType: Int)| Get the codec supported by the current library |
-|FFmpegCommand->cancel()|Exit FFmpeg command execution|
+|FFmpegCommand->cancel(taskId)|Cancel one running task - v1.3.3|
+|FFmpegCommand->cancelAll()|Cancel all running task - v1.3.3|
+|FFmpegCommand->getRunningCount()|Get the number of running task - v1.3.3|
 
 ### runCmd
-Use `runCmd` to call `FFmpeg` to execute FFmpeg commands synchronously. External threads need to be added, otherwise the application will become unresponsive.
+Call `FFmpeg` with `runCmd` to execute FFmpeg commands. Starting from `v1.3.3`, commands can be executed asynchronously.
 Direct call `FFmpegCommand.runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?)` method，The first parameter is provided by the `FFmpegUtils` tool class, or you can add it yourself
 
 **Does not support asynchronous execution of FFmpeg commands, after all, C is a process-oriented language, and resource occupation problems will occur**
 
 ```kotlin
-GlobalScope.launch {
-    FFmpegCommand.runCmd(FFmpegUtils.transformAudio(audioPath, targetPath), callback("transcoding complete", targetPath))
-}
+val taskId = FFmpegCommand.runCmd(
+        FFmpegUtils.transformAudio(audioPath, targetPath),
+        callback("transcoding complete", targetPath)
+    )
+// Cancel one running task
+FFmpegCommand.cancel(taskId)
 ```
 
 The second parameter is the callback method
@@ -195,54 +201,22 @@ requires attention:
 val command = arrayOf("ffmpeg","-y","-i",inputPath,outputPath)
 ```
 
-### Multi-process execution
-Since the bottom layer is temporarily unable to implement multithreading (after all, C is a process-oriented language), if you need to push the stream at the same time, it is impossible to execute other commands at the same time.
-To solve this problem, you can use the following multi-process method:
-
-1. Define other processes different from the main process
-```xml
-<service android:name=".service.FFmpegCommandService" android:process=":ffmpegCommand" />
-<service android:name=".service.FFmpegCommandService2" android:process=":ffmpegCommand2" />
-```
-
-2. Perform push operations in other processes
-```kotlin
-class FFmpegCommandService : Service() {
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
-
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        val videoPath = File(externalCacheDir, "test.mp4").absolutePath
-        val output = File(externalCacheDir, "leak.avi").absolutePath
-        val command = CommandParams()
-            .append("-i")
-            .append(videoPath)
-            .append("-b:v")
-            .append("600k")
-            .append(output)
-            .get()
-        FFmpegCommand.runCmd(command)
-        return super.onStartCommand(intent, flags, startId)
-    }
-}
-```
-
 ### Cancel execution
 After executing the following method, the `CommonCallBack->onCancel()` method will be called back
 
 ```kotlin
-FFmpegCommand.cancel()
+FFmpegCommand.cancel(taskId)
+FFmpegCommand.cancelAll()
 ```
 
 **[【common problem】](ffmpeg-wiki/常见问题.md)**
 
 ## Reference
 
-**[【KFFmpegCommandActivity-Command reference】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCommandActivity.kt)**
-**[【KFFmpegInfoActivity-Media Information Reference】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegInfoActivity.kt)**
-**[【KFFmppegFormatActivity-Support package format】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmppegFormatActivity.kt)**
-**[【KFFmpegCodecActivity-Support codec】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCodecActivity.kt)**
+**[【KFFmpegCommandActivity-Command reference】](app/src/main/java/com/coder/ffmpegcommand/ui/KFFmpegCommandActivity.kt)**
+**[【KFFmpegInfoActivity-Media Information Reference】](app/src/main/java/com/coder/ffmpegcommand/ui/KFFmpegInfoActivity.kt)**
+**[【KFFmppegFormatActivity-Support package format】](app/src/main/java/com/coder/ffmpegcommand/ui/KFFmppegFormatActivity.kt)**
+**[【KFFmpegCodecActivity-Support codec】](app/src/main/java/com/coder/ffmpegcommand/ui/KFFmpegCodecActivity.kt)**
 
 ## Compatibility
 

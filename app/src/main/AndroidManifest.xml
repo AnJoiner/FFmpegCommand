@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.coder.ffmpegtest">
+    package="com.coder.ffmpegcommand">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
-        android:name=".BaseApplication"
+        android:name="com.coder.ffmpegcommand.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity"
+        <activity android:name="com.coder.ffmpegcommand.ui.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -28,31 +28,31 @@
             </intent-filter>
         </activity>
         <!--通过命令行执行-->
-        <activity android:name=".ui.KFFmpegCommandActivity"
+        <activity android:name="com.coder.ffmpegcommand.ui.KFFmpegCommandActivity"
             android:screenOrientation="portrait">
 
         </activity>
 
         <!--获取视频信息-->
-        <activity android:name=".ui.KFFmpegInfoActivity"
+        <activity android:name="com.coder.ffmpegcommand.ui.KFFmpegInfoActivity"
             android:screenOrientation="portrait">
         </activity>
         <!--获取支持格式-->
-        <activity android:name=".ui.KFFmppegFormatActivity"
+        <activity android:name="com.coder.ffmpegcommand.ui.KFFmppegFormatActivity"
             android:screenOrientation="portrait"/>
 
         <!--获取支持编码-->
-        <activity android:name=".ui.KFFmpegCodecActivity"
+        <activity android:name="com.coder.ffmpegcommand.ui.KFFmpegCodecActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.TestCodecActivity"
+        <activity android:name="com.coder.ffmpegcommand.ui.TestCodecActivity"
             android:screenOrientation="portrait"/>
         <!--添加文字、字幕-->
-        <activity android:name=".ui.KFFmpegFontActivity"
+        <activity android:name="com.coder.ffmpegcommand.ui.KFFmpegFontActivity"
             android:screenOrientation="portrait" />
 
-        <service android:name=".service.FFmpegCommandService" />
-        <service android:name=".service.FFmpegCommandService2" android:process=":ffmpegCommand2" />
+        <service android:name="com.coder.ffmpegcommand.service.FFmpegCommandService" />
+        <service android:name="com.coder.ffmpegcommand.service.FFmpegCommandService2" android:process=":ffmpegCommand2" />
     </application>
 
 </manifest>

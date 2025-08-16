@@ -1,0 +1,46 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
+}
+
+android {
+    namespace 'com.coder.ffmpeg'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 15
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation deps.coreKtx
+    implementation platform("org.jetbrains.kotlin:kotlin-bom:1.8.0")
+    implementation deps.appCompat
+    implementation deps.material
+    testImplementation deps.junit
+    androidTestImplementation deps.androidJunit
+    androidTestImplementation deps.espresso
+}
+
+// 应用发布配置
+apply from: file('config.gradle')  // 确保正确引用路径
+ext.setupPublishing(project)  // 使用 ext 命名空间调用

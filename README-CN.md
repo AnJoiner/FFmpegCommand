@@ -3,7 +3,7 @@
 > 致`FFmpegCommand`使用者：
 >
 > 	首先感谢大家对此库的支持，感谢你们的使用才让我们有了继续开源下去的动力，感谢你们提出的问题，让这个库更加的完善。
->    		
+>    			
 > 	在`1.2.0`之前提供了异步处理和多代码执行，但是很多人反馈，无法执行异步而且多代码用处不大，所以经过反复考虑将在`1.2.0`及之后的版本作出如下更改：
 >
 > * 取消`runCmdAsync`和`runCmdSync`方法，统一更改为`runCmd`执行`FFmpeg`命令
@@ -26,36 +26,37 @@
 
 ## 交叉编译
 
-* Macos 13.2 + Clang + Cmake + NDK 21
+* Macos 13.2 & Clang++ & Cmake & NDK 21 (支持MediaCodec 编解码)
 
-| 第三方库         | 版本                 | 下载地址                                                                                                | 添加版本  | 说明                         |
-|--------------|--------------------|-----------------------------------------------------------------------------------------------------|-------|----------------------------|
-| ffmpeg       | 6.0                | https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz                                                       | 1.0.0 | ffmpeg 音视频库                |
-| x264         | X264-20191217.2245 | http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2 | 1.0.0 | libx264视频编码                |
-| mp3lame      | 3.100              | https://sourceforge.net/projects/lame/files/latest/download                                         | 1.0.0 | mp3lame音频编码                |
-| fdkaac       | 2.0.1-ff69b4       | https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz                                 | 1.0.0 | fdk-aac音频编码                |
-| opencore-amr | 1.1.5              | https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz          | 1.0.0 | amr音频编解码                   |
-| fribidi      | 1.0.10             | https://github.com/fribidi/fribidi/releases/download/v1.0.10/fribidi-1.0.10.tar.xz                  | 1.3.2 | 双向文本处理，drawtext filter依赖   |
-| freetype     | 2.10.2             | https://mirror.yongbok.net/nongnu/freetype/freetype-2.10.2.tar.gz                                   | 1.3.2 | 支持多种字体格式，drawtext filter依赖 |
-| fontconfig   | 2.13.92            | https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.92.tar.gz                   | 1.3.2 | 字体配置和渲染，drawtext filter依赖  |
-| ass          | 0.14.0             | https://github.com/libass/libass/releases/download/0.14.0/libass-0.14.0.tar.gz                      | 1.3.2 | 字幕渲染库，可向视频添加字幕             |
+| 第三方库     | 版本               | 下载地址                                                     | 添加版本 | 说明                                  |
+| ------------ | ------------------ | ------------------------------------------------------------ | -------- | ------------------------------------- |
+| ffmpeg       | 6.0                | https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz                | 1.0.0    | ffmpeg 音视频库                       |
+| x264         | X264-20191217.2245 | http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2 | 1.0.0    | libx264视频编码                       |
+| mp3lame      | 3.100              | https://sourceforge.net/projects/lame/files/latest/download  | 1.0.0    | mp3lame音频编码                       |
+| fdkaac       | 2.0.1-ff69b4       | https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz | 1.0.0    | fdk-aac音频编码                       |
+| opencore-amr | 1.1.5              | https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz | 1.0.0    | amr音频编解码                         |
+| fribidi      | 1.0.10             | https://github.com/fribidi/fribidi/releases/download/v1.0.10/fribidi-1.0.10.tar.xz | 1.3.2    | 双向文本处理，drawtext filter依赖     |
+| freetype     | 2.10.2             | https://mirror.yongbok.net/nongnu/freetype/freetype-2.10.2.tar.gz | 1.3.2    | 支持多种字体格式，drawtext filter依赖 |
+| fontconfig   | 2.13.92            | https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.92.tar.gz | 1.3.2    | 字体配置和渲染，drawtext filter依赖   |
+| ass          | 0.14.0             | https://github.com/libass/libass/releases/download/0.14.0/libass-0.14.0.tar.gz | 1.3.2    | 字幕渲染库，可向视频添加字幕          |
 
 ## 主要功能
 
 [![](https://jitpack.io/v/AnJoiner/FFmpegCommand.svg)](https://jitpack.io/#AnJoiner/FFmpegCommand)[![License](https://img.shields.io/badge/license-Apache%202-informational.svg)](https://www.apache.org/licenses/LICENSE-2.0)[ ![FFmpeg](https://img.shields.io/badge/FFmpeg-6.0-orange.svg)](https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz)[ ![X264](https://img.shields.io/badge/X264-20191217.2245-yellow.svg)](http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2)[ ![mp3lame](https://img.shields.io/badge/mp3lame-3.100-critical.svg)](https://sourceforge.net/projects/lame/files/latest/download)[ ![fdk-aac](https://img.shields.io/badge/fdkaac-2.0.1-ff69b4.svg)](https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.1.tar.gz)[ ![fdk-aac](https://img.shields.io/badge/opencoreamr-1.1.5-critical.svg)](https://sourceforge.net/projects/opencore-amr/files/opencore-amr/opencore-amr-0.1.5.tar.gz)
 
-| 特色功能                | 支持                   | 描述                            |
-|---------------------|----------------------|-------------------------------|
-| ffmpeg命令            | :white_check_mark:   | 支持所有的ffmpeg命令                 |
-| 进度回调                | :white_check_mark:   | 支持所有命令的回调                     |
-| 命令取消                | :white_check_mark:   | 支持在命令执行过程中取消命令执行              |
-| debug模式             | :white_check_mark:   | 支持开启/关闭调试模式                   |
-| 获取媒体信息              | :white_check_mark:   | 获取媒体信息（宽、高...）                |
-| 绘制文本 (drawtext)     | :white_check_mark:   | 向视频绘制文本（文字水印 - v1.3.2）        |
-| 添加字幕 (subtitles)    | :white_check_mark:   | 向视频添加字幕（支持srt、ass格式 - v1.3.2） |
-| MediaCodec编解码       | :white_check_mark:   | 支持MediaCodec（v1.3.0）          |
-| 平台架构                | :white_check_mark:   | 支持 armeabi-v7a, arm64-v8a     |
-| 独立so                | :white_check_mark:   | 将多个so合并成一个 `ffmpeg-org.so`    |
+| 特色功能                                                     | 支持               | 描述                                              |
+| ------------------------------------------------------------ | ------------------ | ------------------------------------------------- |
+| ffmpeg命令                                                   | :white_check_mark: | 支持所有的ffmpeg命令                              |
+| 进度回调                                                     | :white_check_mark: | 支持所有命令的回调                                |
+| 命令取消                                                     | :white_check_mark: | 支持在命令执行过程中取消命令执行                  |
+| debug模式                                                    | :white_check_mark: | 支持开启/关闭调试模式                             |
+| 获取媒体信息                                                 | :white_check_mark: | 获取媒体信息（宽、高...）                         |
+| 绘制文本 (drawtext)                                          | :white_check_mark: | 向视频绘制文本（文字水印 - v1.3.2）               |
+| 添加字幕 (subtitles)                                         | :white_check_mark: | 向视频添加字幕（支持srt、ass格式 - v1.3.2）       |
+| MediaCodec编解码                                             | :white_check_mark: | 支持MediaCodec（v1.3.0）                          |
+| 平台架构                                                     | :white_check_mark: | 支持 armeabi-v7a, arm64-v8a                       |
+| 独立so                                                       | :white_check_mark: | 将多个so合并成一个 `ffmpeg-org.so`                |
+| [16 kb 对齐](https://developer.android.com/guide/practices/page-sizes?hl=zh-cn#cmake_1) | :white_check_mark: | 支持 16 KB 的页面大小，对齐所有 so 文件（v1.3.3） |
 
 大致的功能如下：
 
@@ -68,7 +69,6 @@
 * 支持视频转图片 mp4->png mp4->gif
 * 支持音频声音大小控制以及混音（比如朗读的声音加上背景音乐）
 * 支持部分滤镜 音频淡入、淡出效果、视频亮度和对比度以及添加水印
-* 支持生成静音音频
 * 支持获取媒体文件信息
 
 | 执行FFmpeg                                                 | 获取媒体信息                                                  |
@@ -124,31 +124,31 @@ android {
 
 ### FFmpegCommand方法
 
-| 方法                                                                    | 功能                            |
-|-----------------------------------------------------------------------|-------------------------------|
-| FFmpegCommand->setDebug(debug: Boolean)                               | Dubug模式，可打印日志调试               |
-| FFmpegCommand->runCmd(cmd: Array<String?>)                            | 执行ffmpeg命令，无回调                |
+| 方法                                                         | 功能                                                |
+| ------------------------------------------------------------ | --------------------------------------------------- |
+| FFmpegConfig->setDebug(debug: Boolean)                       | Dubug模式，可打印日志调试                           |
+| FFmpegCommand->runCmd(cmd: Array<String?>)                   | 执行ffmpeg命令，无回调                              |
 | FFmpegCommand->runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?) | 执行ffmpeg命令，并回调 开始，完成，取消，进度，错误 |
-| FFmpegCommand->getMediaInfo(path: String?, @MediaAttribute type: Int) | 获取媒体信息：视频宽高、比特率...            |
-| FFmpegCommand->getSupportFormat(@FormatAttribute formatType: Int)     | 获取当前库支持的封装、解封装格式              |
-| FFmpegCommand->getSupportCodec(@CodecAttribute codecType: Int)        | 获取当前库支持的编解码                   |
-| FFmpegCommand->cancel()                                               | 退出FFmpeg命令执行                  |
+| FFmpegCommand->getMediaInfo(path: String?, @MediaAttribute type: Int) | 获取媒体信息：视频宽高、比特率...                   |
+| FFmpegCommand->getSupportFormat(@FormatAttribute formatType: Int) | 获取当前库支持的封装、解封装格式                    |
+| FFmpegCommand->getSupportCodec(@CodecAttribute codecType: Int) | 获取当前库支持的编解码                              |
+| FFmpegCommand->cancel(taskId)                                | 取消某个正在执行的任务 - v1.3.3                     |
+| FFmpegCommand->cancelAll()                                   | 取消全部任务 - v1.3.3                               |
+| FFmpegCommand->getRunningCount()                             | 获取正在执行的任务数量 - v1.3.3                     |
 
 ### runCmd
 
-以`runCmd`调用`FFmpeg`为同步执行FFmpeg命令，外部需增加线程，否则会造成应用无响应。
+以`runCmd`调用`FFmpeg`为执行FFmpeg命令，从 `v1.3.3`  开始可以异步执行命令。
 直接调用`FFmpegCommand.runCmd(cmd: Array<String?> callBack: IFFmpegCallBack?)`
-方法，其中第一个参数由`FFmpegUtils`工具类提供，也可以自己添加
-
-**不支持异步执行FFmpeg命令**
+方法，其中第一个参数由`FFmpegUtils`工具类提供，也可以自己自定义。
 
 ```kotlin
-GlobalScope.launch {
-    FFmpegCommand.runCmd(
+val taskId = FFmpegCommand.runCmd(
         FFmpegUtils.transformAudio(audioPath, targetPath),
         callback("音频转码完成", targetPath)
     )
-}
+// 取消某个任务
+FFmpegCommand.cancel(taskId)
 ```
 
 第二个参数是回调方法
@@ -217,49 +217,13 @@ MainScope().launch(Dispatchers.IO) {
 val command = arrayOf("ffmpeg", "-y", "-i", inputPath, outputPath)
 ```
 
-### 多进程执行
-
-由于底层暂时无法实现多线程，所以如果需要在推流的同时，是无法再同时执行其他命令。
-为了解决这个问题，可以使用如下多进程方法：
-
-1. 定义与主进程不同的其他进程
-
-```xml
-
-<service android:name=".service.FFmpegCommandService" android:process=":ffmpegCommand" /><service
-android:name=".service.FFmpegCommandService2" android:process=":ffmpegCommand2" />
-```
-
-2. 在其他进程中执行推流的操作
-
-```kotlin
-class FFmpegCommandService : Service() {
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
-
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        val videoPath = File(externalCacheDir, "test.mp4").absolutePath
-        val output = File(externalCacheDir, "leak.avi").absolutePath
-        val command = CommandParams()
-            .append("-i")
-            .append(videoPath)
-            .append("-b:v")
-            .append("600k")
-            .append(output)
-            .get()
-        FFmpegCommand.runCmd(command)
-        return super.onStartCommand(intent, flags, startId)
-    }
-}
-```
-
 ### 取消执行
 
 执行下面方法后将会回调 `CommonCallBack->onCancel()` 方法
 
 ```kotlin
-FFmpegCommand.cancel()
+FFmpegCommand.cancel(taskId)
+FFmpegCommand.cancelAll()
 ```
 
 **[【常见问题】](ffmpeg-wiki/常见问题.md)**
@@ -268,22 +232,22 @@ FFmpegCommand.cancel()
 
 *
 
-*[【KFFmpegCommandActivity-命令使用参考】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCommandActivity.kt)
+*[【KFFmpegCommandActivity-命令使用参考】](app/src/main/java/com/coder/ffmpegcommand/ui/KFFmpegCommandActivity.kt)
 **
 
 *
 
-*[【KFFmpegInfoActivity-媒体信息参考】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegInfoActivity.kt)
+*[【KFFmpegInfoActivity-媒体信息参考】](app/src/main/java/com/coder/ffmpegcommand/ui/KFFmpegInfoActivity.kt)
 **
 
 *
 
-*[【KFFmppegFormatActivity-支持封装格式】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmppegFormatActivity.kt)
+*[【KFFmppegFormatActivity-支持封装格式】](app/src/main/java/com/coder/ffmpegcommand/ui/KFFmppegFormatActivity.kt)
 **
 
 *
 
-*[【KFFmpegCodecActivity-支持编解码】](app/src/main/java/com/coder/ffmpegtest/ui/KFFmpegCodecActivity.kt)
+*[【KFFmpegCodecActivity-支持编解码】](app/src/main/java/com/coder/ffmpegcommand/ui/KFFmpegCodecActivity.kt)
 **
 
 ## 兼容性
