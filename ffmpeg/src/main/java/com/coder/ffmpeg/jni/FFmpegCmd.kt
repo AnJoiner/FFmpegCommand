@@ -6,15 +6,16 @@ import com.coder.ffmpeg.annotation.FormatAttribute
 import com.coder.ffmpeg.annotation.MediaAttribute
 import com.coder.ffmpeg.call.IFFmpegCallBack
 import com.coder.ffmpeg.model.CodecInfo
-import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * @author: AnJoiner
  * @datetime: 19-12-17
  */
 internal class FFmpegCmd private constructor() {
-    // Program execution callback
-    private val mCallBacks = Collections.synchronizedList(ArrayList<IFFmpegCallBack>())
+//
+//    // 任务ID到回调对象的映射，用于并发执行
+//    private val mTaskCallbacks = ConcurrentHashMap<Int, IFFmpegCallBack>()
     // debugging mode
     private var ffdebug = true
 
@@ -49,7 +50,7 @@ internal class FFmpegCmd private constructor() {
      * @return execute status
      */
     fun runCmd(command: Array<String?>): Int {
-        return execute(command)
+        return runCmdConcurrent(command, null)
     }
 
     /**
@@ -59,8 +60,41 @@ internal class FFmpegCmd private constructor() {
      * @return execute status
      */
     fun runCmd(command: Array<String?>, callBack: IFFmpegCallBack?): Int {
-        mCallBacks.add(callBack)
-        return execute(command)
+        return runCmdConcurrent(command, callBack)
+    }
+
+    /**
+     * Execute ffmpeg command concurrently
+     * @param command ffmpeg command
+     * @param callBack execution callback
+     * @return task ID for concurrent execution
+     */
+    private fun runCmdConcurrent(command: Array<String?>, callBack: IFFmpegCallBack?): Int {
+        val taskId = executeConcurrent(command, callBack)
+        return taskId
+    }
+
+    /**
+     * Cancel a specific concurrent task
+     * @param taskId task ID to cancel
+     */
+    fun cancelConcurrentTask(taskId: Int) {
+        cancelTask(taskId)
+    }
+
+    /**
+     * Cancel all concurrent tasks
+     */
+    fun cancelAllConcurrentTasks() {
+        cancelAllTasks()
+    }
+
+    /**
+     * Get the number of active concurrent tasks
+     * @return number of active tasks
+     */
+   fun getActiveConcurrentTaskCount(): Int {
+        return getActiveTaskCount()
     }
 
     /**
@@ -80,34 +114,29 @@ internal class FFmpegCmd private constructor() {
     }
 
     /**
-     * Re-survive command according to whether it is debug mode
-     * @param cmd ffmeng command
-     * @return ffmeng command
+     * Execute ffmpeg command concurrently
+     * @param command ffmpeg command
+     * @param callback execution callback
+     * @return task ID for concurrent execution
      */
-    private fun buildCommand(cmd: Array<String?>): Array<String?> {
-        val cmds = arrayOfNulls<String>(cmd.size + 1)
-        for (i in cmds.indices) {
-            when {
-                i < 1 -> {
-                    cmds[i] = cmd[i]
-                }
-                i == 1 -> {
-                    cmds[i] = "-d"
-                }
-                else -> {
-                    cmds[i] = cmd[i - 1]
-                }
-            }
-        }
-        return if (ffdebug) cmds else cmd
-    }
+    private external fun executeConcurrent(command: Array<String?>, callback: IFFmpegCallBack?): Int
 
     /**
-     * Execute ffmpeg command method
-     * @param command ffmeng command
-     * @return execute status
+     * Cancel a specific task
+     * @param taskId task ID to cancel
      */
-    private external fun execute(command: Array<String?>): Int
+    private external fun cancelTask(taskId: Int)
+
+    /**
+     * Cancel all active tasks
+     */
+    private external fun cancelAllTasks()
+
+    /**
+     * Get the number of active tasks
+     * @return number of active tasks
+     */
+    private external fun getActiveTaskCount(): Int
 
     /**
      * Get media information
@@ -168,60 +197,18 @@ internal class FFmpegCmd private constructor() {
      */
     private external fun codecInfo(codec: Int): String
 
-    @Deprecated("")
+    /**
+     * Exit task execute
+     * Deprecated, you can see [cancel]
+     */
+    @Deprecated("delete")
     external fun exit()
 
+    /**
+     * Cancel task execute
+     * Deprecated, you can see [cancelAllTasks] and [cancelTask]
+     */
+    @Deprecated("Deprecated")
     external fun cancel()
 
-    /**
-     * Provide the callback of start execute commands.
-     */
-    fun onStart() {
-        for (callBack in mCallBacks) {
-            callBack.onStart()
-        }
-    }
-
-    /**
-     * Provide the callback of progress
-     * @param progress progress for ffmpeg
-     * @param pts duration of current ffmepg command execution
-     */
-    fun onProgress(progress: Int, pts: Long) {
-        for (callBack in mCallBacks) {
-            callBack.onProgress(progress, pts)
-        }
-    }
-
-    /**
-     * Provide the callback of cancel execute commands.
-     */
-    fun onCancel() {
-        for (callBack in mCallBacks) {
-            callBack.onCancel()
-            mCallBacks.remove(callBack)
-        }
-    }
-
-    /**
-     * Provide the callback of execute commands is completed.
-     */
-    fun onComplete() {
-        for (callBack in mCallBacks) {
-            callBack.onComplete()
-            mCallBacks.remove(callBack)
-        }
-    }
-
-    /**
-     * Provide the callback of error execute commands.
-     * @param errorCode error code of execute commands.
-     * @param errorMsg error message of execute commands.
-     */
-    fun onError(errorCode: Int, errorMsg: String?) {
-        for (callBack in mCallBacks) {
-            callBack.onError(errorCode, errorMsg)
-            mCallBacks.remove(callBack)
-        }
-    }
 }

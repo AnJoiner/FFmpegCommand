@@ -48,7 +48,7 @@ object FFmpegCommand {
         return FFmpegCmd.instance?.getCodecProperty(path, type)
     }
 
-    /**
+    /** 1   1
      * Get support for unpacking format
      *
      * @param formatType format attribute type [FormatAttribute]
@@ -71,9 +71,11 @@ object FFmpegCommand {
     }
 
     /**
-     * Execute FFmpeg commands.
+     * Execute ffmpeg command concurrently
      *
-     * @param cmd ffmpeg commands [com.coder.ffmpeg.utils.FFmpegUtils]
+     * @param cmd ffmpeg command
+     * @param callBack execution callback
+     * @return task ID for concurrent execution
      */
     @JvmStatic
     fun runCmd(cmd: Array<String?>, callBack: IFFmpegCallBack?): Int? {
@@ -81,9 +83,10 @@ object FFmpegCommand {
     }
 
     /**
-     * Execute FFmpeg commands.
+     * Execute ffmpeg command concurrently
      *
-     * @param cmd ffmpeg commands [com.coder.ffmpeg.utils.FFmpegUtils]
+     * @param cmd ffmpeg command
+     * @return task ID for concurrent execution
      */
     @JvmStatic
     fun runCmd(cmd: Array<String?>): Int? {
@@ -91,10 +94,40 @@ object FFmpegCommand {
     }
 
     /**
-     * Quit execute.
+     * Cancel execute.
+     * Deprecated, the method means [cancelAll]
      */
+    @Deprecated("the method is deprecated", ReplaceWith("FFmpegCommand.cancelAll()"))
     @JvmStatic
     fun cancel() {
         FFmpegCmd.instance?.cancel()
+    }
+
+    /**
+     * Cancel a specific concurrent task
+     *
+     * @param taskId task ID to cancel
+     */
+    @JvmStatic
+    fun cancel(taskId: Int) {
+        FFmpegCmd.instance?.cancelConcurrentTask(taskId)
+    }
+
+    /**
+     * Cancel all concurrent tasks
+     */
+    @JvmStatic
+    fun cancelAll() {
+        FFmpegCmd.instance?.cancelAllConcurrentTasks()
+    }
+
+    /**
+     * Get the number of active concurrent tasks
+     *
+     * @return number of active tasks
+     */
+    @JvmStatic
+    fun getRunningCount(): Int? {
+        return FFmpegCmd.instance?.getActiveConcurrentTaskCount()
     }
 }

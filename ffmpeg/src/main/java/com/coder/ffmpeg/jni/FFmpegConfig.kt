@@ -1,6 +1,7 @@
 package com.coder.ffmpeg.jni
 
 import android.content.Context
+import android.util.Log
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -18,18 +19,17 @@ class FFmpegConfig {
         }
 
         /**
-         * Set the env of native
-         * @param name env name
-         * @param value env value
-         */
-        private external fun setNativeEnv(name: String, value: String)
-
-        /**
          * Whether to enable debugging mode
          * @param debug true or false
          */
         external fun setDebug(debug: Boolean)
 
+        /**
+         * Set the env of native
+         * @param name env name
+         * @param value env value
+         */
+        private external fun setNativeEnv(name: String, value: String)
         /**
          * Set font config dir for fontconfig
          * Note：It's a config dir not font dir

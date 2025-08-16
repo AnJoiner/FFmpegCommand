@@ -68,7 +68,6 @@
         <item>视频切片-hls</item>
         <item>合成hls-视频</item>
         <item>音频转码amr</item>
-        <item>生成静音音频</item>
     </string-array>
 
     <string-array name="fonts">
