@@ -17,8 +17,7 @@ ext {
     coroutinesVersion = '1.4.1'
 
     // bugly 版本
-    buglyReportVersion = '3.3.1'
-    buglyNativeVersion = '3.7.500'
+    buglyReportVersion = '4.1.9.3'
 
     // 测试依赖版本
     junitVersion = '4.13.2'
@@ -38,8 +37,7 @@ subprojects {
             coroutines: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.coroutinesVersion",
 
             // bugly 依赖
-            buglyReport: "com.tencent.bugly:crashreport:$rootProject.ext.buglyReportVersion",
-            buglyNative: "com.tencent.bugly:nativecrashreport:$rootProject.ext.buglyNativeVersion",
+            buglyReport: "om.tencent.bugly:crashreport:$rootProject.ext.buglyReportVersion",
 
             // 测试依赖
             junit: "junit:junit:$rootProject.ext.junitVersion",

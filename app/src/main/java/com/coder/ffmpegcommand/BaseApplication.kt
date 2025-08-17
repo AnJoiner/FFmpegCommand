@@ -1,7 +1,7 @@
 package com.coder.ffmpegcommand
 
 import android.app.Application
-import com.coder.ffmpeg.jni.FFmpegCommand
+import com.tencent.bugly.crashreport.CrashReport
 
 /**
  * @author: AnJoiner
@@ -11,7 +11,7 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        FFmpegCommand.setDebug(true)
+        CrashReport.initCrashReport(this, "7160846efd", false)
     }
 
     companion object {

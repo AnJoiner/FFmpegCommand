@@ -5,9 +5,9 @@ ext {
             publishing {
                 publications {
                     release(MavenPublication) {
-                        groupId = 'com.coder' // 对于 JitPack 应该是 com.github.yourusername
+                        groupId = 'com.github.AnJoiner.FFmpegCommand'
                         artifactId = project.name
-                        version = '1.3.3'
+                        version = '1.3.4'
 
                         // 指定要发布的 artifact
                         from project.components.release

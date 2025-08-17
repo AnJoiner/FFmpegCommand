@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initUI() {
-        FFmpegConfig.setDebug(true)
+        FFmpegConfig.setDebug(false)
         binding.abiText.text = String.format("当前使用cpu-abi：%s", Build.CPU_ABI)
     }
 

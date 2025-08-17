@@ -59,7 +59,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     implementation deps.appCompat
     implementation deps.constraintLayout
     testImplementation deps.junit
@@ -68,6 +68,6 @@ dependencies {
     implementation deps.recyclerview
     implementation deps.coroutines
 
-//    implementation "com.coder:ffmpeg:2.0.0"
-    implementation project(path: ':ffmpeg')
+//    implementation "com.github.AnJoiner.FFmpegCommand:ffmpeg:1.3.4"
+    implementation project(path: ':ffmpeg-lite')
 }
