@@ -53,7 +53,35 @@ If you can’t access all the information, please go to[【国内镜像】](http
 | one so                                                       | :white_check_mark: | Merge multiple so into one `ffmpeg-or.so`                    |
 | [16 kb align](https://developer.android.com/guide/practices/page-sizes?hl=zh-cn#cmake_1) | :white_check_mark: | Support 16KB page size, align all so files ( since  v1.3.3)  |
 
-The general functions are as follows：   
+#### Check 16KB
+
+It can be verified by `check_elf_alignment.sh` in the project root directory
+
+```shell
+chmod +x check_elf_alignment.sh
+./check_elf_alignment.sh /xxx/app-release.apk
+```
+
+The input content is as follows
+
+```shell
+=== ELF alignment ===
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/armeabi-v7a/libffmpeg-command.so: \e[32m ALIGNED \e[0m (2**14)
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/armeabi-v7a/libBugly_Native.so: \e[31m UNALIGNED \e[0m (2**12)
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/armeabi-v7a/libffmpeg-org.so: \e[32m ALIGNED \e[0m (2**14)
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/arm64-v8a/libffmpeg-command.so: \e[32m ALIGNED \e[0m (2**14)
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/arm64-v8a/libBugly_Native.so: \e[32m ALIGNED \e[0m (2**16)
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/arm64-v8a/libffmpeg-org.so: \e[32m ALIGNED \e[0m (2**14)
+\e[31mFound 1 unaligned libs (only arm64-v8a/x86_64 libs need to be aligned).\e[0m
+=====================
+```
+
+If `ALIGNED` is marked, the page is successfully aligned to 16KB. If `UNALIGNED` is marked, it is misaligned and requires further alignment. For more information, refer to [Supporting 16KB Page Sizes](https://developer.android.com/guide/practices/page-sizes).
+
+As shown above, except for the misalignment caused by the third-party `bugly`, all other pages are aligned.
+
+#### Functions   
+
 * Support all FFmpeg commands
 * Support video format conversion : mp4->flv
 * Support audio codec : mp3->pcm pcm->mp3 pcm->aac
@@ -65,6 +93,7 @@ The general functions are as follows：
 * Support audio sound size control and mixing (such as reading sound plus background music)
 * Support some filters, audio fade in, fade out effects, video brightness and contrast, and add watermark
 * Support for generating silent audio
+* Supports most ffmpeg commands (excluding third-party ones that are not introduced)
 
 |Run FFmpeg|Get media information|
 |---------| ----------------------------------|
@@ -251,7 +280,7 @@ If you think it is helpful to you, give a star to support it, and welcome a lot 
 
 ## License
 ```
-Copyright 2019-2023 AnJoiner
+Copyright 2019-2025 AnJoiner
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -3,7 +3,7 @@
 > 致`FFmpegCommand`使用者：
 >
 > 	首先感谢大家对此库的支持，感谢你们的使用才让我们有了继续开源下去的动力，感谢你们提出的问题，让这个库更加的完善。
->    			
+>    				
 > 	在`1.2.0`之前提供了异步处理和多代码执行，但是很多人反馈，无法执行异步而且多代码用处不大，所以经过反复考虑将在`1.2.0`及之后的版本作出如下更改：
 >
 > * 取消`runCmdAsync`和`runCmdSync`方法，统一更改为`runCmd`执行`FFmpeg`命令
@@ -58,7 +58,34 @@
 | 独立so                                                       | :white_check_mark: | 将多个so合并成一个 `ffmpeg-org.so`                |
 | [16 kb 对齐](https://developer.android.com/guide/practices/page-sizes?hl=zh-cn#cmake_1) | :white_check_mark: | 支持 16 KB 的页面大小，对齐所有 so 文件（v1.3.3） |
 
-大致的功能如下：
+#### 检查是否支持16KB
+
+可以通过项目根目录下的`check_elf_alignment.sh`进行验证
+
+```shell
+chmod +x check_elf_alignment.sh
+./check_elf_alignment.sh /xxx/app-release.apk
+```
+
+输入内容如下
+
+```shell
+=== ELF alignment ===
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/armeabi-v7a/libffmpeg-command.so: \e[32m ALIGNED \e[0m (2**14)
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/armeabi-v7a/libBugly_Native.so: \e[31m UNALIGNED \e[0m (2**12)
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/armeabi-v7a/libffmpeg-org.so: \e[32m ALIGNED \e[0m (2**14)
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/arm64-v8a/libffmpeg-command.so: \e[32m ALIGNED \e[0m (2**14)
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/arm64-v8a/libBugly_Native.so: \e[32m ALIGNED \e[0m (2**16)
+/var/folders/zc/rsfnw8x54tdbdtyk7r3_25hw0000gn/T/app-release_out_XXXXX.K0nw9ZGcco/lib/arm64-v8a/libffmpeg-org.so: \e[32m ALIGNED \e[0m (2**14)
+\e[31mFound 1 unaligned libs (only arm64-v8a/x86_64 libs need to be aligned).\e[0m
+=====================
+```
+
+如果标记出` ALIGNED  `就表示成功对齐 16KB，如果标记出`UNALIGNED`就表示未对齐，需要进行对齐处理，可以参考[支持 16 KB 的页面大小](https://developer.android.com/guide/practices/page-sizes)。
+
+如上除了引入的第三方 `bugly` 未对齐，其他都是对齐了的。
+
+#### 功能
 
 * 支持视频格式转换 mp4->flv
 * 支持音频编解码 mp3->pcm pcm->mp3 pcm->aac
@@ -70,6 +97,7 @@
 * 支持音频声音大小控制以及混音（比如朗读的声音加上背景音乐）
 * 支持部分滤镜 音频淡入、淡出效果、视频亮度和对比度以及添加水印
 * 支持获取媒体文件信息
+* 支持 ffmpeg 大多数命令（不包含未引入的第三方）
 
 | 执行FFmpeg                                                 | 获取媒体信息                                                  |
 |----------------------------------------------------------|---------------------------------------------------------|
