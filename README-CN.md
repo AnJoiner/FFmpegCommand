@@ -3,7 +3,7 @@
 > 致`FFmpegCommand`使用者：
 >
 > 	首先感谢大家对此库的支持，感谢你们的使用才让我们有了继续开源下去的动力，感谢你们提出的问题，让这个库更加的完善。
->    				
+>    					
 > 	在`1.2.0`之前提供了异步处理和多代码执行，但是很多人反馈，无法执行异步而且多代码用处不大，所以经过反复考虑将在`1.2.0`及之后的版本作出如下更改：
 >
 > * 取消`runCmdAsync`和`runCmdSync`方法，统一更改为`runCmd`执行`FFmpeg`命令
@@ -13,6 +13,10 @@
 > 此次修改对您造成的不便，敬请谅解。
 
 [【README-English】](./README.md)
+
+
+
+[【点击下载 Demo】](https://github.com/AnJoiner/FFmpegCommand/blob/master/app/outputs/release/app-release.apk) 
 
 ## 前景提要
 
@@ -295,7 +299,7 @@ FFmpegCommand.cancelAll()
 
 ## 体验交流
 
-|            扫码下载｜[点击下载](http://fir.readdown.com/nfyz)            |                                交流                                 |                          微信赞赏                           |
+|            扫码下载｜[点击下载](https://github.com/AnJoiner/FFmpegCommand/blob/master/app/outputs/release/app-release.apk)            |                                交流                                 |                          微信赞赏                           |
 |:---------------------------------------------------------------:|:-----------------------------------------------------------------:|:-------------------------------------------------------:|
 | <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" /> | <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" /> | <img src="images/zan.png" alt="图-5 赞赏" width="260px" /> |
 

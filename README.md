@@ -15,6 +15,10 @@
 
 [【README-中文】](./README-CN.md)
 
+
+
+[【Click to download demo】](https://github.com/AnJoiner/FFmpegCommand/blob/master/app/outputs/release/app-release.apk) 
+
 ## Summary
 In our development, audio and video related content is often used, generally we will choose [FFmpeg](https://www.ffmpeg.org/), but its cross-compilation is a very troublesome thing for us . So here for the convenience of future use, I wrote this `FFmpegCommand`, `FFmpegCommand` is composed of `FFmpeg` core library, and integrates `lame`, `libx264`, `fdk-aac` and `libopencore-amr` mainstream audio and video processing Android program
 **Note: The current library is only available for Android**
@@ -263,7 +267,7 @@ Compatible with Android minSdkVersion >=21
 
 ## Experiential exchange
 
-| Scan code to download｜[click to download](http://fir.readdown.com/nfyz)  | communication |WeChat appreciation|
+| Scan code to download｜[click to download](https://github.com/AnJoiner/FFmpegCommand/blob/master/app/outputs/release/app-release.apk)  | communication |WeChat appreciation|
 | :--------:   |:--------:   |:--------:   |
 | <img src="images/qr-code.png" alt="图-4 Demo下载" width="260px" />| <img src="images/ffmpeg-qq.jpg" alt="图-4 Demo下载" width="260px" />  | <img src="images/zan.png" alt="图-5 赞赏" width="260px" />|
 
