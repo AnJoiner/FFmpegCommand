@@ -124,9 +124,9 @@ dependencyResolutionManagement {
 
 ```groovy
 // 全部编解码-体积较大
-implementation 'com.github.AnJoiner.FFmpegCommand:ffmpeg:1.3.3'
+implementation 'com.github.AnJoiner.FFmpegCommand:ffmpeg:${latestVersion}'
 // 部分常用编解码-体积较小,比上面引入减少大约6M
-implementation 'com.github.AnJoiner.FFmpegCommand:ffmpeg-lite:1.3.3'
+implementation 'com.github.AnJoiner.FFmpegCommand:ffmpeg-lite:${latestVersion}'
 ```
 
 

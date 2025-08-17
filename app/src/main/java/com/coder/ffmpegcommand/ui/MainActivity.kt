@@ -24,8 +24,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initUI() {
-        FFmpegConfig.setDebug(false)
+        FFmpegConfig.setDebug(true)
         binding.abiText.text = String.format("当前使用cpu-abi：%s", Build.CPU_ABI)
+        binding.repoText.text = String.format("当前使用repo：%s", FFmpegConfig.getRepo())
     }
 
     private fun initClick() {

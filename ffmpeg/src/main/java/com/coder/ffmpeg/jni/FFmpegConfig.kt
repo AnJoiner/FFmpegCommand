@@ -1,7 +1,6 @@
 package com.coder.ffmpeg.jni
 
 import android.content.Context
-import android.util.Log
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -122,5 +121,8 @@ class FFmpegConfig {
             }
         }
 
+        fun getRepo():String {
+            return "ffmpeg"
+        }
     }
 }
