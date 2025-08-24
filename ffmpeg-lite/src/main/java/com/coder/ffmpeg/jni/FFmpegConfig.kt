@@ -1,6 +1,7 @@
 package com.coder.ffmpeg.jni
 
 import android.content.Context
+import com.coder.ffmpeg.BuildConfig
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -15,25 +16,53 @@ class FFmpegConfig {
         init {
             System.loadLibrary("ffmpeg-org")
             System.loadLibrary("ffmpeg-command")
+
+            nativeInit()
         }
+
+        /**
+         * native Init, for basic config
+         */
+        private external fun nativeInit()
 
         /**
          * Whether to enable debugging mode
          * @param debug true or false
          */
-        external fun setDebug(debug: Boolean)
+        private external fun nativeSetDebug(debug: Boolean)
+
+        /**
+         * Whether to enable debugging mode
+         * @param debug true or false
+         */
+        @JvmStatic
+        fun setDebug(debug: Boolean) {
+            nativeSetDebug(debug)
+        }
 
         /**
          * Set the env of native
          * @param name env name
          * @param value env value
          */
-        private external fun setNativeEnv(name: String, value: String)
+        private external fun nativeSetNativeEnv(name: String, value: String)
+
+        /**
+         * Set the env of native
+         * @param name env name
+         * @param value env value
+         */
+        @JvmStatic
+        private fun setNativeEnv(name: String, value: String) {
+            nativeSetNativeEnv(name, value)
+        }
+
         /**
          * Set font config dir for fontconfig
          * Note：It's a config dir not font dir
          * @param configPath the font config dir
          */
+        @JvmStatic
         fun setFontConfigPath(configPath: String) {
             setNativeEnv("FONTCONFIG_PATH", configPath)
         }
@@ -43,6 +72,7 @@ class FFmpegConfig {
          * Note：It's a config file not font file
          * @param configFile the font config file
          */
+        @JvmStatic
         fun setFontConfigFile(configFile: String) {
             setNativeEnv("FONTCONFIG_FILE", configFile)
         }
@@ -53,6 +83,7 @@ class FFmpegConfig {
          * @param fontDir the font dir contain fonts (.ttf and .otf files)
          * @param fontNameMapping
          */
+        @JvmStatic
         fun setFontDir(context: Context, fontDir:String, fontNameMapping: Map<String, String>){
             setFontDirList(context, Collections.singletonList(fontDir),fontNameMapping)
         }
@@ -61,6 +92,7 @@ class FFmpegConfig {
          * @param context context for application
          * @param fontDirList list of directories that contain fonts (.ttf and .otf files)
          */
+        @JvmStatic
         fun setFontDirList(context: Context, fontDirList: List<String>, fontNameMapping: Map<String, String>) {
             var validFontNameMappingCount = 0
             val cacheDir = context.cacheDir
@@ -121,8 +153,9 @@ class FFmpegConfig {
             }
         }
 
+        @JvmStatic
         fun getRepo():String {
-            return "ffmpeg-lite"
+            return BuildConfig.MODULE_NAME
         }
     }
 }
