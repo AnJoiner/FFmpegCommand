@@ -19,6 +19,7 @@ import com.coder.ffmpeg.annotation.MediaAttribute
 import com.coder.ffmpeg.annotation.Transpose
 import com.coder.ffmpeg.call.CommonCallBack
 import com.coder.ffmpeg.jni.FFmpegCommand
+import com.coder.ffmpeg.utils.CommandParams
 import com.coder.ffmpeg.utils.FFmpegUtils
 import com.coder.ffmpegcommand.R
 import com.coder.ffmpegcommand.model.CommandBean
@@ -28,6 +29,7 @@ import com.coder.ffmpegcommand.ui.dialog.PromptDialog.OnPromptListener
 import com.coder.ffmpegcommand.utils.FileUtils
 import com.coder.ffmpegcommand.utils.ToastUtils
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
@@ -44,6 +46,7 @@ class KFFmpegCommandActivity : AppCompatActivity() {
     private var targetPath: String? = null
     private var mAudioBgPath: String? = null
     private var mImagePath: String? = null
+    private var mAmrPath: String? = null
 
     private var tvContent: TextView? = null
 
@@ -78,10 +81,12 @@ class KFFmpegCommandActivity : AppCompatActivity() {
         FileUtils.copy2Memory(this, "test.mp4")
         FileUtils.copy2Memory(this, "testbg.mp3")
         FileUtils.copy2Memory(this, "water.png")
+        FileUtils.copy2Memory(this, "test.amr")
         mAudioPath = File(externalCacheDir, "test.mp3").absolutePath
         mVideoPath = File(externalCacheDir, "test.mp4").absolutePath
         mAudioBgPath = File(externalCacheDir, "testbg.mp3").absolutePath
         mImagePath = File(externalCacheDir, "water.png").absolutePath
+        mAmrPath = File(externalCacheDir, "test.amr").absolutePath
         val commands = this.resources.getStringArray(R.array.commands)
         val beans: MutableList<CommandBean> = ArrayList()
         for (i in commands.indices) {
@@ -146,6 +151,7 @@ class KFFmpegCommandActivity : AppCompatActivity() {
                     36 -> hls2Video()
                     37 -> audio2Amr()
                     38 -> makeMuteAudio()
+                    39 -> amr2pcm()
                 }
             }
         })
@@ -511,6 +517,27 @@ class KFFmpegCommandActivity : AppCompatActivity() {
         targetPath = externalCacheDir.toString() + File.separator + "target.mp3"
         GlobalScope.launch {
             FFmpegCommand.runCmd(FFmpegUtils.makeMuteAudio(targetPath), callback("生成静音文件成功", targetPath))
+        }
+    }
+
+    private fun amr2pcm() {
+        targetPath = externalCacheDir.toString() + File.separator + "target.pcm"
+        val params = CommandParams()
+            .append("-i")
+            .append(mAmrPath)
+            .append("-ar")
+            .append("16000")
+            .append("-ac")
+            .append("1")
+            .append("-acodec")
+            .append("pcm_s16le")
+            .append("-f")
+            .append("s16le")
+            .append("-y")
+            .append(targetPath)
+            .get()
+        MainScope().launch {
+            FFmpegCommand.runCmd(params, callback("amr转pcm成功", targetPath))
         }
     }
 

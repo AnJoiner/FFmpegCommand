@@ -67,6 +67,6 @@ dependencies {
     androidTestImplementation deps.espresso
     implementation deps.recyclerview
     implementation deps.coroutines
-
-    implementation project(path: ':ffmpeg')
+    implementation 'com.github.AnJoiner.FFmpegCommand:ffmpeg:1.3.6-beta'
+//    implementation project(path: ':ffmpeg')
 }
